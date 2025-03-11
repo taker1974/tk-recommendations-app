@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.service;
+package ru.spb.tksoft.advertising.service.transaction;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.entity.Transaction;
-import ru.spb.tksoft.advertising.repository.TransactionRepository;
+import ru.spb.tksoft.advertising.entity.transaction.Transaction;
+import ru.spb.tksoft.advertising.repository.transaction.TransactionRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +16,9 @@ public class TransactionService {
 
     Logger log = LoggerFactory.getLogger(TransactionService.class);
 
-    private final TransactionRepository transactionsRepository;
+    private final TransactionRepository transactionRepository;
 
     public List<Transaction> getTestTransactions(int limit) {
-         return transactionsRepository.getTestTransactions(limit);
+         return transactionRepository.getTestTransactions(limit);
     }
 }

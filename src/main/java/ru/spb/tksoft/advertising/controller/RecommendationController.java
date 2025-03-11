@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.entity.Transaction;
-import ru.spb.tksoft.advertising.service.TransactionService;
+import ru.spb.tksoft.advertising.entity.transaction.Transaction;
+import ru.spb.tksoft.advertising.service.transaction.TransactionService;
 
 import java.util.List;
 
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(value = "/transactions")
 @Tag(name = "Транзакции пользователя")
 @RequiredArgsConstructor
-public class RecommendationsController {
+public class RecommendationController {
 
-    private final TransactionService transactionsService;
+    private final TransactionService transactionService;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Тестовый метод получения списка транзакций")
     @GetMapping
     public List<Transaction> getTestTransactions(@RequestParam int limit) {
-        return transactionsService.getTestTransactions(limit);
+        return transactionService.getTestTransactions(limit);
     }
 }

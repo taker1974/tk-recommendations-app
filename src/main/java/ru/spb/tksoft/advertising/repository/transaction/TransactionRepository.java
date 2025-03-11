@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.repository;
+package ru.spb.tksoft.advertising.repository.transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +11,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import ru.spb.tksoft.advertising.entity.Transaction;
+import ru.spb.tksoft.advertising.entity.transaction.Transaction;
 
 @Repository
 public class TransactionRepository {
 
     Logger log = LoggerFactory.getLogger(TransactionRepository.class);
 
-    private final JdbcTemplate transactionsJdbcTemplate;
+    private final JdbcTemplate transactionJdbcTemplate;
 
     public TransactionRepository(
-            @Qualifier("transactionsJdbcTemplate") JdbcTemplate transactionsJdbcTemplate) {
+            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
 
-        this.transactionsJdbcTemplate = transactionsJdbcTemplate;
+        this.transactionJdbcTemplate = transactionJdbcTemplate;
     }
 
     public List<Transaction> getTestTransactions(int limit) {
@@ -39,7 +39,7 @@ public class TransactionRepository {
                     r.getString("TYPE"),
                     r.getInt("AMOUNT"));
 
-            return transactionsJdbcTemplate.query(sql, mapper, limit);
+            return transactionJdbcTemplate.query(sql, mapper, limit);
         } catch (Exception e) {
             log.error("query failed:", e);
             list.clear();
