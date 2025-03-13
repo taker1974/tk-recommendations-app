@@ -11,17 +11,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import ru.spb.tksoft.advertising.controller.CommonControllerAdvice;
 import ru.spb.tksoft.advertising.entity.transaction.Transaction;
 
 @Repository
 public class TransactionRepository {
 
     Logger log = LoggerFactory.getLogger(TransactionRepository.class);
+    public static final String LOG_QUERY_FAILED = "Query failed";
 
     private final JdbcTemplate transactionJdbcTemplate;
 
     public TransactionRepository(
-            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
+            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate,
+            CommonControllerAdvice commonControllerAdvice) {
 
         this.transactionJdbcTemplate = transactionJdbcTemplate;
     }
@@ -42,9 +45,51 @@ public class TransactionRepository {
             return transactionJdbcTemplate.query(sql, mapper, limit);
 
         } catch (Exception e) {
-            log.error("query failed:", e);
+            log.error(LOG_QUERY_FAILED, e);
             list.clear();
             return list;
+        }
+    }
+
+    public int getProductUsageCount(final UUID userId, final String productType) {
+
+        String sql = """
+                SELECT COUNT(t.AMOUNT) FROM TRANSACTIONS t
+                JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
+                WHERE t.USER_ID = ? AND p."TYPE" = ?""";
+
+        try {
+            Integer count = transactionJdbcTemplate
+                    .queryForObject(sql, Integer.class, userId, productType);
+            if (count == null) {
+                return 0;
+            }
+            return count;
+
+        } catch (Exception e) {
+            log.error(LOG_QUERY_FAILED, e);
+            return 0;
+        }
+    }
+
+    public double getProductSum(final UUID userId, final String productType, final String transactionType) {
+
+        String sql = """
+                SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t
+                JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
+                WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";
+
+        try {
+            Double sum = transactionJdbcTemplate
+                    .queryForObject(sql, Double.class, userId, productType, transactionType);
+            if (sum == null) {
+                return 0.0;
+            }
+            return sum;
+
+        } catch (Exception e) {
+            log.error(LOG_QUERY_FAILED, e);
+            return 0.0;
         }
     }
 }
