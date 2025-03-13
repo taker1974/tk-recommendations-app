@@ -66,6 +66,7 @@ class RecommendationControllerIntegrityTest
         final UUID randomUuid = UUID.randomUUID();
         final String urlGet = apiUrl + "/" + randomUuid;
 
+        // TODO Сейчас в сервисе заглушка, возвращающая полный список рекомендаций
         ResponseEntity<RecommendationsDto> getResponse = rest.getForEntity(urlGet, RecommendationsDto.class);
 
         Assertions.assertThat(getResponse).isNotNull();

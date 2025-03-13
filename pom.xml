@@ -14,7 +14,8 @@
 	<artifactId>tk-recommendations</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tk-recommendations</name>
-	<description>Recommendations: Targeted advertising application. Konstantin Terskikh, SkyPro, Team work 2025</description>
+	<description>Targeted advertising application. Konstantin Terskikh, kostus.online.1974@yandex.ru 2025</description>
+	<packaging>jar</packaging>
 
 	<url />
 
@@ -34,7 +35,12 @@
 	</scm>
 
 	<properties>
+		<start-class>ru.spb.tksoft.advertising.TkTargetedAdvertisingApplication</start-class>
+		<maven.test.skip>false</maven.test.skip>
+
 		<java.version>21</java.version>
+		<org.mapstruct.version>1.6.3</org.mapstruct.version>
+		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -159,6 +165,20 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>ru.spb.tksoft.advertising.TkTargetedAdvertisingApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
