@@ -40,10 +40,11 @@ public class TransactionRepository {
                     r.getInt("AMOUNT"));
 
             return transactionJdbcTemplate.query(sql, mapper, limit);
+
         } catch (Exception e) {
             log.error("query failed:", e);
             list.clear();
+            return list;
         }
-        return list;
     }
 }

@@ -2,6 +2,8 @@ package ru.spb.tksoft.advertising.entity.recommendation;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ public class Recommendation {
     private String name;
 
     @Column(name = "description", nullable = false, length = 4096)
+    @JsonProperty("text")
     private String description;
 
     @Override
