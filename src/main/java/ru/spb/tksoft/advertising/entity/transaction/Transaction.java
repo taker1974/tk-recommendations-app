@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.entity;
+package ru.spb.tksoft.advertising.entity.transaction;
 
 import java.util.UUID;
 

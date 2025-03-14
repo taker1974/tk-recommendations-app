@@ -1,19 +1,12 @@
 {
     "properties": [
         {
-            "name": "transactions.datasource.url",
-            "type": "java.lang.String",
-            "description": "Url of h2 database file"
+            "name": "spring.datasource.transaction",
+            "description": "Transaction DB properties"
         },
         {
-            "name": "transactions.datasource.username",
-            "type": "java.lang.String",
-            "description": "Username of 'transaction' db"
-        },
-        {
-            "name": "transactions.datasource.password",
-            "type": "java.lang.String",
-            "description": "Password of 'transaction' db"
+            "name": "spring.datasource.recommendation",
+            "description": "Recommendations DB properties"
         }
     ]
 }
