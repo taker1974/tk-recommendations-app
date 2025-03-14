@@ -1,6 +1,7 @@
 package ru.spb.tksoft.advertising.repository.recommendation;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,10 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
     @Query(nativeQuery = true, value = "SELECT * FROM recommendations")
     List<Recommendation> findAllRecommendations();
 
+    @Query(nativeQuery = true, value = "SELECT * FROM recommendations WHERE name = :name")
+    Optional<Recommendation> findRecommendationByName(String name);
+
     @Query(nativeQuery = true, value = "SELECT * FROM recommendations WHERE id = :id")
-    List<Recommendation> findRecommendationById(UUID id);
+    Optional<Recommendation> findRecommendationById(UUID id);
 
 }

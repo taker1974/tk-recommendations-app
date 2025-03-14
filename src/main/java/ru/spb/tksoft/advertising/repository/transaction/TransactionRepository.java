@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import ru.spb.tksoft.advertising.controller.CommonControllerAdvice;
 import ru.spb.tksoft.advertising.entity.transaction.Transaction;
 
 @Repository
@@ -23,8 +22,7 @@ public class TransactionRepository {
     private final JdbcTemplate transactionJdbcTemplate;
 
     public TransactionRepository(
-            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate,
-            CommonControllerAdvice commonControllerAdvice) {
+            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
 
         this.transactionJdbcTemplate = transactionJdbcTemplate;
     }

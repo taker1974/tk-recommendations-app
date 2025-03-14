@@ -27,8 +27,8 @@ public class TransactionService {
     }
 
     @CacheEvict(value = "usageCache", allEntries = true)
-    public void clearCache() {
-        // ...
+    public void clearCacheAll() {
+        clearSumCache();
     }
 
     public enum ProductType {
@@ -70,7 +70,12 @@ public class TransactionService {
         }
     }
 
-    @Cacheable(value = "usageCache", key = "#userId + '-' + #productType + '-' + #transactionType")
+    @CacheEvict(value = "sumCache", allEntries = true)
+    private void clearSumCache() {
+        // ...
+    }
+
+    @Cacheable(value = "sumCache", key = "#userId + '-' + #productType + '-' + #transactionType")
     public double getProductSum(final UUID userId, final ProductType productType,
             final TransactionType transactionType) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,

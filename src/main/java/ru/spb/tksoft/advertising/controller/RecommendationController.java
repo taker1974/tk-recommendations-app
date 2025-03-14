@@ -27,7 +27,7 @@ public class RecommendationController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Список рекомендаций для пользователя")
     @GetMapping("/{userId}")
-    public RecommendationsDto getTestTransactions(@PathVariable UUID userId) {
+    public RecommendationsDto getRecommendations(@PathVariable UUID userId) {
         return recommendationService.getRecommendations(userId);
     }
 }
