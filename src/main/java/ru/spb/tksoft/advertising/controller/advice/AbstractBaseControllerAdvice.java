@@ -1,5 +1,10 @@
-package ru.spb.tksoft.advertising.controller;
+package ru.spb.tksoft.advertising.controller.advice;
 
+/**
+ * Базовый класс для перехвата исключений на уровне контроллера.
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 public abstract class AbstractBaseControllerAdvice {
 
     public static final String MESSAGE_PREFIX = "Перехвачено исключение";

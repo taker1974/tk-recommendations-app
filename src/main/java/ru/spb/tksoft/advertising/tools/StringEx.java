@@ -7,10 +7,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Extended/wrapped string-related routines.
+ *
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
+ * @version 0.1
+ */
 public final class StringEx {
 
-    private StringEx() {
-    }
+    private StringEx() {}
 
     /**
      * @return null || isEmpty || isBlank
@@ -32,15 +37,11 @@ public final class StringEx {
     }
 
     /**
-     * Replace "Some {text} data" with substring.
-     * Example: str = "{host}:{port}/{app}"
-     * with parameters "localhost", 8080 and "school"
-     * will be returned "localhost:8080/school".
+     * Replace "Some {text} data" with substring. Example: str = "{host}:{port}/{app}" with
+     * parameters "localhost", 8080 and "school" will be returned "localhost:8080/school".
      *
-     * @param str
-     *            source string in a form like "http://{host}:{port}/{app}"
-     * @param objects
-     *            substrings like "myhost", 7654, "mycoolapp"
+     * @param str source string in a form like "http://{host}:{port}/{app}"
+     * @param objects substrings like "myhost", 7654, "mycoolapp"
      * @return resulting string in a form like "http://myhost:7654/mycoolapp"
      */
     public static String replace(String str, Object... objects) {
@@ -55,8 +56,7 @@ public final class StringEx {
     /**
      * Remove adjacent spaces.
      * 
-     * @param rawSource
-     *            source string
+     * @param rawSource source string
      * @return trimmed string
      */
     public static String removeAdjacentSpaces(final String rawSource) {
@@ -89,10 +89,8 @@ public final class StringEx {
     /**
      * Try nomalize date OR time string representation.
      * 
-     * @param str
-     *            normalizing string
-     * @param pattern
-     *            valid datetime pattern
+     * @param str normalizing string
+     * @param pattern valid datetime pattern
      * @return valid or not
      */
     public static String normalizeDateTime(final String input, final String delimiter,

@@ -1,17 +1,20 @@
-package ru.spb.tksoft.advertising.entity.transaction;
+package ru.spb.tksoft.advertising.entity.history;
 
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+/**
+ * Данные по пользователю из базы транзакций.
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
+@Data
 @AllArgsConstructor
-public class User {
+public class HistoryUser {
 
     @JsonProperty("user_id")
     private UUID id;

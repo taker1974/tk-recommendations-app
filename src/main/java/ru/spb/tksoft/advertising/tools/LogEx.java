@@ -6,7 +6,7 @@ import org.slf4j.event.Level;
 import java.util.Arrays;
 
 /**
- * LogEx.
+ * Extended/wrapped logging.
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  * @version 0.1
@@ -20,8 +20,7 @@ public class LogEx {
 
     public static final String EXCEPTION_THROWN = "exception thrown";
 
-    private LogEx() {
-    }
+    private LogEx() {}
 
     public static String getThisMethodName() {
 

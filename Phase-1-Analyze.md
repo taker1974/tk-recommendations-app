@@ -16,29 +16,30 @@ WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND p."TYPE" = 'DEBIT';
 
 3:      double user.getProductSum(product.type, transaction.type)
 
-SELECT t.PRODUCT_ID, p."TYPE", t.USER_ID, t.AMOUNT FROM TRANSACTIONS t 
+SELECT t.PRODUCT_ID, p."TYPE", t.USER_ID, t.AMOUNT FROM TRANSACTIONS t
 JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND 
+WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND
 p."TYPE" = 'INVEST' AND t."TYPE" = 'DEPOSIT';
 
-SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t 
+SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t
 JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND 
+WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND
 p."TYPE" = 'INVEST' AND t."TYPE" = 'DEPOSIT';
 
 ## 2. Top Saving
 
 1. Пользователь использует как минимум один продукт с типом DEBIT.
 2. Сумма пополнений (DEPOSIT) по всем продуктам типа DEBIT больше или равна 50 000
-ИЛИ 
+ИЛИ
    Сумма пополнений (DEPOSIT) по всем продуктам типа SAVING больше или равна 50 000.
-3. Сумма пополнений (DEPOSIT) по всем продуктам типа DEBIT больше, чем сумма трат (WITHDRAW) по всем продуктам типа DEBIT.
+3. Сумма пополнений (DEPOSIT) по всем продуктам типа DEBIT больше,
+чем сумма трат (WITHDRAW) по всем продуктам типа DEBIT.
 
 1,2,3: См. INVEST 500;
 
-SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t 
+SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t
 JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND 
+WHERE USER_ID = 'c71f76a1-2659-4b46-818e-02003558cf76' AND
 p."TYPE" = 'DEBIT' AND t."TYPE" = 'DEPOSIT';
 
 ## 3. Простой кредит

@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.repository.transaction;
+package ru.spb.tksoft.advertising.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
 
-import ru.spb.tksoft.advertising.entity.transaction.Transaction;
+/**
+ * Репозиторий на основе JdbcTemplate для чтения данных о транзакциях пользователя.
+ * 
+ * @see ru.spb.tksoft.advertising.configuration.CommonDatabaseConfig
+ * @see ru.spb.tksoft.advertising.configuration.RecommendationDatabaseConfig
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 
 @Repository
 public class TransactionRepository {
@@ -27,13 +35,13 @@ public class TransactionRepository {
         this.transactionJdbcTemplate = transactionJdbcTemplate;
     }
 
-    public List<Transaction> getTestTransactions(int limit) {
+    public List<HistoryTransaction> getTestTransactions(int limit) {
 
         String sql = "SELECT * FROM TRANSACTIONS LIMIT ?";
-        List<Transaction> list = new ArrayList<>();
+        List<HistoryTransaction> list = new ArrayList<>();
 
         try {
-            RowMapper<Transaction> mapper = (r, i) -> new Transaction(
+            RowMapper<HistoryTransaction> mapper = (r, i) -> new HistoryTransaction(
                     UUID.fromString(r.getString("ID")),
                     UUID.fromString(r.getString("PRODUCT_ID")),
                     UUID.fromString(r.getString("USER_ID")),
@@ -70,7 +78,8 @@ public class TransactionRepository {
         }
     }
 
-    public double getProductSum(final UUID userId, final String productType, final String transactionType) {
+    public double getProductSum(final UUID userId, final String productType,
+            final String transactionType) {
 
         String sql = """
                 SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t

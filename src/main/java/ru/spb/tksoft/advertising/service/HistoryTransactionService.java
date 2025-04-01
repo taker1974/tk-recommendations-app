@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.service.transaction;
+package ru.spb.tksoft.advertising.service;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,19 +9,26 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.entity.transaction.Transaction;
-import ru.spb.tksoft.advertising.repository.transaction.TransactionRepository;
+import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
+import ru.spb.tksoft.advertising.repository.TransactionRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
+/**
+ * Сервис для работы с историей транзакций.
+ * 
+ * @see TransactionRepository
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 @Service
 @RequiredArgsConstructor
-public class TransactionService {
+public class HistoryTransactionService {
 
-    private final Logger log = LoggerFactory.getLogger(TransactionService.class);
+    private final Logger log = LoggerFactory.getLogger(HistoryTransactionService.class);
 
     private final TransactionRepository transactionRepository;
 
-    public List<Transaction> getTestTransactions(int limit) {
+    public List<HistoryTransaction> getTestTransactions(int limit) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "limit = ", limit);
         return transactionRepository.getTestTransactions(limit);
     }
@@ -79,8 +86,10 @@ public class TransactionService {
     public double getProductSum(final UUID userId, final ProductType productType,
             final TransactionType transactionType) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
-                "userId = ", userId, "productType = ", productType, "transactionType = ", transactionType);
+                "userId = ", userId, "productType = ", productType, "transactionType = ",
+                transactionType);
 
-        return transactionRepository.getProductSum(userId, productType.toString(), transactionType.toString());
+        return transactionRepository.getProductSum(userId, productType.toString(),
+                transactionType.toString());
     }
 }

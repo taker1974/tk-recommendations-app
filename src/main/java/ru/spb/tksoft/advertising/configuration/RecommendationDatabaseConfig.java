@@ -19,11 +19,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Конфигурация БД для JPA. Здесь могут находиться конфигурации и других БД для JPA.
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 @Configuration
-@EntityScan(basePackages = { "ru.spb.tksoft.advertising.entity.recommendation" })
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "recommendationEntityManagerFactory", transactionManagerRef = "recommendationTransactionManager", basePackages = {
-        "ru.spb.tksoft.advertising.repository.recommendation" })
+@EntityScan(basePackages = {"ru.spb.tksoft.advertising.entity.recommendation"})
+@EnableJpaRepositories(entityManagerFactoryRef = "recommendationEntityManagerFactory",
+        transactionManagerRef = "recommendationTransactionManager",
+        basePackages = {"ru.spb.tksoft.advertising.repository.recommendation"})
 @RequiredArgsConstructor
 public class RecommendationDatabaseConfig {
 

@@ -13,16 +13,16 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import ru.spb.tksoft.advertising.controller.RecommendationController;
-import ru.spb.tksoft.advertising.entity.recommendation.RecommendationsDto;
-import ru.spb.tksoft.advertising.repository.recommendation.RecommendationRepository;
-import ru.spb.tksoft.advertising.repository.transaction.TransactionRepository;
+import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
+import ru.spb.tksoft.advertising.dto.UserRecommendationsDto;
+import ru.spb.tksoft.advertising.repository.RecommendationRepository;
+import ru.spb.tksoft.advertising.repository.TransactionRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RecommendationControllerIntegrityTest
         extends RecommendationControllerBaseTest {
 
-    private final RecommendationController recommendationController;
+    private final UserRecommendationsController recommendationController;
     private final RecommendationRepository recomendationRepository;
 
     private final TransactionRepository transactionRepository;
@@ -30,7 +30,7 @@ class RecommendationControllerIntegrityTest
     private final String apiUrl;
 
     RecommendationControllerIntegrityTest(@LocalServerPort int port,
-            @Autowired RecommendationController recommendationController,
+            @Autowired UserRecommendationsController recommendationController,
             @Autowired RecommendationRepository recomendationRepository,
             @Autowired TransactionRepository transactionRepository,
             @Autowired TestRestTemplate restTemplate) {
@@ -67,7 +67,7 @@ class RecommendationControllerIntegrityTest
         final String urlGet = apiUrl + "/" + randomUuid;
 
         // TODO Сейчас в сервисе заглушка, возвращающая полный список рекомендаций
-        ResponseEntity<RecommendationsDto> getResponse = rest.getForEntity(urlGet, RecommendationsDto.class);
+        ResponseEntity<UserRecommendationsDto> getResponse = rest.getForEntity(urlGet, UserRecommendationsDto.class);
 
         Assertions.assertThat(getResponse).isNotNull();
         Assertions.assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);

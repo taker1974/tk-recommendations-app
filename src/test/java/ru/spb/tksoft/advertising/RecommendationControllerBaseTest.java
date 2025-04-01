@@ -2,14 +2,12 @@ package ru.spb.tksoft.advertising;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import ru.spb.tksoft.advertising.entity.transaction.User;
-
+import ru.spb.tksoft.advertising.entity.history.HistoryUser;
 import java.util.UUID;
 
 public abstract class RecommendationControllerBaseTest {
 
-    public static String buildJson(User user) {
+    public static String buildJson(HistoryUser user) {
         try {
             return new JSONObject()
                     .put("user_id", user.getId())

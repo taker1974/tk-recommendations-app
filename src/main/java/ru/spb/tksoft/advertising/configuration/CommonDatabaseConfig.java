@@ -10,8 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+/**
+ * Конфигурация источников данных плюс JdbcTemplate для истории транзакций пользователя.
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 @Configuration
-public class DatabaseConfig {
+public class CommonDatabaseConfig {
 
     @Bean(name = "recommendationDataSource")
     @Primary
@@ -28,7 +33,7 @@ public class DatabaseConfig {
 
     @Bean(name = "transactionJdbcTemplate")
     public JdbcTemplate transactionJdbcTemplate(
-        @Qualifier("transactionDataSource") DataSource dataSource) {
+            @Qualifier("transactionDataSource") DataSource dataSource) {
 
         return new JdbcTemplate(dataSource);
     }

@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.controller;
+package ru.spb.tksoft.advertising.controller.advice;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -11,6 +11,12 @@ import ru.spb.tksoft.advertising.dto.ErrorResponseDto;
 
 import java.util.Arrays;
 
+/**
+ * Перехват базовых, стандартных исключений на уровне контроллера. ВАЖЕН ПОРЯДОК
+ * ПЕРЕХВАТА! @see @Order()
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
 @ControllerAdvice
 @Order()
 public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
@@ -20,7 +26,8 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
     @ExceptionHandler(Exception.class)
     @Order()
     public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponseDto(E_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+        return new ResponseEntity<>(
+                new ErrorResponseDto(E_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -39,7 +46,8 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
     @ExceptionHandler(NullPointerException.class)
     @Order(Ordered.LOWEST_PRECEDENCE - 2)
     public ResponseEntity<ErrorResponseDto> handleNpe(NullPointerException e) {
-        return new ResponseEntity<>(new ErrorResponseDto(NPE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+        return new ResponseEntity<>(
+                new ErrorResponseDto(NPE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -48,7 +56,8 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     @Order(Ordered.LOWEST_PRECEDENCE - 3)
     public ResponseEntity<ErrorResponseDto> handleIAE(IllegalArgumentException e) {
-        return new ResponseEntity<>(new ErrorResponseDto(IAE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+        return new ResponseEntity<>(
+                new ErrorResponseDto(IAE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 }
