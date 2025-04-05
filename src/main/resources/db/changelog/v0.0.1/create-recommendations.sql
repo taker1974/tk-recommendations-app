@@ -1,11 +1,17 @@
 -- liquibase formatted sql
-
 -- changeSet kostusonline:40824dd7-5f87-5d94-9dc5-2b9d3052b863 runOnChange:true
+
+-- Независимая таблица рекомендаций.
+-- В этой таблице содержатся как предопределённые рекомендации,
+-- так и рекомендации, добавляемые пользователями.
 CREATE TABLE IF NOT EXISTS recommendations (
+    -- id предоставляется пользователем
     id UUID PRIMARY KEY NOT NULL,
+    -- Короткое рекламное название продукта.
     product_name VARCHAR(128) NOT NULL CHECK (
         LENGTH(product_name) BETWEEN 1 AND 128
     ),
+    -- Подробное описание продукта; страница html etc.
     product_text VARCHAR(4096) NOT NULL CHECK (
         LENGTH(product_text) BETWEEN 1 AND 4096
     )
@@ -13,6 +19,8 @@ CREATE TABLE IF NOT EXISTS recommendations (
 
 GRANT ALL ON recommendations TO recommendations_god;
 
+-- Предопределенные рекомендации из ТЗ.
+-- Правила для этих рекомендаций созданы в коде.
 INSERT INTO
     recommendations
 VALUES (
