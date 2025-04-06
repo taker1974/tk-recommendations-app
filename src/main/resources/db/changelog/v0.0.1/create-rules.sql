@@ -1,9 +1,10 @@
 -- liquibase formatted sql
--- changeSet kostusonline:2b0d39c2-846b-5470-bad7-d74bb6804b3c runOnChange:true
 
 -- Правила для рекомендаций.
 -- Одна рекомендация - одно правило. Правило состоит из набора методов-query.
 -- Таблица содержит записи вида "один UUID рекомендации -> множество методов-query".
+
+-- changeSet kostusonline:8cf3a4b2-4b2e-5c30-857c-3e32e4b41b56 runOnChange:true
 CREATE TABLE rules (
     -- id записи метода всегда генерируется автоматически
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -22,4 +23,5 @@ CREATE TABLE rules (
     CONSTRAINT fk_recommendation_id FOREIGN key (recommendation_id) REFERENCES recommendations (id)
 );
 
+-- changeSet kostusonline:ab6dc993-38b8-5a78-81af-8c62b541411d runOnChange:true
 GRANT ALL ON rules TO recommendations_god;

@@ -26,10 +26,13 @@ import lombok.RequiredArgsConstructor;
  */
 @Configuration
 @EnableTransactionManagement
-@EntityScan(basePackages = {"ru.spb.tksoft.advertising.entity.recommendation"})
-@EnableJpaRepositories(entityManagerFactoryRef = "recommendationEntityManagerFactory",
+@EntityScan(basePackages = {
+        "ru.spb.tksoft.advertising.entity",
+        "ru.spb.tksoft.advertising.entity.history"})
+@EnableJpaRepositories(
+        entityManagerFactoryRef = "recommendationEntityManagerFactory",
         transactionManagerRef = "recommendationTransactionManager",
-        basePackages = {"ru.spb.tksoft.advertising.repository.recommendation"})
+        basePackages = {"ru.spb.tksoft.advertising.repository"})
 @RequiredArgsConstructor
 public class RecommendationDatabaseConfig {
 
@@ -45,7 +48,8 @@ public class RecommendationDatabaseConfig {
                 environment.getProperty("spring.jpa.database-platform"));
 
         return builder.dataSource(dataSource)
-                .packages("ru.spb.tksoft.advertising.entity.recommendation")
+                .packages("ru.spb.tksoft.advertising.entity",
+                        "ru.spb.tksoft.advertising.entity.history")
                 .properties(properties).build();
     }
 

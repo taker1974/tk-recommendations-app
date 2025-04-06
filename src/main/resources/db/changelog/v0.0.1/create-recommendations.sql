@@ -1,9 +1,10 @@
 -- liquibase formatted sql
--- changeSet kostusonline:40824dd7-5f87-5d94-9dc5-2b9d3052b863 runOnChange:true
 
 -- Независимая таблица рекомендаций.
 -- В этой таблице содержатся как предопределённые рекомендации,
 -- так и рекомендации, добавляемые пользователями.
+
+-- changeSet kostusonline:a6a4445d-f577-56ff-8101-0bcc11e95cc0 runOnChange:true
 CREATE TABLE IF NOT EXISTS recommendations (
     -- id предоставляется пользователем
     id UUID PRIMARY KEY NOT NULL,
@@ -17,10 +18,13 @@ CREATE TABLE IF NOT EXISTS recommendations (
     )
 );
 
-GRANT ALL ON recommendations TO recommendations_god;
-
 -- Предопределенные рекомендации из ТЗ.
 -- Правила для этих рекомендаций созданы в коде.
+
+-- changeSet kostusonline:3b0d4ae7-303c-51c6-ab1d-038b8d096eab runOnChange:true
+GRANT ALL ON recommendations TO recommendations_god;
+
+-- changeSet kostusonline:99b1dabb-ddc5-5c48-a857-4834d942df4f runOnChange:true
 INSERT INTO
     recommendations
 VALUES (
@@ -53,3 +57,4 @@ VALUES (
 Широкий выбор кредитных продуктов. Мы предлагаем кредиты на различные цели: покупку недвижимости, автомобиля, образование, лечение и многое другое.
 Не упустите возможность воспользоваться выгодными условиями кредитования от нашей компании!'
     );
+    
