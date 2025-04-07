@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.dto;
+package ru.spb.tksoft.advertising.dto.service;
 
 import jakarta.annotation.Nullable;
 
@@ -7,9 +7,9 @@ import jakarta.annotation.Nullable;
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
-public record ErrorResponseDto(int code, String message, @Nullable String details) {
+public record ServiceErrorResponseDto(int code, String message, @Nullable String details) {
 
-    public ErrorResponseDto(int code, String message) {
+    public ServiceErrorResponseDto(int code, String message) {
         this(code, message, "");
     }
 }

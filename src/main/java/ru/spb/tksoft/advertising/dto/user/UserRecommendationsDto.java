@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.dto;
+package ru.spb.tksoft.advertising.dto.user;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,5 +25,6 @@ public class UserRecommendationsDto {
     private UUID userId;
 
     @NotNull
-    private List<RecommendationDto> recommendations;
+    @JsonProperty("recommendations")
+    private List<UserRecommendedProductDto> recommendations;
 }

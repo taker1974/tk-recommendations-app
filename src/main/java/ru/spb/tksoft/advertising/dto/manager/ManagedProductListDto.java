@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.dto;
+package ru.spb.tksoft.advertising.dto.manager;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Листинг рекомендаций с правилами, возвращаемый контроллером по GET(/rule).
+ * Листинг продуктов с правилами рекомендования, возвращаемый контроллером по GET(/rule).
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Data
 @AllArgsConstructor
-public class RecommendationsListDto {
+public class ManagedProductListDto {
 
     @NotNull
     @JsonProperty("data")
-    List<RecommendationDto> recommendations;
+    List<ManagedProductDto> products;
 }

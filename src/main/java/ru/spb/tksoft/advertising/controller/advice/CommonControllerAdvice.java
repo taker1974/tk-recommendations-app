@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import ru.spb.tksoft.advertising.dto.ErrorResponseDto;
-
+import ru.spb.tksoft.advertising.dto.service.ServiceErrorResponseDto;
 import java.util.Arrays;
 
 /**
@@ -25,9 +23,9 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     @Order()
-    public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+    public ResponseEntity<ServiceErrorResponseDto> handleException(Exception e) {
         return new ResponseEntity<>(
-                new ErrorResponseDto(E_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+                new ServiceErrorResponseDto(E_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -35,9 +33,9 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     @Order(Ordered.LOWEST_PRECEDENCE - 1)
-    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+    public ResponseEntity<ServiceErrorResponseDto> handleRuntimeException(RuntimeException e) {
         return new ResponseEntity<>(
-                new ErrorResponseDto(RTE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+                new ServiceErrorResponseDto(RTE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -45,9 +43,9 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
 
     @ExceptionHandler(NullPointerException.class)
     @Order(Ordered.LOWEST_PRECEDENCE - 2)
-    public ResponseEntity<ErrorResponseDto> handleNpe(NullPointerException e) {
+    public ResponseEntity<ServiceErrorResponseDto> handleNpe(NullPointerException e) {
         return new ResponseEntity<>(
-                new ErrorResponseDto(NPE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+                new ServiceErrorResponseDto(NPE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -55,9 +53,9 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @Order(Ordered.LOWEST_PRECEDENCE - 3)
-    public ResponseEntity<ErrorResponseDto> handleIAE(IllegalArgumentException e) {
+    public ResponseEntity<ServiceErrorResponseDto> handleIAE(IllegalArgumentException e) {
         return new ResponseEntity<>(
-                new ErrorResponseDto(IAE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
+                new ServiceErrorResponseDto(IAE_CODE, e.getMessage(), Arrays.toString(e.getStackTrace())),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 }

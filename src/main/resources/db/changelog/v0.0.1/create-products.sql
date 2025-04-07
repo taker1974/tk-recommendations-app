@@ -1,11 +1,11 @@
 -- liquibase formatted sql
 
--- Независимая таблица рекомендаций.
--- В этой таблице содержатся как предопределённые рекомендации,
--- так и рекомендации, добавляемые пользователями.
+-- Независимая таблица продуктов.
+-- В этой таблице содержатся как предопределённые продукты,
+-- так и продукты, добавляемые менеджерами.
 
--- changeSet kostusonline:a6a4445d-f577-56ff-8101-0bcc11e95cc0 runOnChange:true
-CREATE TABLE IF NOT EXISTS recommendations (
+-- changeSet kostusonline:be1ef289-ba7d-50fd-83d6-432202923a88 runOnChange:true
+CREATE TABLE IF NOT EXISTS products (
     -- id предоставляется пользователем
     id UUID PRIMARY KEY NOT NULL,
     -- Короткое рекламное название продукта.
@@ -18,15 +18,15 @@ CREATE TABLE IF NOT EXISTS recommendations (
     )
 );
 
--- Предопределенные рекомендации из ТЗ.
--- Правила для этих рекомендаций созданы в коде.
+-- Предопределенные продукты из ТЗ.
+-- Правила для рекомендования этих продуктов созданы в коде.
 
--- changeSet kostusonline:3b0d4ae7-303c-51c6-ab1d-038b8d096eab runOnChange:true
-GRANT ALL ON recommendations TO recommendations_god;
+-- changeSet kostusonline:50c56d6b-cc98-5b61-a80b-88949b849795 runOnChange:true
+GRANT ALL ON products TO recommendations_god;
 
--- changeSet kostusonline:99b1dabb-ddc5-5c48-a857-4834d942df4f runOnChange:true
+-- changeSet kostusonline:ba987c6b-d59f-535a-8b15-410ef5d34321 runOnChange:true
 INSERT INTO
-    recommendations
+    products
 VALUES (
         '147f6a0f-3b91-413b-ab99-87f081d60d5a',
         'Invest 500',
@@ -57,4 +57,3 @@ VALUES (
 Широкий выбор кредитных продуктов. Мы предлагаем кредиты на различные цели: покупку недвижимости, автомобиля, образование, лечение и многое другое.
 Не упустите возможность воспользоваться выгодными условиями кредитования от нашей компании!'
     );
-    

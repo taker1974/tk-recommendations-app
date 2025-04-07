@@ -14,25 +14,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
-import ru.spb.tksoft.advertising.dto.UserRecommendationsDto;
-import ru.spb.tksoft.advertising.repository.RecommendationRepository;
-import ru.spb.tksoft.advertising.repository.TransactionRepository;
+import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
+import ru.spb.tksoft.advertising.repository.ProductsRepository;
+import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RecommendationControllerIntegrityTest
         extends RecommendationControllerBaseTest {
 
     private final UserRecommendationsController recommendationController;
-    private final RecommendationRepository recomendationRepository;
+    private final ProductsRepository recomendationRepository;
 
-    private final TransactionRepository transactionRepository;
+    private final HistoryTransactionRepository transactionRepository;
     private final TestRestTemplate rest;
     private final String apiUrl;
 
     RecommendationControllerIntegrityTest(@LocalServerPort int port,
             @Autowired UserRecommendationsController recommendationController,
-            @Autowired RecommendationRepository recomendationRepository,
-            @Autowired TransactionRepository transactionRepository,
+            @Autowired ProductsRepository recomendationRepository,
+            @Autowired HistoryTransactionRepository transactionRepository,
             @Autowired TestRestTemplate restTemplate) {
 
         this.recommendationController = recommendationController;

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.dto.UserRecommendationsDto;
-import ru.spb.tksoft.advertising.service.RecommendationService;
+import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
+import ru.spb.tksoft.advertising.service.UserRecommendationService;
 
 import java.util.UUID;
 
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class UserRecommendationsController {
 
-    private final RecommendationService recommendationService;
+    private final UserRecommendationService recommendationService;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить рекомендации")

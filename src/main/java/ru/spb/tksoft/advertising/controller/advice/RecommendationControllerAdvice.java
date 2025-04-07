@@ -6,8 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import ru.spb.tksoft.advertising.dto.ErrorResponseDto;
+import ru.spb.tksoft.advertising.dto.service.ServiceErrorResponseDto;
 import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
 
 /**
@@ -20,10 +19,10 @@ import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
 public class RecommendationControllerAdvice extends AbstractBaseControllerAdvice {
 
     @ExceptionHandler(HistoryUserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleStudentNotFoundException(
+    public ResponseEntity<ServiceErrorResponseDto> handleStudentNotFoundException(
             HistoryUserNotFoundException e) {
         return new ResponseEntity<>(
-                new ErrorResponseDto(HistoryUserNotFoundException.CODE, e.getMessage()),
+                new ServiceErrorResponseDto(HistoryUserNotFoundException.CODE, e.getMessage()),
                 HttpStatus.NOT_FOUND);
     }
 }

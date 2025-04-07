@@ -9,23 +9,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 /**
- * Рекомендация (продукт) для пользователя с набором описаний правил, в соответствии с которыми
- * продукт будет рекомендован пользователю.
+ * Продукт с правилами рекомендования.
+ * Если правила пусты, то считаем, что правила его рекомендования заложены в код.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Value
 @RequiredArgsConstructor
-public class Recommendation {
+public class Product {
 
     private final UUID id;
 
     private final String productName;
     private final String productText;
 
-    private final List<Rule> rules;
+    private final List<ProductRule> rules;
 
-    public List<Rule> getRules() {
+    public List<ProductRule> getRules() {
         return Collections.unmodifiableList(null == rules ? new ArrayList<>() : rules);
     }
 

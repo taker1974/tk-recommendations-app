@@ -10,13 +10,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
-import ru.spb.tksoft.advertising.repository.TransactionRepository;
+import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
  * Сервис для работы с историей транзакций.
  * 
- * @see TransactionRepository
+ * @see HistoryTransactionRepository
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -26,7 +26,7 @@ public class HistoryTransactionService {
 
     private final Logger log = LoggerFactory.getLogger(HistoryTransactionService.class);
 
-    private final TransactionRepository transactionRepository;
+    private final HistoryTransactionRepository transactionRepository;
 
     public List<HistoryTransaction> getTestTransactions(int limit) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "limit = ", limit);

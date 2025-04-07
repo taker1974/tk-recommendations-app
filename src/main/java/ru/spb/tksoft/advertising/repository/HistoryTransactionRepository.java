@@ -22,14 +22,14 @@ import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
  */
 
 @Repository
-public class TransactionRepository {
+public class HistoryTransactionRepository {
 
-    private final Logger log = LoggerFactory.getLogger(TransactionRepository.class);
+    private final Logger log = LoggerFactory.getLogger(HistoryTransactionRepository.class);
     public static final String LOG_QUERY_FAILED = "Query failed";
 
     private final JdbcTemplate transactionJdbcTemplate;
 
-    public TransactionRepository(
+    public HistoryTransactionRepository(
             @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
 
         this.transactionJdbcTemplate = transactionJdbcTemplate;

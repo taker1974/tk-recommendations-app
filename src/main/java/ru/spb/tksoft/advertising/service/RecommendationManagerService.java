@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.entity.RecommendationEntity;
-import ru.spb.tksoft.advertising.mapper.RecommendationMapper;
-import ru.spb.tksoft.advertising.model.Recommendation;
-import ru.spb.tksoft.advertising.repository.RecommendationRepository;
+import ru.spb.tksoft.advertising.entity.ProductEntity;
+import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
+import ru.spb.tksoft.advertising.model.Product;
+import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
@@ -26,31 +26,31 @@ public class RecommendationManagerService {
 
     private Logger log = LoggerFactory.getLogger(RecommendationManagerService.class);
 
-    private final RecommendationRepository recommendationRepository;
+    private final ProductsRepository recommendationRepository;
 
-    public Recommendation addRecommendation(final Recommendation recommendation) {
+    public Product addProduct(final Product recommendation) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, recommendation);
 
-        RecommendationEntity entity = RecommendationMapper.toEntity(recommendation);
+        ProductEntity entity = ManagedProductMapper.toEntity(recommendation);
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
-        return RecommendationMapper.toModel(recommendationRepository.save(entity));
+        return ManagedProductMapper.toModel(recommendationRepository.save(entity));
     }
 
-    public List<Recommendation> getListOfAllRecommendations() {
+    public List<Product> getAllProducts() {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
         var data = recommendationRepository.findAll().stream()
-                .map(RecommendationMapper::toModel).toList();
+                .map(ManagedProductMapper::toModel).toList();
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         return data;
     }
 
-    public void deleteRecommendation(final UUID recommendationId) {
+    public void deleteProduct(final UUID productId) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
-                "recommendationId = " + recommendationId);
+                "recommendationId = " + productId);
 
-        recommendationRepository.deleteById(recommendationId);
+        recommendationRepository.deleteById(productId);
     }
 }

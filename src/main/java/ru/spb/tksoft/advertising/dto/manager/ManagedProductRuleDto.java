@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.dto;
+package ru.spb.tksoft.advertising.dto.manager;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Описание правила рекомендации. По сути - описание RMI в виде
+ * Описание правила рекомендования. По сути - описание RMI в виде
  * "query:имя_метода,arguments:аргумент_метода_1;.."
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class RuleDto {
+public class ManagedProductRuleDto {
 
     @JsonIgnore
     private long id;

@@ -10,15 +10,15 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.entity.RecommendationEntity;
-import ru.spb.tksoft.advertising.repository.RecommendationRepository;
+import ru.spb.tksoft.advertising.entity.ProductEntity;
+import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.service.HistoryTransactionService.ProductType;
 import ru.spb.tksoft.advertising.service.HistoryTransactionService.TransactionType;
 
 /**
  * Кэшированные методы сервиса выдачи рекомендаций.
  * 
- * @see RecommendationService
+ * @see UserRecommendationService
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -28,12 +28,12 @@ public class RecommendationServiceCached {
 
     Logger log = LoggerFactory.getLogger(RecommendationServiceCached.class);
 
-    private final RecommendationRepository recomendationRepository;
+    private final ProductsRepository recomendationRepository;
     private final HistoryTransactionService transactionService;
 
     @Cacheable(value = "recommendationCache", key = "#name")
-    public Optional<RecommendationEntity> getRecommendationByName(final String name) {
-        return recomendationRepository.findRecommendationByName(name);
+    public Optional<ProductEntity> getRecommendationByName(final String name) {
+        return recomendationRepository.findProductByName(name);
     }
 
     @CacheEvict(value = "recommendationCache", allEntries = true)
@@ -61,11 +61,11 @@ public class RecommendationServiceCached {
     public boolean isFitsInvest500(final UUID userId) {
 
         synchronized (isFitsInvest500Lock) {
-            return transactionService.isUsingProduct(userId, ProductType.DEBIT) &&
-                    !transactionService.isUsingProduct(userId, ProductType.INVEST)
-                    &&
-                    transactionService.getProductSum(userId,
-                            ProductType.SAVING, TransactionType.DEPOSIT) > 1000;
+            boolean cond1 = transactionService.isUsingProduct(userId, ProductType.DEBIT);
+            boolean cond2 = !transactionService.isUsingProduct(userId, ProductType.INVEST);
+            boolean cond3 = transactionService.getProductSum(userId,
+                    ProductType.SAVING, TransactionType.DEPOSIT) > 1000;
+            return cond1 && cond2 && cond3;
         }
     }
 
@@ -126,7 +126,6 @@ public class RecommendationServiceCached {
             double sumWithdraw = transactionService.getProductSum(userId,
                     ProductType.DEBIT, TransactionType.WITHDRAW);
             boolean cond2 = sumDeposit > sumWithdraw;
-
             boolean cond3 = sumWithdraw > 100_000;
 
             return cond1 && cond2 && cond3;

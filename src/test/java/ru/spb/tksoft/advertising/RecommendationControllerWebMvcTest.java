@@ -3,15 +3,14 @@ package ru.spb.tksoft.advertising;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
 import ru.spb.tksoft.advertising.controller.advice.RecommendationControllerAdvice;
-import ru.spb.tksoft.advertising.dto.UserRecommendationsDto;
-import ru.spb.tksoft.advertising.entity.RecommendationEntity;
+import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.entity.history.HistoryProduct;
 import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
 import ru.spb.tksoft.advertising.entity.history.HistoryUser;
-import ru.spb.tksoft.advertising.repository.RecommendationRepository;
-import ru.spb.tksoft.advertising.repository.TransactionRepository;
+import ru.spb.tksoft.advertising.repository.ProductsRepository;
+import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 import ru.spb.tksoft.advertising.service.HistoryTransactionService;
-import ru.spb.tksoft.advertising.service.RecommendationService;
+import ru.spb.tksoft.advertising.service.UserRecommendationService;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -44,8 +43,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @RequiredArgsConstructor
 @ContextConfiguration(classes = { UserRecommendationsController.class,
         RecommendationControllerAdvice.class,
-        RecommendationService.class, HistoryTransactionService.class,
-        RecommendationRepository.class, TransactionRepository.class })
+        UserRecommendationService.class, HistoryTransactionService.class,
+        ProductsRepository.class, HistoryTransactionRepository.class })
 @WebMvcTest(controllers = UserRecommendationsController.class)
 class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTest {
 
@@ -53,13 +52,13 @@ class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTes
     MockMvc mvc;
 
     @MockitoBean
-    RecommendationRepository recommendationRepository;
+    ProductsRepository recommendationRepository;
 
     @MockitoBean
-    TransactionRepository transactionRepository;
+    HistoryTransactionRepository transactionRepository;
 
     @MockitoSpyBean
-    RecommendationService recommendationService;
+    UserRecommendationService recommendationService;
 
     @MockitoSpyBean
     HistoryTransactionService transactionService;

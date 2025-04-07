@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @see ru.spb.tksoft.advertising.model.Recommendation
+ * @see ru.spb.tksoft.advertising.model.Product
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "recommendations")
-public class RecommendationEntity {
+@Table(name = "products")
+public class ProductEntity {
 
     @Id
     @Column(nullable = false, unique = true)
@@ -35,6 +35,6 @@ public class RecommendationEntity {
     @Column(name = "product_text", nullable = false, length = 4096)
     private String productText;
 
-    @OneToMany(mappedBy = "recommendation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RuleEntity> rules;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductRuleEntity> rules;
 }

@@ -8,14 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 /**
- * Описание правила рекомендации. По сути - описание RMI в виде
+ * Правила рекомендования продукта. По сути - описание RMI в виде
  * "query:имя_метода,arguments:аргумент_метода_1;.."
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Value
 @RequiredArgsConstructor
-public class Rule {
+public class ProductRule {
 
     private final long id;
 
