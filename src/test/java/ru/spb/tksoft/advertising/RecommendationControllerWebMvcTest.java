@@ -2,6 +2,7 @@ package ru.spb.tksoft.advertising;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
+import ru.spb.tksoft.advertising.controller.advice.CommonControllerAdvice;
 import ru.spb.tksoft.advertising.controller.advice.RecommendationControllerAdvice;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.entity.history.HistoryProduct;
@@ -9,7 +10,9 @@ import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
 import ru.spb.tksoft.advertising.entity.history.HistoryUser;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
+import ru.spb.tksoft.advertising.repository.ProductRuleRepository;
 import ru.spb.tksoft.advertising.service.HistoryTransactionService;
+import ru.spb.tksoft.advertising.service.RecommendationServiceCached;
 import ru.spb.tksoft.advertising.service.UserRecommendationService;
 import static org.mockito.Mockito.when;
 
@@ -33,18 +36,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
- * Класс для тестирования контроллера рекомендаций.
- * Здесь никак отдельно не проверяется бэкэнд для выборки транзакций
- * пользователя.
+ * Класс для тестирования контроллера рекомендаций. Здесь никак отдельно не проверяется бэкэнд для
+ * выборки транзакций пользователя.
  * 
  * @author Константин Терских, kostus.online.1974@yandex.ru, 2025
  * @version 0.0.1
  */
 @RequiredArgsConstructor
-@ContextConfiguration(classes = { UserRecommendationsController.class,
-        RecommendationControllerAdvice.class,
-        UserRecommendationService.class, HistoryTransactionService.class,
-        ProductsRepository.class, HistoryTransactionRepository.class })
+@ContextConfiguration(classes = {UserRecommendationsController.class,
+        RecommendationControllerAdvice.class, CommonControllerAdvice.class,
+        RecommendationServiceCached.class, UserRecommendationService.class,
+        HistoryTransactionService.class,
+        ProductsRepository.class, ProductRuleRepository.class, HistoryTransactionRepository.class})
 @WebMvcTest(controllers = UserRecommendationsController.class)
 class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTest {
 
@@ -71,25 +74,25 @@ class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTes
     void whenGetAllRecommendations_thenReturnsFullList() throws Exception {
 
         // final List<RecommendationEntity> recommendations = new ArrayList<>(Arrays.asList(
-        //         new RecommendationEntity(UUID.randomUUID(), "name", "desc"),
-        //         new RecommendationEntity(UUID.randomUUID(), "name", "desc"),
-        //         new RecommendationEntity(UUID.randomUUID(), "name", "desc")));
+        // new RecommendationEntity(UUID.randomUUID(), "name", "desc"),
+        // new RecommendationEntity(UUID.randomUUID(), "name", "desc"),
+        // new RecommendationEntity(UUID.randomUUID(), "name", "desc")));
 
         // // TODO Сейчас в сервисе заглушка, возвращающая полный список рекомендаций
         // when(recommendationRepository.findAllRecommendations()).thenReturn(recommendations);
         // String url = "/recommendation/" + UUID.randomUUID();
         // mvc.perform(MockMvcRequestBuilders
-        //         .get(url)
-        //         .accept(MediaType.APPLICATION_JSON))
-        //         .andExpect(MockMvcResultMatchers.status().isOk())
-        //         .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations.size()").value(recommendations.size()));
+        // .get(url)
+        // .accept(MediaType.APPLICATION_JSON))
+        // .andExpect(MockMvcResultMatchers.status().isOk())
+        // .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations.size()").value(recommendations.size()));
 
         // when(recommendationRepository.findAllRecommendations()).thenReturn(Collections.emptyList());
         // mvc.perform(MockMvcRequestBuilders
-        //         .get("/recommendation/" + UUID.randomUUID())
-        //         .accept(MediaType.APPLICATION_JSON))
-        //         .andExpect(MockMvcResultMatchers.status().isOk())
-        //         .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations.size()").value(0));
+        // .get("/recommendation/" + UUID.randomUUID())
+        // .accept(MediaType.APPLICATION_JSON))
+        // .andExpect(MockMvcResultMatchers.status().isOk())
+        // .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations.size()").value(0));
 
         Assertions.assertTrue(true);
     }

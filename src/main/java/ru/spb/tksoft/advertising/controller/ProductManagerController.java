@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDtoTest;
@@ -12,7 +13,7 @@ import ru.spb.tksoft.advertising.dto.manager.ManagedProductListDto;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.RecommendationManagerService;
-
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -38,7 +40,7 @@ public class ProductManagerController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Тест чтения json")
     @PostMapping("/test")
-    public ManagedProductDtoTest addProductTest(final ManagedProductDtoTest dto) {
+    public ManagedProductDtoTest addProductTest(@Valid @RequestBody ManagedProductDtoTest dto) {
 
         return dto;
     }
@@ -48,7 +50,7 @@ public class ProductManagerController {
     @Operation(summary = "Добавить продукт")
     @PostMapping("/add")
     // См. пример запроса в конце Technical-task-phase-2.md
-    public ManagedProductDto addProduct(final ManagedProductDto dto) {
+    public ManagedProductDto addProduct(@Valid @RequestBody ManagedProductDto dto) {
 
         Product product = ManagedProductMapper.toModel(dto);
         Product savedProduct = managerService.addProduct(product);
@@ -59,16 +61,22 @@ public class ProductManagerController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить данные по всем продуктам")
     @GetMapping
+    @SuppressWarnings("java:S1488")
     public ManagedProductListDto getAllProducts() {
-        return new ManagedProductListDto(
-                managerService.getAllProducts().stream()
-                        .map(ManagedProductMapper::toDto).toList());
+
+        List<Product> products = managerService.getAllProducts();
+        List<ManagedProductDto> list = products.stream()
+                .map(ManagedProductMapper::toDto)
+                .toList();
+        var dto = new ManagedProductListDto(list);
+        return dto;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удалить продукт")
     @DeleteMapping(value = "/{productId}")
     public void deleteProduct(@PathVariable final UUID productId) {
+
         managerService.deleteProduct(productId);
     }
 }

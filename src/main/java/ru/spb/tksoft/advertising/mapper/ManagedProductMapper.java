@@ -22,7 +22,7 @@ public final class ManagedProductMapper {
     // model <- entity
     private static ProductRule toModel(final ProductRuleEntity entity) {
         return new ProductRule(
-                entity.getId(), entity.getQuery(),
+                entity.getQuery(),
                 new ArrayList<>(entity.getArguments()), entity.isNegate());
     }
 
@@ -49,20 +49,20 @@ public final class ManagedProductMapper {
     // dto -> model
     private static ProductRule toModel(final ManagedProductRuleDto dto) {
         return new ProductRule(
-                dto.getId(), dto.getQuery(),
+                dto.getQuery(),
                 new ArrayList<>(dto.getArguments()), dto.isNegate());
     }
 
     public static Product toModel(final ManagedProductDto dto) {
         return new Product(
-                dto.getId(), dto.getProductName(), dto.getProductText(),
+                dto.getProductId(), dto.getProductName(), dto.getProductText(),
                 dto.getRules().stream().map(ManagedProductMapper::toModel).toList());
     }
 
     // dto <- model
     private static ManagedProductRuleDto toDto(final ProductRule model) {
         return new ManagedProductRuleDto(
-                model.getId(), model.getQuery(),
+                model.getQuery(),
                 new ArrayList<>(model.getArguments()), model.isNegate());
     }
 
@@ -80,7 +80,7 @@ public final class ManagedProductMapper {
 
     public static ProductEntity toEntity(final ManagedProductDto dto) {
         var entity = new ProductEntity(
-                dto.getId(), dto.getProductName(), dto.getProductText(),
+                dto.getProductId(), dto.getProductName(), dto.getProductText(),
                 dto.getRules().stream().map(ManagedProductMapper::toEntity).toList());
         entity.getRules().forEach(r -> r.setProduct(entity));
         return entity;
@@ -88,7 +88,8 @@ public final class ManagedProductMapper {
 
     // dto <- entity
     private static ManagedProductRuleDto toDto(final ProductRuleEntity entity) {
-        return new ManagedProductRuleDto(entity.getId(), entity.getQuery(),
+        return new ManagedProductRuleDto(
+                entity.getQuery(),
                 new ArrayList<>(entity.getArguments()), entity.isNegate());
     }
 

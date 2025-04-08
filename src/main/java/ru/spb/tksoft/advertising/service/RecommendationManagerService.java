@@ -26,31 +26,33 @@ public class RecommendationManagerService {
 
     private Logger log = LoggerFactory.getLogger(RecommendationManagerService.class);
 
-    private final ProductsRepository recommendationRepository;
+    private final ProductsRepository productRepository;
 
     public Product addProduct(final Product recommendation) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, recommendation);
 
         ProductEntity entity = ManagedProductMapper.toEntity(recommendation);
+        ProductEntity saved = productRepository.save(entity);
+        Product savedModel = ManagedProductMapper.toModel(saved);
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
-        return ManagedProductMapper.toModel(recommendationRepository.save(entity));
+        return savedModel;
     }
 
     public List<Product> getAllProducts() {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
-        var data = recommendationRepository.findAll().stream()
-                .map(ManagedProductMapper::toModel).toList();
+        List<ProductEntity> entities = productRepository.findAll();
+        List<Product> products = entities.stream().map(ManagedProductMapper::toModel).toList();
 
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
-        return data;
+        return products;
     }
 
     public void deleteProduct(final UUID productId) {
         LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
                 "recommendationId = " + productId);
 
-        recommendationRepository.deleteById(productId);
+        productRepository.deleteById(productId);
     }
 }

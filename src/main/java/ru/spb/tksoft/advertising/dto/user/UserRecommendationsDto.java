@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * Рекомендации для пользователя, возвращаемые контроллером по
@@ -17,15 +16,13 @@ import lombok.RequiredArgsConstructor;
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class UserRecommendationsDto {
 
-    @NotNull
     @JsonProperty("user_id")
     private UUID userId;
 
-    @NotNull
     @JsonProperty("recommendations")
     private List<UserRecommendedProductDto> recommendations = Arrays.asList();
 }

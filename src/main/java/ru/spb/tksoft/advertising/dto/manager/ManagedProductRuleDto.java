@@ -2,12 +2,10 @@ package ru.spb.tksoft.advertising.dto.manager;
 
 import java.util.Arrays;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * Описание правила рекомендования. По сути - описание RMI в виде
@@ -16,25 +14,16 @@ import lombok.RequiredArgsConstructor;
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class ManagedProductRuleDto {
 
-    @JsonIgnore
-    private long id;
-
-    @NotBlank
+    @JsonProperty("query")
     private String query;
 
-    @NotNull
+    @JsonProperty("arguments")
     private List<String> arguments = Arrays.asList();
 
-    @NotNull
+    @JsonProperty("negate")
     boolean negate;
-
-    public ManagedProductRuleDto(String query, String[] arguments, boolean negate) {
-        this.query = query;
-        this.arguments = Arrays.asList(arguments);
-        this.negate = negate;
-    }
 }

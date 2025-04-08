@@ -17,8 +17,6 @@ import lombok.Value;
 @RequiredArgsConstructor
 public class ProductRule {
 
-    private final long id;
-
     private final String query;
     private final List<String> arguments;
 
