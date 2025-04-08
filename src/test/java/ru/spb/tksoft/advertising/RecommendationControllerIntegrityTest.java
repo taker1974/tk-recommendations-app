@@ -12,8 +12,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
+import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.advertising.dto.manager.ManagedProductDtoTest;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
@@ -49,6 +52,22 @@ class RecommendationControllerIntegrityTest
     }
 
     @Test
+    void testJsonDeserialization() throws JsonProcessingException {
+        String json = """
+                {
+                    "product_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "product_name": "Test",
+                    "product_text": "Hello"
+                }
+                """;
+
+        ObjectMapper mapper = new ObjectMapper();
+        ManagedProductDtoTest dto = mapper.readValue(json, ManagedProductDtoTest.class);
+
+        Assertions.assertThat(dto.getProductName()).isEqualTo("Test");
+    }
+
+    @Test
     @DisplayName("Валидация контекста")
     void contextLoads() {
         Assertions.assertThat(apiUrl).isNotBlank();
@@ -57,8 +76,8 @@ class RecommendationControllerIntegrityTest
 
     static final int DEFAULT_RECOMMENDATIONS_COUNT = 3;
 
-    @SuppressWarnings({ "null" }) // Ошибка SonarQube
-                                  // в VSCode после (getResponse.getBody()).isNotNull()
+    @SuppressWarnings({"null"}) // Ошибка SonarQube
+                                // в VSCode после (getResponse.getBody()).isNotNull()
     @Test
     @DisplayName("Получение списка всех рекомендаций -> список рекомендаций")
     void whenGetAllRecommendations_thenReturnsExpectedList() {
@@ -67,13 +86,15 @@ class RecommendationControllerIntegrityTest
         final String urlGet = apiUrl + "/" + randomUuid;
 
         // TODO Сейчас в сервисе заглушка, возвращающая полный список рекомендаций
-        ResponseEntity<UserRecommendationsDto> getResponse = rest.getForEntity(urlGet, UserRecommendationsDto.class);
+        ResponseEntity<UserRecommendationsDto> getResponse =
+                rest.getForEntity(urlGet, UserRecommendationsDto.class);
 
         Assertions.assertThat(getResponse).isNotNull();
         Assertions.assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(getResponse.getBody()).isNotNull();
 
         Assertions.assertThat(getResponse.getBody().getUserId()).isEqualTo(randomUuid);
-        Assertions.assertThat(getResponse.getBody().getRecommendations()).hasSize(DEFAULT_RECOMMENDATIONS_COUNT);
+        Assertions.assertThat(getResponse.getBody().getRecommendations())
+                .hasSize(DEFAULT_RECOMMENDATIONS_COUNT);
     }
 }

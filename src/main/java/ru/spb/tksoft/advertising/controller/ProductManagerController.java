@@ -7,9 +7,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.advertising.dto.manager.ManagedProductDtoTest;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductListDto;
-import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
+import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.RecommendationManagerService;
 
 import java.util.UUID;
@@ -35,11 +36,24 @@ public class ProductManagerController {
     private final RecommendationManagerService managerService;
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Тест чтения json")
+    @PostMapping("/test")
+    public ManagedProductDtoTest addProductTest(final ManagedProductDtoTest dto) {
+
+        return dto;
+    }
+
+    @SuppressWarnings("java:S1488")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Добавить продукт")
     @PostMapping("/add")
+    // См. пример запроса в конце Technical-task-phase-2.md
     public ManagedProductDto addProduct(final ManagedProductDto dto) {
-        return ManagedProductMapper.toDto(
-                managerService.addProduct(ManagedProductMapper.toModel(dto)));
+
+        Product product = ManagedProductMapper.toModel(dto);
+        Product savedProduct = managerService.addProduct(product);
+        ManagedProductDto savedProductDto = ManagedProductMapper.toDto(savedProduct);
+        return savedProductDto;
     }
 
     @ResponseStatus(HttpStatus.OK)

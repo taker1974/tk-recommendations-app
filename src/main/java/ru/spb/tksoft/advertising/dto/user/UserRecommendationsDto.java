@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.dto.user;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,5 +27,5 @@ public class UserRecommendationsDto {
 
     @NotNull
     @JsonProperty("recommendations")
-    private List<UserRecommendedProductDto> recommendations;
+    private List<UserRecommendedProductDto> recommendations = Arrays.asList();
 }

@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.dto.manager;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,7 +33,6 @@ public class ManagedProductDto {
     @JsonProperty("product_text")
     private String productText;
 
-    @NotNull
     @JsonProperty("rule")
-    private List<ManagedProductRuleDto> rules;
+    private List<ManagedProductRuleDto> rules = Arrays.asList();
 }

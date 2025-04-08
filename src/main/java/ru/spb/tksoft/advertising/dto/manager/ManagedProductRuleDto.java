@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.dto.manager;
 
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +27,14 @@ public class ManagedProductRuleDto {
     private String query;
 
     @NotNull
-    private List<String> arguments;
+    private List<String> arguments = Arrays.asList();
 
     @NotNull
     boolean negate;
+
+    public ManagedProductRuleDto(String query, String[] arguments, boolean negate) {
+        this.query = query;
+        this.arguments = Arrays.asList(arguments);
+        this.negate = negate;
+    }
 }

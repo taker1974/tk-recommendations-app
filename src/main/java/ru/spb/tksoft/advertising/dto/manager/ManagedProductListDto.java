@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.dto.manager;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,5 +19,5 @@ public class ManagedProductListDto {
 
     @NotNull
     @JsonProperty("data")
-    List<ManagedProductDto> products;
+    List<ManagedProductDto> products = Arrays.asList();
 }
