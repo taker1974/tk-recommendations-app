@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
 
 /**
@@ -27,10 +29,11 @@ public class HistoryTransactionRepository {
     private final Logger log = LoggerFactory.getLogger(HistoryTransactionRepository.class);
     public static final String LOG_QUERY_FAILED = "Query failed";
 
+    @NotNull
     private final JdbcTemplate transactionJdbcTemplate;
 
     public HistoryTransactionRepository(
-            @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
+            @NotNull @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
 
         this.transactionJdbcTemplate = transactionJdbcTemplate;
     }
@@ -38,10 +41,11 @@ public class HistoryTransactionRepository {
     private final Object getTestTransactionsLock = new Object();
     private static final String TEST_TRANSACTIONS_QUERY = "SELECT * FROM TRANSACTIONS LIMIT ?";
 
+    @NotNull
     public List<HistoryTransaction> getTestTransactions(int limit) {
 
         synchronized (getTestTransactionsLock) {
-            List<HistoryTransaction> list = new ArrayList<>();
+            final List<HistoryTransaction> list = new ArrayList<>();
             try {
                 RowMapper<HistoryTransaction> mapper = (r, i) -> new HistoryTransaction(
                         UUID.fromString(r.getString("ID")),
@@ -66,11 +70,12 @@ public class HistoryTransactionRepository {
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
             WHERE t.USER_ID = ? AND p."TYPE" = ?""";
 
-    public int getProductUsageCount(final UUID userId, final String productType) {
+    public int getProductUsageCount(@NotNull final UUID userId,
+            @NotBlank final String productType) {
 
         synchronized (getProductUsageCountLock) {
             try {
-                Integer count = transactionJdbcTemplate
+                final Integer count = transactionJdbcTemplate
                         .queryForObject(PRODUCT_USAGE_COUNT_QUERY, Integer.class,
                                 userId, productType);
                 if (count == null) {
@@ -91,12 +96,12 @@ public class HistoryTransactionRepository {
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
             WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";
 
-    public double getProductSum(final UUID userId, final String productType,
-            final String transactionType) {
+    public double getProductSum(@NotNull final UUID userId, @NotBlank final String productType,
+            @NotBlank final String transactionType) {
 
         synchronized (getProductSumLock) {
             try {
-                Double sum = transactionJdbcTemplate
+                final Double sum = transactionJdbcTemplate
                         .queryForObject(PRODUCT_SUM_QUERY, Double.class,
                                 userId, productType, transactionType);
                 if (sum == null) {

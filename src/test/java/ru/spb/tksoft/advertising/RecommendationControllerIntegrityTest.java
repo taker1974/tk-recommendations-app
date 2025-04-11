@@ -12,11 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.spb.tksoft.advertising.controller.UserRecommendationsController;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductDtoTest;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
@@ -49,22 +45,6 @@ class RecommendationControllerIntegrityTest
     @AfterEach
     void tearDown() {
         // ...
-    }
-
-    @Test
-    void testJsonDeserialization() throws JsonProcessingException {
-        String json = """
-                {
-                    "product_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    "product_name": "Test",
-                    "product_text": "Hello"
-                }
-                """;
-
-        ObjectMapper mapper = new ObjectMapper();
-        ManagedProductDtoTest dto = mapper.readValue(json, ManagedProductDtoTest.class);
-
-        Assertions.assertThat(dto.getProductName()).isEqualTo("Test");
     }
 
     @Test

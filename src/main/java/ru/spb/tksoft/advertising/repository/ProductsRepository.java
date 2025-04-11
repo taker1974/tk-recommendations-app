@@ -19,12 +19,11 @@ import ru.spb.tksoft.advertising.entity.ProductEntity;
 public interface ProductsRepository extends JpaRepository<ProductEntity, UUID> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM products")
-    List<ProductEntity> findAllProducts();
+    List<ProductEntity> findAllProductsOnly();
 
     @Query(nativeQuery = true, value = "SELECT * FROM products WHERE product_name = :productName")
-    Optional<ProductEntity> findProductByName(String productName);
+    Optional<ProductEntity> findProductOnlyByName(String productName);
 
     @Query(nativeQuery = true, value = "SELECT * FROM products WHERE id = :id")
-    Optional<ProductEntity> findProductById(UUID id);
-
+    Optional<ProductEntity> findProductOnlyById(UUID id);
 }

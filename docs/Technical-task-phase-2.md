@@ -71,11 +71,11 @@ negate — модификатор отрицания.
 Типы запросов
 Всего мы хотим поддерживать четыре типа запросов:
 
- Является пользователем продукта — USER_OF
+## Является пользователем продукта — USER_OF
+
 Этот запрос проверяет, является ли пользователь, для которого ведется поиск рекомендаций, пользователем продукта X, где X — это первый аргумент запроса.
 
 Напомним, что пользователь продукта X — этот пользователь, у которого есть хотя бы одна транзакция по продуктам данного типа X.
-
 {
         "query": "USER_OF",
         "arguments": [
@@ -83,22 +83,15 @@ negate — модификатор отрицания.
         ],
         "negate": true
 }
-Данный запрос принимает только один аргумент:
 
-Первый аргумент — тип продукта: 
-DEBIT
-, 
-CREDIT
-, 
-INVEST
-, 
-SAVING
-.
- Является активным пользователем продукта — ACTIVE_USER_OF
+Данный запрос принимает только один аргумент:
+Первый аргумент — тип продукта: DEBIT, CREDIT, INVEST, SAVING.
+
+## Является активным пользователем продукта — ACTIVE_USER_OF
+
 Этот запрос проверяет, является ли пользователь, для которого ведется поиск рекомендаций, активным пользователем продукта X, где X — это первый аргумент запроса.
 
 Активный пользователь продукта X — это пользователь, у которого есть хотя бы пять транзакций по продуктам данного типа X.
-
 {
         "query": "ACTIVE_USER_OF",
         "arguments": [
@@ -106,41 +99,23 @@ SAVING
         ],
         "negate": false
 }
+
 Данный запрос принимает только один аргумент:
+Первый аргумент — тип продукта: DEBIT, CREDIT, INVEST, SAVING.
 
-Первый аргумент — тип продукта: 
-DEBIT
-, 
-CREDIT
-, 
-INVEST
-, 
-SAVING
-.
- Сравнение суммы транзакций с константой — TRANSACTION_SUM_COMPARE
+## Сравнение суммы транзакций с константой — TRANSACTION_SUM_COMPARE
+
 Этот запрос сравнивает сумму всех транзакций типа Y по продуктам типа X с некоторой константой C.
-
 Где X — первый аргумент запроса, Y — второй аргумент запроса, а C — четвертый аргумент запроса.
-
 Сама операция сравнения — O — может быть одной из пяти операций:
 
- 
->
-  — сумма строго больше числа C.
- 
-<
- — сумма строго меньше числа C.
- 
-=
- — сумма строго равна числу C.
- 
->=
- — сумма больше или равна числу C.
- 
-<=
- — сумма меньше или равна числу C.
-Таким образом, если запрос выглядит так:
+> — сумма строго больше числа C.
+< — сумма строго меньше числа C.
+= — сумма строго равна числу C.
+>= — сумма больше или равна числу C.
+<= — сумма меньше или равна числу C.
 
+Таким образом, если запрос выглядит так:
 {
         "query": "TRANSACTION_SUM_COMPARE",
         "arguments": [
@@ -151,41 +126,22 @@ SAVING
         ],
         "negate": false
 }
-Это означает, что мы должны с помощью SQL-запроса посчитать сумму всех транзакций типа DEPOSIT для всех продуктов типа DEBIT данного пользователя и сравнить ее с помощью оператора 
->
- с числом 100 000.
+
+Это означает, что мы должны с помощью SQL-запроса посчитать сумму всех транзакций типа DEPOSIT для всех продуктов типа DEBIT данного пользователя и сравнить ее с помощью оператора > с числом 100 000.
 
 Данный запрос принимает четыре аргумента:
-
-Первый аргумент — тип продукта: 
-DEBIT
-, 
-CREDIT
-, 
-INVEST
-, 
-SAVING
-.
-Второй аргумент — тип транзакции: 
-WITHDRAW
-, 
-DEPOSIT
-.
+Первый аргумент — тип продукта: DEBIT, CREDIT, INVEST, SAVING.
+Второй аргумент — тип транзакции: WITHDRAW, DEPOSIT.
 Третий аргумент — тип сравнения (все возможные варианты перечислены выше).
-Четвертый аргумент — число C, с которым сравниваем сумму, может являться только неотрицательным целым числом (больше либо равным нулю), которое умещается в тип 
-int
-.
- Сравнение суммы пополнений с тратами по всем продуктам одного типа — TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW
+Четвертый аргумент — число C, с которым сравниваем сумму, может являться только неотрицательным целым числом (больше либо равным нулю), которое умещается в тип int.
+
+## Сравнение суммы пополнений с тратами по всем продуктам одного типа — TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW
+
 Этот запрос сравнивает сумму всех транзакций типа 
-DEPOSIT
- с суммой всех транзакций типа 
-WITHDRAW
-  по продукту X.
+DEPOSIT с суммой всех транзакций типа WITHDRAW по продукту X.
 
 Где X — первый аргумент запроса, а операция сравнения — второй аргумент запроса.
-
 Таким образом, если запрос выглядит так:
-
 {
         "query": "TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW",
         "arguments": [
@@ -194,36 +150,21 @@ WITHDRAW
         ],
         "negate": false
 }
-Это означает, что мы должны посчитать сумму всех транзакций с типом 
-DEPOSIT
- по продуктам типа 
-DEBIT
-, сумму всех транзакций с типом 
-WITHDRAW
- по продуктам типа 
-DEBIT
- и сравнить их между собой, используя операцию сравнения 
->
-.
+
+Это означает, что мы должны посчитать 
+
+- сумму всех транзакций с типом DEPOSIT по продуктам типа DEBIT, 
+- сумму всех транзакций с типом WITHDRAW по продуктам типа DEBIT и 
+- сравнить их между собой, используя операцию сравнения >.
 
 Данный запрос принимает два аргумента:
-
-Первый аргумент — тип продукта: 
-DEBIT
-, 
-CREDIT
-, 
-INVEST
-, 
-SAVING
-.
+Первый аргумент — тип продукта: DEBIT, CREDIT, INVEST, SAVING.
 Второй аргумент — тип сравнения (все возможные варианты перечислены выше).
-API
-Создание нового динамического правила рекомендаций в базе данных сервиса:
+
+## API создания нового динамического правила рекомендаций в базе данных сервиса
 
 Request:
 POST /rule
-
 {
     "product_name": "Простой кредит", //Имя продукта, который мы рекомендуем
     "product_id": "ab138afb-f3ba-4a93-b74f-0fcee86d447f", //id продукта, который мы рекомендуем
@@ -292,6 +233,7 @@ Response:
         }
     ]
 }
+
 Листинг правил рекомендаций:
 
 Request:
@@ -336,13 +278,16 @@ Response:
         .... //Может содержать еще объекты
     ]
 }
+
 Удаление правила рекомендации:
 
 Request:
 DELETE /rule/<product_id>
 Response:
 204 No Content
-Кеширование результатов запросов
+
+## Кеширование результатов запросов
+
 Так как наша база знаний о пользователе не изменяется в процессе работы приложения, кеширование результатов SQL запросов в нее будет отличным подспорьем для производительности сервиса. Поскольку рекомендации по одному и тому же пользователю могут запрашиваться достаточно часто.
 
 На уровне репозитория базы знаний о пользователях вам нужно будет добавить кеширование ответов из базы знаний.
@@ -357,7 +302,8 @@ Response:
 
 Проверить правильность кеширования можно путем последовательного получения рекомендаций для одного и того же пользователя — следующий запрос должен занимать меньше времени, чем первый запрос.
 
-Подключение второй базы данных
+## Подключение второй базы данных
+
 Вторая база данных в режиме Read/Write будет нужна вам для того, чтобы сохранять динамические правила рекомендаций в виде сущности БД и производить с ними операции создания, удаления и выборки.
 
 Для того чтобы подключить вторую базу данных, вам нужно будет добавить в конфигурацию DataSource следующий метод:
@@ -380,7 +326,6 @@ spring.datasource.url=jdbc:h2:mem://test-db`
 Рекомендации выдаются согласно созданным динамическим правилам.
 Правила рекомендаций из первого ТЗ также отрабатывают либо в виде отдельных компонентов, либо в виде динамических правил.
 Все запросы в базу знаний кешируются. Повторные запросы к системе с одним и тем же uuid пользователя отрабатывают быстрее, чем первый запрос.
-
 
 ## Пример запроса на добавление продукта
 
@@ -416,25 +361,3 @@ spring.datasource.url=jdbc:h2:mem://test-db`
             }
         ]
     }
-
-
-
-
-{
-  "code": 160,
-  "message": "Validation failed for argument [0] in 
-  
-  ru.spb.tksoft.advertising.dto.manager.ManagedProductDto 
-  ru.spb.tksoft.advertising.controller.ProductManagerController.addProduct(ru.spb.tksoft.advertising.dto.manager.ManagedProductDto):
-  
-  managedProductDto' 
-    'rule': rejected value 
-        [[{\"query\":\"string\",\"arguments\":[\"string\"],\"negate\":true}]]; 
-        
-        Failed to convert property value of type 
-        'java.lang.String' to required type 
-        'java.util.List' for property 'rule'; 
-        
-        Cannot convert value of type 'java.lang.String' to required type 'ru.spb.tksoft.advertising.dto.manager.ManagedProductRuleDto' for property 'rule[0]': no matching editors or conversion strategy found]] ",
-  "details": "[org.springframework.web.method.annotation.ModelAttributeMethodProcessor.resolveArgument(ModelAttributeMethodProcessor.java:158), org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122), org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:227), org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:181), org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118), org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986), org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891), org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87), org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089), org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979), org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014), org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914), jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590), org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885), jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:66), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100), org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93), org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:114), org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201), org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116), org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164), org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140), org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167), org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90), org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483), org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115), org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93), org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74), org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344), org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397), org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63), org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905), org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743), org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52), org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190), org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659), org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63), java.base/java.lang.Thread.run(Thread.java:1583)]"
-}

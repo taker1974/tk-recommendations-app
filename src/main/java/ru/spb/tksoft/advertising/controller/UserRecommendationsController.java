@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
-import ru.spb.tksoft.advertising.service.UserRecommendationService;
-
+import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -27,12 +27,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class UserRecommendationsController {
 
+    @NotNull
     private final UserRecommendationService recommendationService;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить рекомендации")
     @GetMapping("/{userId}")
-    public UserRecommendationsDto getRecommendations(@PathVariable UUID userId) {
+    @NotNull
+    public UserRecommendationsDto getRecommendations(@NotNull @PathVariable UUID userId) {
+
         return recommendationService.getRecommendations(userId);
     }
 }

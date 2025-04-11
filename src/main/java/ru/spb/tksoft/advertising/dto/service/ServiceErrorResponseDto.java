@@ -1,6 +1,7 @@
 package ru.spb.tksoft.advertising.dto.service;
 
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Описание ошибки, возвращаемое контроллером.
@@ -9,7 +10,8 @@ import jakarta.annotation.Nullable;
  */
 public record ServiceErrorResponseDto(int code, String message, @Nullable String details) {
 
-    public ServiceErrorResponseDto(int code, String message) {
+    public ServiceErrorResponseDto(int code, @NotBlank String message) {
+
         this(code, message, "");
     }
 }

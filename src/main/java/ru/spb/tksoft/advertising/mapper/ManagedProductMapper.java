@@ -1,6 +1,7 @@
 package ru.spb.tksoft.advertising.mapper;
 
 import java.util.ArrayList;
+import javax.annotation.concurrent.ThreadSafe;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductRuleDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
@@ -15,6 +16,7 @@ import ru.spb.tksoft.advertising.model.ProductRule;
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
+@ThreadSafe
 public final class ManagedProductMapper {
 
     private ManagedProductMapper() {}
@@ -22,8 +24,8 @@ public final class ManagedProductMapper {
     // model <- entity
     private static ProductRule toModel(final ProductRuleEntity entity) {
         return new ProductRule(
-                entity.getQuery(),
-                new ArrayList<>(entity.getArguments()), entity.isNegate());
+                entity.getQuery(), new ArrayList<>(entity.getArguments()),
+                entity.isNegate(), null);
     }
 
     public static Product toModel(final ProductEntity entity) {
@@ -50,7 +52,7 @@ public final class ManagedProductMapper {
     private static ProductRule toModel(final ManagedProductRuleDto dto) {
         return new ProductRule(
                 dto.getQuery(),
-                new ArrayList<>(dto.getArguments()), dto.isNegate());
+                new ArrayList<>(dto.getArguments()), dto.isNegate(), null);
     }
 
     public static Product toModel(final ManagedProductDto dto) {

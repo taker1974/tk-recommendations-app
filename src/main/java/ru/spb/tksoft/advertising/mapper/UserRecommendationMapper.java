@@ -1,12 +1,9 @@
 package ru.spb.tksoft.advertising.mapper;
 
-import java.util.ArrayList;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductRuleDto;
+import javax.annotation.concurrent.ThreadSafe;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
-import ru.spb.tksoft.advertising.entity.ProductRuleEntity;
 import ru.spb.tksoft.advertising.model.Product;
-import ru.spb.tksoft.advertising.model.ProductRule;
 
 /**
  * Маппер для User*.
@@ -15,6 +12,7 @@ import ru.spb.tksoft.advertising.model.ProductRule;
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
+@ThreadSafe
 public final class UserRecommendationMapper {
 
     private UserRecommendationMapper() {}

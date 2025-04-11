@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class ManagedProductListDto {
 
     @Valid
+    @NotNull
     @JsonProperty("data")
     List<ManagedProductDto> products = Arrays.asList();
 }

@@ -3,6 +3,8 @@ package ru.spb.tksoft.advertising.dto.manager;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +20,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ManagedProductRuleDto {
 
+    @NotBlank
     @JsonProperty("query")
     private String query;
 
+    @NotNull
     @JsonProperty("arguments")
     private List<String> arguments = Arrays.asList();
 

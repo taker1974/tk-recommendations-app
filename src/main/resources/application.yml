@@ -22,10 +22,15 @@ spring:
   thymeleaf:
     check-template-location: false
 
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=50,expireAfterWrite=30m
+
   datasource:
     transaction:
         read-only: true
-        jdbc-url: jdbc:h2:file:./transaction_orig
+        jdbc-url: jdbc:h2:file:./src/main/resources/db/transaction_orig
         username: ''
         password: ''
         maximum-pool-size: 10

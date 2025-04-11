@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,16 +21,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ManagedProductDto {
 
+    @NotBlank
     @JsonProperty("product_id")
     private UUID productId;
 
+    @NotBlank
     @JsonProperty("product_name")
     private String productName;
 
+    @NotBlank
     @JsonProperty("product_text")
     private String productText;
 
     @Valid
+    @NotNull
     @JsonProperty("rule")
     private List<ManagedProductRuleDto> rules = Arrays.asList();
 }

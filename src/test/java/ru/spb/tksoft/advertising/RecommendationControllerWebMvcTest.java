@@ -11,9 +11,9 @@ import ru.spb.tksoft.advertising.entity.history.HistoryUser;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 import ru.spb.tksoft.advertising.repository.ProductRuleRepository;
-import ru.spb.tksoft.advertising.service.HistoryTransactionService;
-import ru.spb.tksoft.advertising.service.RecommendationServiceCached;
-import ru.spb.tksoft.advertising.service.UserRecommendationService;
+import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
+import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
+import ru.spb.tksoft.advertising.service.user.UserRecommendationServiceCached;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @RequiredArgsConstructor
 @ContextConfiguration(classes = {UserRecommendationsController.class,
         RecommendationControllerAdvice.class, CommonControllerAdvice.class,
-        RecommendationServiceCached.class, UserRecommendationService.class,
-        HistoryTransactionService.class,
+        UserRecommendationServiceCached.class, UserRecommendationService.class,
+        HistoryTransactionServiceCached.class,
         ProductsRepository.class, ProductRuleRepository.class, HistoryTransactionRepository.class})
 @WebMvcTest(controllers = UserRecommendationsController.class)
 class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTest {
@@ -64,7 +64,7 @@ class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTes
     UserRecommendationService recommendationService;
 
     @MockitoSpyBean
-    HistoryTransactionService transactionService;
+    HistoryTransactionServiceCached transactionService;
 
     @InjectMocks
     UserRecommendationsController recommendationController;

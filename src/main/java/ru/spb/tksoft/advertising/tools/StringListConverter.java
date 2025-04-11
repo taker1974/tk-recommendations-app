@@ -3,9 +3,10 @@ package ru.spb.tksoft.advertising.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import org.springframework.lang.Nullable;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * List<String> converter.
@@ -21,12 +22,22 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     public static final String SPLIT_CHAR = ";";
 
     @Override
-    public String convertToDatabaseColumn(List<String> stringList) {
-        return stringList != null ? String.join(SPLIT_CHAR, stringList) : "";
+    @NotNull
+    public String convertToDatabaseColumn(@Nullable List<String> stringList) {
+
+        if (stringList == null) {
+            return "";
+        }
+        return String.join(SPLIT_CHAR, stringList);
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String string) {
-        return string != null ? Arrays.asList(string.split(SPLIT_CHAR)) : new ArrayList<>();
+    @NotNull
+    public List<String> convertToEntityAttribute(@Nullable String string) {
+
+        if (string == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(string.split(SPLIT_CHAR));
     }
 }

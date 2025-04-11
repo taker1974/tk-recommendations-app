@@ -1,10 +1,12 @@
-package ru.spb.tksoft.advertising.service;
+package ru.spb.tksoft.advertising.service.user;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
@@ -17,13 +19,16 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  */
 @Service
 @RequiredArgsConstructor
+@ThreadSafe
 public class UserRecommendationService {
 
     private final Logger log = LoggerFactory.getLogger(UserRecommendationService.class);
 
-    private final RecommendationServiceCached recommendationServiceCached;
+    @NotNull
+    private final UserRecommendationServiceCached recommendationServiceCached;
 
     public void clearCacheAll() {
+
         recommendationServiceCached.clearCacheAll();
     }
 
@@ -33,28 +38,36 @@ public class UserRecommendationService {
 
     private final Object getRecommendationsLock = new Object();
 
-    public UserRecommendationsDto getRecommendations(final UUID userId) {
-        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, "userId = " + userId);
+    @NotNull
+    public UserRecommendationsDto getRecommendations(@NotNull final UUID userId) {
 
         synchronized (getRecommendationsLock) {
-            var result = new UserRecommendationsDto(userId, new ArrayList<>());
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, "userId = " + userId);
+            
+            final var result = new UserRecommendationsDto(userId, new ArrayList<>());
 
             if (recommendationServiceCached.isFitsInvest500(userId)) {
-                var recommendation = recommendationServiceCached.getRecommendationByName(INVEST_500)
+                var recommendation = recommendationServiceCached
+                        .getRecommendationByName(INVEST_500)
                         .orElseThrow(IllegalArgumentException::new);
-                result.getRecommendations().add(UserRecommendationMapper.toDto(recommendation));
+                result.getRecommendations()
+                        .add(UserRecommendationMapper.toDto(recommendation));
             }
 
             if (recommendationServiceCached.isFitsTopSaving(userId)) {
-                var recommendation = recommendationServiceCached.getRecommendationByName(TOP_SAVING)
+                var recommendation = recommendationServiceCached
+                        .getRecommendationByName(TOP_SAVING)
                         .orElseThrow(IllegalArgumentException::new);
-                result.getRecommendations().add(UserRecommendationMapper.toDto(recommendation));
+                result.getRecommendations()
+                        .add(UserRecommendationMapper.toDto(recommendation));
             }
 
             if (recommendationServiceCached.isFitsCommonCredit(userId)) {
-                var recommendation = recommendationServiceCached.getRecommendationByName(COMMON_CREDIT)
+                var recommendation = recommendationServiceCached
+                        .getRecommendationByName(COMMON_CREDIT)
                         .orElseThrow(IllegalArgumentException::new);
-                result.getRecommendations().add(UserRecommendationMapper.toDto(recommendation));
+                result.getRecommendations()
+                        .add(UserRecommendationMapper.toDto(recommendation));
             }
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, "userId = " + userId);
