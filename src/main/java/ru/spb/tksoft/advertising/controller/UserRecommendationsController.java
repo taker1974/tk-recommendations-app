@@ -27,14 +27,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class UserRecommendationsController {
 
-    @NotNull
     private final UserRecommendationService recommendationService;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить рекомендации")
     @GetMapping("/{userId}")
-    @NotNull
-    public UserRecommendationsDto getRecommendations(@NotNull @PathVariable UUID userId) {
+    public UserRecommendationsDto getRecommendations(@PathVariable UUID userId) {
 
         return recommendationService.getRecommendations(userId);
     }

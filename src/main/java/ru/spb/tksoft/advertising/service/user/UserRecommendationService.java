@@ -62,14 +62,14 @@ public class UserRecommendationService {
     public UserRecommendationsDto getRecommendations(@NotNull final UUID userId) {
 
         synchronized (getRecommendationsLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, "userId = " + userId);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, "userId", userId);
 
             final var result = new UserRecommendationsDto(userId, new HashSet<>());
 
             checkFixedProducts(userId, result);
             checkDynamicProducts(userId, result);
 
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, "userId = " + userId);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, "userId", userId);
             return result;
         }
     }
@@ -77,28 +77,39 @@ public class UserRecommendationService {
     private void checkFixedProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
 
-        recommendationChecks.entrySet().stream().forEach(entry -> {
-            if (entry.getValue().test(userId)) {
+        try {
+            recommendationChecks.entrySet().stream().forEach(entry -> {
+
+                var key = entry.getKey();
+                var value = entry.getValue();
+
+                boolean isFits = value.test(userId);
+                if (!isFits) {
+                    return;
+                }
 
                 var recommendation = recommendationServiceCached
-                        .getRecommendationByName(entry.getKey())
+                        .getRecommendationByName(key)
                         .orElseThrow(IllegalArgumentException::new);
 
                 var recommendations = dto.getRecommendations();
 
-                if (!recommendations.stream()
-                        .noneMatch(data -> data.getProductName().equals(entry.getKey()))) {
+                if (recommendations.stream()
+                        .noneMatch(data -> data.getProductName().equals(key))) {
 
                     dto.getRecommendations()
                             .add(UserRecommendationMapper.toDto(recommendation));
                 }
-            }
-        });
+            });
+        } catch (Exception ex) {
+            LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN,
+                    "userId", userId, ex);
+        }
     }
 
     private void checkDynamicProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
-                
-                // ...
-            }
+
+        // ...
+    }
 }

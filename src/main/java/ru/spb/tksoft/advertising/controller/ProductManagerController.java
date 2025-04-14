@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductListDto;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
-import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;

@@ -30,6 +30,7 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  * @author Константин Терских, kostus.online@gmail.com, 2025
  * @Service
  */
+@Service
 @RequiredArgsConstructor
 @ThreadSafe
 public class ProductManagerServiceCached {
