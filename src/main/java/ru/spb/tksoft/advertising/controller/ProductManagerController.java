@@ -44,10 +44,7 @@ public class ProductManagerController {
     public ManagedProductDto addProduct(@NotNull @Valid @RequestBody ManagedProductDto dto) {
 
         // См. пример запроса в конце Technical-task-phase-2.md
-        return ManagedProductMapper
-                .toDto(managerService
-                        .addProduct(ManagedProductMapper
-                                .toModel(dto)));
+        return managerService.addProduct(dto);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -56,10 +53,8 @@ public class ProductManagerController {
     @NotNull
     public ManagedProductListDto getAllProducts() {
 
-        return new ManagedProductListDto(managerService
-                .getAllProducts().stream()
-                .map(ManagedProductMapper::toDto)
-                .toList());
+        return new ManagedProductListDto(managerService.getAllProducts().stream()
+                .map(ManagedProductMapper::toDto).toList());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

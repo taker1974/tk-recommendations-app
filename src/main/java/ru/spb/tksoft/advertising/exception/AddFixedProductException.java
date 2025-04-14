@@ -6,26 +6,25 @@ import jakarta.validation.constraints.NotBlank;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
- * Ошибка идентификации метода.
+ * Попытка добавления фиксированного продукта.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
-public class MethodIdentificationException extends IllegalArgumentException {
+public class AddFixedProductException extends RuntimeException {
 
-    public static final Logger logger =
-            LoggerFactory.getLogger(MethodIdentificationException.class);
+    public static final Logger logger = LoggerFactory.getLogger(AddFixedProductException.class);
 
-    public static final int CODE = 9186;
+    public static final int CODE = 6982;
 
-    public static final String MESSAGE = "Ошибка идентификации метода";
+    public static final String MESSAGE = "Попытка добавления фиксированного продукта";
 
-    public MethodIdentificationException() {
+    public AddFixedProductException() {
 
         super(MESSAGE);
         LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
-    public MethodIdentificationException(@NotBlank final String message) {
+    public AddFixedProductException(@NotBlank final String message) {
 
         super(MESSAGE + ": " + message);
         LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);

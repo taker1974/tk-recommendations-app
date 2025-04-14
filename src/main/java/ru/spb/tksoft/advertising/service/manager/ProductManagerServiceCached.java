@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
+import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
+import ru.spb.tksoft.advertising.exception.AddFixedProductException;
+import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
@@ -24,16 +28,11 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  * с правилами рекомендования.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @Service
  */
-@Service
 @RequiredArgsConstructor
 @ThreadSafe
 public class ProductManagerServiceCached {
-
-    private Logger log = LoggerFactory.getLogger(ProductManagerServiceCached.class);
-
-    @NotNull
-    private final ProductsRepository productRepository;
 
     private static final List<UUID> FIXED_PRODUCTS = Arrays.asList(
             UUID.fromString("147f6a0f-3b91-413b-ab99-87f081d60d5a"),
@@ -41,13 +40,14 @@ public class ProductManagerServiceCached {
             UUID.fromString("ab138afb-f3ba-4a93-b74f-0fcee86d447f"));
 
     private static boolean isFixedProduct(@NotNull final UUID productId) {
-
         return FIXED_PRODUCTS.contains(productId);
     }
 
-    /**
-     * Очистка кэша.
-     */
+    private Logger log = LoggerFactory.getLogger(ProductManagerServiceCached.class);
+
+    @NotNull
+    private final ProductsRepository productRepository;
+
     @CacheEvict(value = "products", allEntries = true)
     public void clearCacheAll() {
         // ...
@@ -65,32 +65,30 @@ public class ProductManagerServiceCached {
      */
     @CachePut(value = "products")
     @NotNull
-    public Product addProduct(@NotNull final Product newProduct) {
+    public ManagedProductDto addProduct(@NotNull final ManagedProductDto dto) {
 
         synchronized (addProductLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, newProduct);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, dto.getProductId());
 
-            if (isFixedProduct(newProduct.getId())) {
-                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING,
-                        "Попытка добавления фиксированной рекомендации: " + newProduct.getId());
-                return newProduct;
+            if (isFixedProduct(dto.getProductId())) {
+                throw new AddFixedProductException(dto.getProductId().toString());
             }
 
-            // for (var rule : recommendation.getRules()) {
-            // if (!isValidRmi(rule.getQuery())) {
-            // LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING,
-            // "Попытка добавления рекомендации с недопустимым именем метода: "
-            // + rule.getQuery());
-            // return recommendation;
-            // }
-            // }
+            // Здесь надо просто валидировать имена и параметры методов
+            // и преобразовать DTO сразу в entity.
 
-            ProductEntity entity = ManagedProductMapper.toEntity(newProduct);
-            ProductEntity saved = productRepository.save(entity);
-            Product savedModel = ManagedProductMapper.toModel(saved);
+            for (var rule : dto.getRules()) {
+                if (!DynamicApiManagerImpl.isMethodValidShallow(
+                        rule.getQuery(), rule.getArguments())) {
+                    throw new MethodIdentificationException(rule.getQuery());
+                }
+            }
+
+            ProductEntity entity = ManagedProductMapper.toEntity(dto);
+            ManagedProductDto dtoSaved = ManagedProductMapper.toDto(productRepository.save(entity));
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
-            return savedModel;
+            return dtoSaved;
         }
     }
 

@@ -19,12 +19,14 @@ public final class UserRecommendationMapper {
 
     // dto <- model
     public static UserRecommendedProductDto toDto(final Product model) {
+
         return new UserRecommendedProductDto(
                 model.getId(), model.getProductName(), model.getProductText());
     }
 
     // dto <- entity
     public static UserRecommendedProductDto toDto(final ProductEntity entity) {
+
         return new UserRecommendedProductDto(
                 entity.getId(), entity.getProductName(), entity.getProductText());
     }

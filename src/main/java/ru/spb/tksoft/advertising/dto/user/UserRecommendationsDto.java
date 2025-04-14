@@ -1,7 +1,7 @@
 package ru.spb.tksoft.advertising.dto.user;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,5 +27,5 @@ public class UserRecommendationsDto {
 
     @NotNull
     @JsonProperty("recommendations")
-    private List<UserRecommendedProductDto> recommendations = Arrays.asList();
+    private Set<UserRecommendedProductDto> recommendations = HashSet.newHashSet(0);
 }

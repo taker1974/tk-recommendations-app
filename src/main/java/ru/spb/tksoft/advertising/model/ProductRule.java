@@ -5,9 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.concurrent.ThreadSafe;
+import org.springframework.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Value;
+import lombok.experimental.FieldDefaults;
 import ru.spb.tksoft.advertising.api.SuitableUser;
 import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBoolean;
 import ru.spb.tksoft.advertising.exception.NullDynamicApiException;
@@ -30,7 +35,7 @@ public class ProductRule implements SuitableUser {
 
     private final boolean negate;
 
-    @NotNull
+    @Nullable
     private final DynamicApiBoolean dynamicApiBoolean;
 
     @NotNull
@@ -55,15 +60,16 @@ public class ProductRule implements SuitableUser {
      * Проверяет, соответствует ли пользователь требованиям. Это могут быть требования по
      * вызываемому методу или их совокупности.
      * 
+     * Если нет динамического API, то метод всегда возвращает false: динамический API не всегда
+     * нужен при создании модели.
+     * 
      * @param userId Идентификатор пользователя.
      * @return true, если пользователь соответствует требованиям.
-     * 
-     * @throws NullDynamicApiException если нет доступного динамического API.
      */
     public boolean isUserSuitable(@NotNull final UUID userId) {
 
         if (null == dynamicApiBoolean) {
-            throw new NullDynamicApiException();
+            return false;
         }
 
         return negate != dynamicApiBoolean.invoke(userId, query, arguments);

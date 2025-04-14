@@ -14,9 +14,8 @@ import ru.spb.tksoft.advertising.api.HistoryService;
 public interface DynamicApiManager {
 
     public record DynamicApiBooleanMethodInfo(
-            String query,
             int argsCount,
-            DynamicApiBooleanMethod instance) {
+            Class<? extends DynamicApiBooleanMethod> methodClass) {
     }
 
     /**
