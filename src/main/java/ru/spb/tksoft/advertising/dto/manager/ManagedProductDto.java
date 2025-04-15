@@ -12,6 +12,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Продукт с правилом рекомендования. Правило - это набор методов-предикатов
+ * {@link ProductRulePredicateDto}, объединяемых затем по "И". Если список предикатов пуст, то
+ * считаем, что правило рекомендования продукта заложено в код.
+ * 
  * @see ru.spb.tksoft.advertising.model.Product
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
@@ -36,5 +40,5 @@ public class ManagedProductDto {
     @Valid
     @NotNull
     @JsonProperty("rule")
-    private List<ManagedProductRuleDto> rules = Arrays.asList();
+    private List<ManagedProductRulePredicateDto> rule = Arrays.asList();
 }

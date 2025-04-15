@@ -15,5 +15,5 @@ import jakarta.validation.constraints.NotNull;
 @FunctionalInterface
 public interface DynamicApiBooleanMethod {
 
-    boolean invoke(@NotNull UUID userId, @NotNull List<String> args);
+    boolean test(@NotNull UUID userId, @NotNull List<String> args);
 }

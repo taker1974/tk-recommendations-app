@@ -38,8 +38,7 @@ public class ProductManagerController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Добавить продукт")
     @PostMapping("/add")
-    @NotNull
-    public ManagedProductDto addProduct(@NotNull @Valid @RequestBody ManagedProductDto dto) {
+    public ManagedProductDto addProduct(@Valid @RequestBody ManagedProductDto dto) {
 
         // См. пример запроса в конце Technical-task-phase-2.md
         return managerService.addProduct(dto);
@@ -48,7 +47,6 @@ public class ProductManagerController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить данные по всем продуктам")
     @GetMapping
-    @NotNull
     public ManagedProductListDto getAllProducts() {
 
         return new ManagedProductListDto(managerService.getAllProducts().stream()
@@ -58,7 +56,7 @@ public class ProductManagerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удалить продукт")
     @DeleteMapping(value = "/{productId}")
-    public void deleteProduct(@NotNull @PathVariable final UUID productId) {
+    public void deleteProduct(@Valid @PathVariable final UUID productId) {
 
         managerService.deleteProduct(productId);
     }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationService;

@@ -8,24 +8,20 @@ import javax.annotation.concurrent.ThreadSafe;
 import org.springframework.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.Value;
-import lombok.experimental.FieldDefaults;
 import ru.spb.tksoft.advertising.api.SuitableUser;
-import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBoolean;
-import ru.spb.tksoft.advertising.exception.NullDynamicApiException;
+import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBooleanMethod;
 
 /**
- * Правила рекомендования продукта. По сути - описание RMI в виде
- * "query:имя_метода,arguments:аргумент_метода_1;.."
+ * Класс рекомендования продукта с основным методом isUserSuitable(). По сути этот класс - это
+ * описание RMI в виде "query:имя_метода,arguments:аргумент_метода_1;.." и ссылка на класс, который
+ * реализует RMI через реализацию {@link DynamicApiBooleanMethod}.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @ThreadSafe
 @Value
-public class ProductRule implements SuitableUser {
+public class ProductRulePredicate implements SuitableUser {
 
     @NotBlank
     private final String query;
@@ -36,11 +32,10 @@ public class ProductRule implements SuitableUser {
     private final boolean negate;
 
     @Nullable
-    private final DynamicApiBoolean dynamicApiBoolean;
+    private final DynamicApiBooleanMethod testImplementation;
 
     @NotNull
     public List<String> getArguments() {
-
         return Collections.unmodifiableList(null == arguments ? new ArrayList<>() : arguments);
     }
 
@@ -56,6 +51,8 @@ public class ProductRule implements SuitableUser {
         return sb.toString();
     }
 
+    private final Object isUserSuitableLock = new Object();
+
     /**
      * Проверяет, соответствует ли пользователь требованиям. Это могут быть требования по
      * вызываемому методу или их совокупности.
@@ -68,10 +65,13 @@ public class ProductRule implements SuitableUser {
      */
     public boolean isUserSuitable(@NotNull final UUID userId) {
 
-        if (null == dynamicApiBoolean) {
-            return false;
-        }
+        synchronized (isUserSuitableLock) {
 
-        return negate != dynamicApiBoolean.invoke(userId, query, arguments);
+            if (null == testImplementation) {
+                return false;
+            }
+            return negate != testImplementation.test(userId, arguments);
+
+        }
     }
 }

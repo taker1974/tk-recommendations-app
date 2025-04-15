@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.service.manager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -7,12 +8,12 @@ import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
@@ -49,7 +50,10 @@ public class ProductManagerServiceCached {
     @NotNull
     private final ProductsRepository productRepository;
 
-    @CacheEvict(value = "products", allEntries = true)
+    @NotNull
+    private final HistoryService historyService;
+
+    @CacheEvict(value = "allProducts", allEntries = true)
     public void clearCacheAll() {
         // ...
     }
@@ -61,10 +65,11 @@ public class ProductManagerServiceCached {
      * будет добавлена. В противном случае рекомендация будет добавлена в базу данных после
      * валидации.
      * 
+     * Не кэшируется, т.к. это не нужно.
+     * 
      * @param newProduct Новый продукт с правилами рекомендования.
      * @return Добавленный продукт с правилами рекомендования.
      */
-    @CachePut(value = "products")
     @NotNull
     public ManagedProductDto addProduct(@NotNull final ManagedProductDto dto) {
 
@@ -78,7 +83,7 @@ public class ProductManagerServiceCached {
             // Здесь надо просто валидировать имена и параметры методов
             // и преобразовать DTO сразу в entity.
 
-            for (var rule : dto.getRules()) {
+            for (var rule : dto.getRule()) {
                 if (!DynamicApiManagerImpl.isMethodValidShallow(
                         rule.getQuery(), rule.getArguments())) {
                     throw new MethodIdentificationException(rule.getQuery());
@@ -96,9 +101,14 @@ public class ProductManagerServiceCached {
     private final Object getAllProductsLock = new Object();
 
     /**
+     * Возвращает все рекомендации из базы данных. Все объекты новые и неизменяемые.
+     * 
+     * В процессе маппирования из Entity в модель ProductRulePredicate внедряется реализация метода,
+     * соответствующая запросу.
+     * 
      * @return Список всех продуктов с правилами рекомендования.
      */
-    @Cacheable(value = "products", unless = "#result.isEmpty()")
+    @Cacheable(value = "allProducts", unless = "#result.isEmpty()")
     @Transactional
     @NotNull
     public List<Product> getAllProducts() {
@@ -107,8 +117,9 @@ public class ProductManagerServiceCached {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
             List<ProductEntity> entities = productRepository.findAll();
-            List<Product> products = entities.stream()
-                    .map(ManagedProductMapper::toModel).toList();
+            List<Product> products = new ArrayList<>(entities.size());
+            entities.stream().forEach(
+                    entity -> products.add(ManagedProductMapper.toModel(entity, historyService)));
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
             return products;
@@ -117,7 +128,7 @@ public class ProductManagerServiceCached {
 
     private final Object deleteProductLock = new Object();
 
-    @CacheEvict(value = "products", allEntries = true)
+    @CacheEvict(value = "allProducts", allEntries = true)
     public void deleteProduct(@NotNull final UUID productId) {
 
         synchronized (deleteProductLock) {

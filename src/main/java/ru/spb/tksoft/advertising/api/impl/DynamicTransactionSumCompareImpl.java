@@ -54,7 +54,7 @@ public class DynamicTransactionSumCompareImpl implements DynamicApiBooleanMethod
      * @param args Аргументы, которые передаются в правилах.
      * @return true, если правило выполняется.
      */
-    public boolean invoke(@NotNull UUID userId, @NotNull List<String> args) {
+    public boolean test(@NotNull UUID userId, @NotNull List<String> args) {
 
         try {
             var productType = HistoryProductType.valueOf(args.get(0).toUpperCase());

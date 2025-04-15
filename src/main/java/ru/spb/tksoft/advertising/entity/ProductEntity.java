@@ -36,5 +36,5 @@ public class ProductEntity {
     private String productText;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductRuleEntity> rules;
+    private List<ProductRulePredicateEntity> rule;
 }

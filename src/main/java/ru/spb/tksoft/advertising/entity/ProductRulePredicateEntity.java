@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.tools.StringListConverter;
 
 /**
- * @see ru.spb.tksoft.advertising.model.ProductRule
+ * @see ru.spb.tksoft.advertising.model.ProductRulePredicate
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -26,7 +26,7 @@ import ru.spb.tksoft.advertising.tools.StringListConverter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "product_rules")
-public class ProductRuleEntity {
+public class ProductRulePredicateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ public class ProductRuleEntity {
     @Column(nullable = false)
     boolean negate;
 
-    public ProductRuleEntity(String query, List<String> arguments, boolean negate) {
+    public ProductRulePredicateEntity(String query, List<String> arguments, boolean negate) {
         this.query = query;
         this.arguments = arguments;
         this.negate = negate;

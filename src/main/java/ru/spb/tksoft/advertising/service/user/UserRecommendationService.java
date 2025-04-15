@@ -1,6 +1,7 @@
 package ru.spb.tksoft.advertising.service.user;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -12,6 +13,8 @@ import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
+import ru.spb.tksoft.advertising.model.Product;
+import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
@@ -27,6 +30,9 @@ public class UserRecommendationService {
 
     @NotNull
     private final UserRecommendationServiceCached recommendationServiceCached;
+
+    @NotNull
+    private final ProductManagerServiceCached productManagerServiceCached;
 
     public void clearCacheAll() {
 
@@ -50,9 +56,12 @@ public class UserRecommendationService {
     }
 
     public UserRecommendationService(
-            @NotNull final UserRecommendationServiceCached recommendationServiceCached) {
+            @NotNull final UserRecommendationServiceCached recommendationServiceCached,
+            @NotNull final ProductManagerServiceCached productManagerServiceCached) {
 
         this.recommendationServiceCached = recommendationServiceCached;
+        this.productManagerServiceCached = productManagerServiceCached;
+
         this.recommendationChecks = initRecommendationChecks();
     }
 
@@ -62,14 +71,14 @@ public class UserRecommendationService {
     public UserRecommendationsDto getRecommendations(@NotNull final UUID userId) {
 
         synchronized (getRecommendationsLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, "userId", userId);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, userId);
 
             final var result = new UserRecommendationsDto(userId, new HashSet<>());
 
             checkFixedProducts(userId, result);
             checkDynamicProducts(userId, result);
 
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, "userId", userId);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, userId);
             return result;
         }
     }
@@ -107,9 +116,18 @@ public class UserRecommendationService {
         }
     }
 
+    /**
+     * Дополнение рекомендаций для пользователя рекомендациями по динамическим правилам.
+     * 
+     * Алгоритм:
+     * - получаем список продуктов;
+     * 
+     * @param userId
+     * @param dto
+     */
     private void checkDynamicProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
 
-        // ...
+        final List<Product> productList = productManagerServiceCached.getAllProducts();
     }
 }

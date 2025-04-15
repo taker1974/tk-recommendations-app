@@ -11,8 +11,9 @@ import lombok.Value;
 import ru.spb.tksoft.advertising.api.SuitableUser;
 
 /**
- * Продукт с правилами рекомендования. Если правила пусты, то считаем, что правила его
- * рекомендования заложены в код.
+ * Продукт с правилом рекомендования. Правило - это набор методов-предикатов
+ * {@link ProductRulePredicate}, объединяемых затем по "И". Смотри код isUserSuitable(). Если список
+ * предикатов пуст, то считаем, что правило рекомендования продукта заложено в код.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -30,24 +31,21 @@ public class Product implements SuitableUser {
     private final String productText;
 
     @NotNull
-    private final List<ProductRule> rules;
+    private final List<ProductRulePredicate> rule;
 
     @NotNull
-    public List<ProductRule> getRules() {
-
-        return Collections.unmodifiableList(null == rules ? new ArrayList<>() : rules);
+    public List<ProductRulePredicate> getRule() {
+        return Collections.unmodifiableList(null == rule ? new ArrayList<>() : rule);
     }
 
     @Override
     @NotBlank
     public String toString() {
-
         return String.format("%s: %s. %s", id, productName, productText);
     }
 
     @NotBlank
     public String toStringShort(final int descriptionLength) {
-
         return String.format("%s: %s. %s", id, productName,
                 productText.length() <= descriptionLength ? productText
                         : productText.substring(0, descriptionLength - 1));
@@ -55,7 +53,7 @@ public class Product implements SuitableUser {
 
     public boolean isUserSuitable(@NotNull final UUID userId) {
 
-        for (ProductRule productRule : rules) {
+        for (ProductRulePredicate productRule : rule) {
             if (!productRule.isUserSuitable(userId)) {
                 return false;
             }

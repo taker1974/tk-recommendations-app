@@ -12,6 +12,7 @@ import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 import ru.spb.tksoft.advertising.repository.ProductRuleRepository;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
+import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationServiceCached;
 import static org.mockito.Mockito.when;
@@ -44,9 +45,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  */
 @RequiredArgsConstructor
 @ContextConfiguration(classes = {UserRecommendationsController.class,
-        RecommendationControllerAdvice.class, CommonControllerAdvice.class,
+        CommonControllerAdvice.class,RecommendationControllerAdvice.class,
+        HistoryTransactionServiceCached.class, ProductManagerServiceCached.class,
         UserRecommendationServiceCached.class, UserRecommendationService.class,
-        HistoryTransactionServiceCached.class,
         ProductsRepository.class, ProductRuleRepository.class, HistoryTransactionRepository.class})
 @WebMvcTest(controllers = UserRecommendationsController.class)
 class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTest {
@@ -78,7 +79,6 @@ class RecommendationControllerWebMvcTest extends RecommendationControllerBaseTes
         // new RecommendationEntity(UUID.randomUUID(), "name", "desc"),
         // new RecommendationEntity(UUID.randomUUID(), "name", "desc")));
 
-        // // TODO Сейчас в сервисе заглушка, возвращающая полный список рекомендаций
         // when(recommendationRepository.findAllRecommendations()).thenReturn(recommendations);
         // String url = "/recommendation/" + UUID.randomUUID();
         // mvc.perform(MockMvcRequestBuilders
