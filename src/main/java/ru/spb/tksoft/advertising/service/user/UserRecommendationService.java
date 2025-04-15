@@ -1,10 +1,12 @@
 package ru.spb.tksoft.advertising.service.user;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
+import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
-import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
@@ -119,8 +121,7 @@ public class UserRecommendationService {
     /**
      * Дополнение рекомендаций для пользователя рекомендациями по динамическим правилам.
      * 
-     * Алгоритм:
-     * - получаем список продуктов;
+     * Алгоритм: - получаем список продуктов;
      * 
      * @param userId
      * @param dto
@@ -128,6 +129,14 @@ public class UserRecommendationService {
     private void checkDynamicProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
 
-        final List<Product> productList = productManagerServiceCached.getAllProducts();
+        Set<UUID> alreadyAddedIds = dto.getRecommendations().stream()
+                .map(UserRecommendedProductDto::getId)
+                .collect(Collectors.toSet());
+
+        productManagerServiceCached.getAllProducts().stream().filter(Objects::nonNull)
+                .filter(product -> product.isUserSuitable(userId))
+                .filter(product -> !alreadyAddedIds.contains(product.getId()))
+                .forEach(product -> dto.getRecommendations()
+                        .add(UserRecommendationMapper.toDto(product)));
     }
 }
