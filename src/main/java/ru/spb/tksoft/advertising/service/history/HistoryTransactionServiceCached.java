@@ -77,7 +77,6 @@ public class HistoryTransactionServiceCached implements HistoryService {
             @NotNull final UUID userId, @NotNull final HistoryProductType productType,
             final boolean isActiveUser) {
 
-
         synchronized (isUsingProductLock) {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "userId = ", userId,
                     "productType = ", productType);
