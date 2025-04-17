@@ -6,46 +6,58 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.lang.Nullable;
+import jakarta.validation.constraints.NotEmpty;
 
+/**
+ * Extended/wrapped string-related routines.
+ *
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
+ * @version 0.1
+ */
 public final class StringEx {
 
-    private StringEx() {
-    }
+    private StringEx() {}
 
     /**
      * @return null || isEmpty || isBlank
      */
-    public static boolean isNullOrWhitespace(String str) {
+    public static boolean isNullOrWhitespace(@Nullable String str) {
+
         return str == null || str.isBlank();
     }
 
     /**
      * @return null || isEmpty || isBlank
      */
-    public static Optional<String> getMeaningful(String str, int minLength,
-            int maxLength) {
-        if (!isNullOrWhitespace(str) && str.length() >= minLength
+    public static Optional<String> getMeaningful(@Nullable String str,
+            int minLength, int maxLength) {
+
+        if (!(str == null || str.isBlank()) &&
+                str.length() >= minLength
                 && str.length() <= maxLength) {
+
             return Optional.of(str);
         }
+
         return Optional.empty();
     }
 
     /**
-     * Replace "Some {text} data" with substring.
-     * Example: str = "{host}:{port}/{app}"
-     * with parameters "localhost", 8080 and "school"
-     * will be returned "localhost:8080/school".
+     * Replace "Some {text} data" with substring. Example: str = "{host}:{port}/{app}" with
+     * parameters "localhost", 8080 and "school" will be returned "localhost:8080/school".
      *
-     * @param str
-     *            source string in a form like "http://{host}:{port}/{app}"
-     * @param objects
-     *            substrings like "myhost", 7654, "mycoolapp"
+     * @param str source string in a form like "http://{host}:{port}/{app}"
+     * @param objects substrings like "myhost", 7654, "mycoolapp"
      * @return resulting string in a form like "http://myhost:7654/mycoolapp"
      */
-    public static String replace(String str, Object... objects) {
+    @Nullable
+    public static String replace(@Nullable String str, Object... objects) {
+
         for (Object object : objects) {
-            str = str.replaceFirst("\\{[^}]*}", object.toString());
+            if (str != null && str.isEmpty()) {
+                str = str.replaceFirst("\\{[^}]*}", object.toString());
+            }
         }
         return str;
     }
@@ -55,11 +67,11 @@ public final class StringEx {
     /**
      * Remove adjacent spaces.
      * 
-     * @param rawSource
-     *            source string
+     * @param rawSource source string
      * @return trimmed string
      */
-    public static String removeAdjacentSpaces(final String rawSource) {
+    @Nullable
+    public static String removeAdjacentSpaces(@Nullable final String rawSource) {
 
         if (rawSource == null) {
             return rawSource;
@@ -70,8 +82,8 @@ public final class StringEx {
             return source;
         }
 
-        var sb = new StringBuilder();
-        int count = source.length();
+        final var sb = new StringBuilder();
+        final int count = source.length();
 
         char lastAppended = 0;
         for (int i = 0; i < count; i++) {
@@ -89,22 +101,26 @@ public final class StringEx {
     /**
      * Try nomalize date OR time string representation.
      * 
-     * @param str
-     *            normalizing string
-     * @param pattern
-     *            valid datetime pattern
+     * @param str normalizing string
+     * @param pattern valid datetime pattern
      * @return valid or not
      */
-    public static String normalizeDateTime(final String input, final String delimiter,
-            final String pattern) {
+    @Nullable
+    public static String normalizeDateTime(@Nullable final String input,
+            @NotEmpty final String delimiter, @NotEmpty final String pattern) {
+
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
         try {
-            List<String> parts = Arrays.asList(input.split("\\" + delimiter));
+            final List<String> parts = Arrays.asList(input.split("\\" + delimiter));
             final String str = parts.stream()
                     .map(part -> part.length() == 1 ? "0" + part : part)
                     .collect(Collectors.joining(delimiter));
 
-            var sdf = new SimpleDateFormat(pattern);
-            Date date = sdf.parse(str);
+            final var sdf = new SimpleDateFormat(pattern);
+            final Date date = sdf.parse(str);
 
             return sdf.format(date);
 

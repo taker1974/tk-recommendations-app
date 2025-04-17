@@ -22,6 +22,11 @@ spring:
   thymeleaf:
     check-template-location: false
 
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=50,expireAfterWrite=30m
+
   datasource:
     transaction:
         read-only: true
