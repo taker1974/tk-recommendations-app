@@ -1,7 +1,6 @@
 package ru.spb.tksoft.advertising.service.user;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +16,6 @@ import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
-import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
@@ -123,8 +121,8 @@ public class UserRecommendationService {
     /**
      * Дополнение рекомендаций для пользователя рекомендациями по динамическим правилам.
      * 
-     * @param userId
-     * @param dto
+     * @param userId идентификатор пользователя.
+     * @param dto объект рекомендаций пользователя.
      */
     private void checkDynamicProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
