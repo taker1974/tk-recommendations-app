@@ -46,4 +46,4 @@ $ java -jar target/tk-recommendations-0.0.1-SNAPSHOT.jar
 ```
 В браузере:
 
-http://localhost:8080/tk-recommendations/swagger-ui/index.html
+http://localhost:8090/tk-recommendations/swagger-ui/index.html
