@@ -54,7 +54,7 @@ public class ProductManagerServiceCached {
     private final HistoryService historyService;
 
     @CacheEvict(value = "allProducts", allEntries = true)
-    public void clearCacheAll() {
+    public void clearCaches() {
         // ...
     }
 

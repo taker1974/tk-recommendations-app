@@ -36,9 +36,8 @@ public class UserRecommendationService {
     @NotNull
     private final ProductManagerServiceCached productManagerServiceCached;
 
-    public void clearCacheAll() {
-
-        recommendationServiceCached.clearCacheAll();
+    public void clearCaches() {
+        recommendationServiceCached.clearCaches();
     }
 
     public static final String INVEST_500 = "Invest 500";

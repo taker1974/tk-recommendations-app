@@ -33,12 +33,12 @@ public class HistoryTransactionServiceCached implements HistoryService {
     private final HistoryTransactionRepository transactionRepository;
 
     @CacheEvict(value = "usage", allEntries = true)
-    public void cacheClearAll() {
-        cacheClearSum();
+    public void clearCaches() {
+        clearSumCache();
     }
 
     @CacheEvict(value = "sum", allEntries = true)
-    private void cacheClearSum() {
+    private void clearSumCache() {
         // ...
     }
 

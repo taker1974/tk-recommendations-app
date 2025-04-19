@@ -36,10 +36,10 @@ public class UserRecommendationServiceCached {
     private final ProductsRepository recomendationRepository;
 
     @CacheEvict(value = "recommendations", allEntries = true)
-    public void clearCacheAll() {
+    public void clearCaches() {
 
         clearFitsCache();
-        historyTransactionService.cacheClearAll();
+        historyTransactionService.clearCaches();
     }
 
     @CacheEvict(value = "isFitsCache", allEntries = true)
