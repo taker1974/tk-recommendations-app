@@ -6,4 +6,4 @@ databaseChangeLog:
           file: "db/changelog/v0.0.1/create-product-rules.sql"
 
     - include:
-          file: "db/changelog/v0.0.1/create-product-fire-counts.sql"
+          file: "db/changelog/v0.0.1/create-product-rule-hit-counts.sql"

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductListDto;
+import ru.spb.tksoft.advertising.dto.stat.StatsDto;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import java.util.UUID;
@@ -58,5 +59,13 @@ public class ProductManagerController {
     public void deleteProduct(@Valid @PathVariable final UUID productId) {
 
         managerService.deleteProduct(productId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получить статистику по срабатываниям правил рекомендаций")
+    @GetMapping("/stats")
+    public StatsDto getStats() {
+
+        return managerService.getStats();
     }
 }

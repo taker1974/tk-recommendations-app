@@ -3,6 +3,7 @@ package ru.spb.tksoft.advertising.service.manager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
@@ -16,11 +17,14 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
 import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.advertising.dto.stat.StatsDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.exception.AddFixedProductException;
 import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
+import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.model.Product;
+import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
@@ -49,6 +53,9 @@ public class ProductManagerServiceCached {
 
     @NotNull
     private final ProductsRepository productRepository;
+
+    @NotNull
+    private final ProductHitsCounterRepository productHitsCounterRepository;
 
     @NotNull
     private final HistoryService historyService;
@@ -138,6 +145,22 @@ public class ProductManagerServiceCached {
             if (!isFixedProduct(productId)) {
                 productRepository.deleteById(productId);
             }
+        }
+    }
+
+    private final Object getStatsLock = new Object();
+
+    public StatsDto getStats() {
+        
+        synchronized (getStatsLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
+
+            StatsDto dto = new StatsDto(
+                    productHitsCounterRepository.findAll().stream().filter(Objects::nonNull)
+                            .map(entity -> ProductHitCounterMapper.toDto(entity)).toList());
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
+            return dto;
         }
     }
 }

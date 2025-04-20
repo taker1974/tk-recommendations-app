@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import ru.spb.tksoft.advertising.tools.StringListConverter;
 
 /**
@@ -23,8 +23,8 @@ import ru.spb.tksoft.advertising.tools.StringListConverter;
  */
 @Data
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "product_rules")
 public class ProductRulePredicateEntity {
 
