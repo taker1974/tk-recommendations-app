@@ -15,7 +15,11 @@ import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
+import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
+import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
+import ru.spb.tksoft.advertising.model.ProductHitsCounter;
+import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
@@ -35,6 +39,9 @@ public class UserRecommendationService {
 
     @NotNull
     private final ProductManagerServiceCached productManagerServiceCached;
+
+    @NotNull
+    private final ProductHitsCounterRepository productHitsCounterRepository;
 
     public void clearCaches() {
         recommendationServiceCached.clearCaches();
@@ -58,10 +65,12 @@ public class UserRecommendationService {
 
     public UserRecommendationService(
             @NotNull final UserRecommendationServiceCached recommendationServiceCached,
-            @NotNull final ProductManagerServiceCached productManagerServiceCached) {
+            @NotNull final ProductManagerServiceCached productManagerServiceCached,
+            @NotNull final ProductHitsCounterRepository productHitsCounterRepository) {
 
         this.recommendationServiceCached = recommendationServiceCached;
         this.productManagerServiceCached = productManagerServiceCached;
+        this.productHitsCounterRepository = productHitsCounterRepository;
 
         this.recommendationChecks = initRecommendationChecks();
     }
@@ -78,6 +87,16 @@ public class UserRecommendationService {
 
             checkFixedProducts(userId, result);
             checkDynamicProducts(userId, result);
+
+            for (var recommendation : result.getRecommendations()) {
+                ProductHitsCounterEntity entity = productHitsCounterRepository
+                        .findByProductId(recommendation.getId())
+                        .orElseThrow(IllegalArgumentException::new);
+
+                ProductHitsCounter counter = ProductHitCounterMapper.toModel(entity);
+                counter.increment();
+                productHitsCounterRepository.save(ProductHitCounterMapper.toEntity(counter));
+            }
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, userId);
             return result;

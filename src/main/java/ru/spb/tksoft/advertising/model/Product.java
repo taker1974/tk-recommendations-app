@@ -38,6 +38,31 @@ public class Product implements SuitableUser {
         return Collections.unmodifiableList(null == rule ? new ArrayList<>() : rule);
     }
 
+    public Product(@NotNull final UUID id, @NotBlank final String productName,
+            @NotBlank final String productText, @NotNull final List<ProductRulePredicate> rule) {
+
+        this.id = id;
+        this.productName = productName;
+        this.productText = productText;
+        this.rule = rule;
+    }
+
+    /**
+     * Этот конструктор нужен тогда, когда не нужно использовать правила для рекомендации продукта.
+     * 
+     * @param id уникальный идентификатор продукта.
+     * @param productName название продукта.
+     * @param productText описание продукта.
+     */
+    public Product(@NotNull final UUID id, @NotBlank final String productName,
+            @NotBlank final String productText) {
+
+        this.id = id;
+        this.productName = productName;
+        this.productText = productText;
+        this.rule = new ArrayList<>();
+    }
+
     @Override
     @NotBlank
     public String toString() {

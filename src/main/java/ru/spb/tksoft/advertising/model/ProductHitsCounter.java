@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ProductHitCounter {
+public class ProductHitsCounter {
 
     @NotNull
     private final Product product;

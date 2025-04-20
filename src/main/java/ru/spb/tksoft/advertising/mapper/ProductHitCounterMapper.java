@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.dto.stat.ProductHitCounterDto;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
-import ru.spb.tksoft.advertising.model.ProductHitCounter;
+import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 
 /**
  * Маппер для ProductHitCounter*.
@@ -18,22 +18,21 @@ public final class ProductHitCounterMapper {
     private ProductHitCounterMapper() {}
 
     // model <- entity
-    public static ProductHitCounter toModel(final ProductHitsCounterEntity entity,
-            @NotNull final HistoryService historyService) {
+    public static ProductHitsCounter toModel(final ProductHitsCounterEntity entity) {
 
-        return new ProductHitCounter(
-                ManagedProductMapper.toModel(entity.getProduct(), historyService));
+        return new ProductHitsCounter(
+                ManagedProductMapper.toModel(entity.getProduct()));
     }
 
     // model -> entity
-    public static ProductHitsCounterEntity toEntity(final ProductHitCounter model) {
+    public static ProductHitsCounterEntity toEntity(final ProductHitsCounter model) {
 
         return new ProductHitsCounterEntity(
                 ManagedProductMapper.toEntity(model.getProduct()), model.getHitsCount());
     }
 
     // dto <- model
-    public static ProductHitCounterDto toDto(final ProductHitCounter model) {
+    public static ProductHitCounterDto toDto(final ProductHitsCounter model) {
 
         return new ProductHitCounterDto(model.getProduct().getId(), model.getHitsCount());
     }

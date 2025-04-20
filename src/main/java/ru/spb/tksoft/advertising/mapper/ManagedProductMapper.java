@@ -69,6 +69,14 @@ public final class ManagedProductMapper {
                 entity.getProductText(), rules);
     }
 
+    @NotNull
+    public static Product toModel(@NotNull final ProductEntity entity) {
+
+        return new Product(
+                entity.getId(), entity.getProductName(),
+                entity.getProductText());
+    }
+
     // model -> entity
     @NotNull
     private static ProductRulePredicateEntity toEntity(@NotNull final ProductRulePredicate model) {

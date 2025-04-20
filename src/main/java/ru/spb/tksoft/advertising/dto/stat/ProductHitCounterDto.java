@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @see ru.spb.tksoft.advertising.model.ProductHitCounter
+ * @see ru.spb.tksoft.advertising.model.ProductHitsCounter
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
