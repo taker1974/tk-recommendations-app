@@ -2,6 +2,7 @@ package ru.spb.tksoft.advertising.dto.stat;
 
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({"rule_id"})
 public class ProductHitCounterDto {
 
     // В условии задания неоднозначность, неточность:

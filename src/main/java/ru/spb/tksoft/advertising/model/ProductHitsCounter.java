@@ -33,9 +33,15 @@ public class ProductHitsCounter {
         }
     }
 
-    public long increment() {
+    public void increment() {
         synchronized (hitsCountLock) {
-            return ++hitsCount;
+            hitsCount++;
+        }
+    }
+
+    public void reset() {
+        synchronized (hitsCountLock) {
+            hitsCount = 0L;
         }
     }
 

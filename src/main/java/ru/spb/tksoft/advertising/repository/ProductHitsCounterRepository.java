@@ -17,6 +17,6 @@ public interface ProductHitsCounterRepository
         extends JpaRepository<ProductHitsCounterEntity, Long> {
 
     @Query(nativeQuery = true,
-            value = "SELECT * FROM product_hits_counter WHERE product_id = :productId")
+            value = "SELECT * FROM product_hits_counters WHERE product_id = :productId")
     Optional<ProductHitsCounterEntity> findByProductId(UUID productId);
 }

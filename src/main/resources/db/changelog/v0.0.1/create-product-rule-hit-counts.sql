@@ -29,3 +29,7 @@ FROM
     LEFT JOIN product_hits_counters phc ON p.id = phc.product_id
 WHERE
     phc.product_id IS NULL;
+
+-- changeSet kostusonline:c24c8616-1f83-57be-a613-7041c24d569e runOnChange:true
+ALTER TABLE product_hits_counters
+ADD CONSTRAINT unique_product_id UNIQUE (product_id);

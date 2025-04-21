@@ -1,8 +1,6 @@
 package ru.spb.tksoft.advertising.mapper;
 
 import javax.annotation.concurrent.ThreadSafe;
-import jakarta.validation.constraints.NotNull;
-import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.dto.stat.ProductHitCounterDto;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.model.ProductHitsCounter;
@@ -21,13 +19,14 @@ public final class ProductHitCounterMapper {
     public static ProductHitsCounter toModel(final ProductHitsCounterEntity entity) {
 
         return new ProductHitsCounter(
-                ManagedProductMapper.toModel(entity.getProduct()));
+                ManagedProductMapper.toModel(entity.getProduct()), entity.getHitsCount());
     }
 
     // model -> entity
-    public static ProductHitsCounterEntity toEntity(final ProductHitsCounter model) {
+    public static ProductHitsCounterEntity toEntity(final ProductHitsCounter model,
+            final long counterId) {
 
-        return new ProductHitsCounterEntity(
+        return new ProductHitsCounterEntity(counterId,
                 ManagedProductMapper.toEntity(model.getProduct()), model.getHitsCount());
     }
 

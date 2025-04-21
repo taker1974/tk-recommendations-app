@@ -24,6 +24,7 @@ import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.model.Product;
+import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
@@ -151,16 +152,35 @@ public class ProductManagerServiceCached {
     private final Object getStatsLock = new Object();
 
     public StatsDto getStats() {
-        
+
         synchronized (getStatsLock) {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
             StatsDto dto = new StatsDto(
                     productHitsCounterRepository.findAll().stream().filter(Objects::nonNull)
-                            .map(entity -> ProductHitCounterMapper.toDto(entity)).toList());
+                            .map(ProductHitCounterMapper::toDto).toList());
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
             return dto;
+        }
+    }
+
+    private final Object resetStatsLock = new Object();
+
+    public void resetStats() {
+        synchronized (resetStatsLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
+
+            productHitsCounterRepository.findAll().stream().filter(Objects::nonNull)
+                    .forEach(entity -> {
+
+                        ProductHitsCounter model = ProductHitCounterMapper.toModel(entity);
+                        model.reset();
+                        productHitsCounterRepository
+                                .save(ProductHitCounterMapper.toEntity(model, entity.getId()));
+                    });
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         }
     }
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
+import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
 import ru.spb.tksoft.advertising.model.ProductHitsCounter;
@@ -24,7 +26,7 @@ import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
- * Сервис выдачи рекомендаций для пользователя с указанным useId.
+ * Сервис выдачи рекомендаций для пользователя с указанным userId.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
@@ -81,7 +83,8 @@ public class UserRecommendationService {
     public UserRecommendationsDto getRecommendations(@NotNull final UUID userId) {
 
         synchronized (getRecommendationsLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, userId);
+            final String methodName = LogEx.getThisMethodName();
+            LogEx.trace(log, methodName, LogEx.STARTING, userId);
 
             final var result = new UserRecommendationsDto(userId, new HashSet<>());
 
@@ -89,16 +92,21 @@ public class UserRecommendationService {
             checkDynamicProducts(userId, result);
 
             for (var recommendation : result.getRecommendations()) {
+
+                final UUID productId = recommendation.getId();
+
                 ProductHitsCounterEntity entity = productHitsCounterRepository
-                        .findByProductId(recommendation.getId())
-                        .orElseThrow(IllegalArgumentException::new);
+                        .findByProductId(productId)
+                        .orElseThrow(() -> new ProductNotFoundApiException(
+                                methodName + ", " + productId));
 
                 ProductHitsCounter counter = ProductHitCounterMapper.toModel(entity);
                 counter.increment();
-                productHitsCounterRepository.save(ProductHitCounterMapper.toEntity(counter));
+                productHitsCounterRepository
+                        .save(ProductHitCounterMapper.toEntity(counter, entity.getId()));
             }
 
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, userId);
+            LogEx.trace(log, methodName, LogEx.STOPPING, userId);
             return result;
         }
     }

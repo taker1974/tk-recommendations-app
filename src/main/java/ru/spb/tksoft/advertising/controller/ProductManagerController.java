@@ -68,4 +68,12 @@ public class ProductManagerController {
 
         return managerService.getStats();
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Сбросить статистику по срабатываниям правил рекомендаций")
+    @PostMapping("/stats/reset")
+    public void resetStats() {
+
+        managerService.resetStats();
+    }
 }

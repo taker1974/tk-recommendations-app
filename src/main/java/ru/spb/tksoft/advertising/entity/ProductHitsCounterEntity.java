@@ -38,10 +38,4 @@ public class ProductHitsCounterEntity {
 
     @Column(name = "hits_count", nullable = false)
     private long hitsCount;
-
-    public ProductHitsCounterEntity(ProductEntity product, long hitsCount) {
-
-        this.product = product;
-        this.hitsCount = hitsCount;
-    }
 }
