@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
+import ru.spb.tksoft.advertising.mapper.HistoryMapper;
+import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
+import ru.spb.tksoft.recommendations.dto.user.HistoryUserDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import java.util.UUID;
 
@@ -26,7 +30,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class UserRecommendationsController {
 
+    private final HistoryTransactionServiceCached historyTransactionServiceCached;
     private final UserRecommendationService recommendationService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получить сведения о пользователе")
+    @GetMapping("/{userId}/info")
+    public HistoryUserDto getUserInfo(@PathVariable UUID userId) {
+
+        return HistoryMapper.toDto(historyTransactionServiceCached.getUserInfo(userId)
+                .orElseThrow(
+                        () -> new HistoryUserNotFoundException(userId.toString())));
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить рекомендации")

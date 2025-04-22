@@ -2,7 +2,7 @@ package ru.spb.tksoft.advertising.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import jakarta.validation.constraints.NotBlank;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
@@ -16,11 +16,17 @@ public class HistoryUserNotFoundException extends RuntimeException {
 
     public static final int CODE = 3805;
 
+    public static final String MESSAGE = "Пользователь не найден";
+
     public HistoryUserNotFoundException() {
 
-        super("Пользователь не найден");
+        super(MESSAGE);
+        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+    }
 
-        LogEx.error(logger, LogEx.getThisMethodName(),
-                LogEx.EXCEPTION_THROWN, "CODE = " + CODE, this);
+    public HistoryUserNotFoundException(@NotBlank final String message) {
+
+        super(MESSAGE + ": " + message);
+        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 }

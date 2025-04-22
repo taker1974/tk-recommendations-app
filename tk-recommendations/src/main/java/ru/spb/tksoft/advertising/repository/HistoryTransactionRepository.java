@@ -1,7 +1,8 @@
 package ru.spb.tksoft.advertising.repository;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -12,7 +13,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
+import ru.spb.tksoft.advertising.entity.history.HistoryTransactionEntity;
+import ru.spb.tksoft.advertising.entity.history.HistoryUserEntity;
 
 /**
  * Репозиторий на основе JdbcTemplate для чтения данных о транзакциях пользователя.
@@ -42,12 +44,11 @@ public class HistoryTransactionRepository {
     private static final String TEST_TRANSACTIONS_QUERY = "SELECT * FROM TRANSACTIONS LIMIT ?";
 
     @NotNull
-    public List<HistoryTransaction> getTestTransactions(int limit) {
+    public List<HistoryTransactionEntity> getTestTransactions(int limit) {
 
         synchronized (getTestTransactionsLock) {
-            final List<HistoryTransaction> list = new ArrayList<>();
             try {
-                RowMapper<HistoryTransaction> mapper = (r, i) -> new HistoryTransaction(
+                RowMapper<HistoryTransactionEntity> mapper = (r, i) -> new HistoryTransactionEntity(
                         UUID.fromString(r.getString("ID")),
                         UUID.fromString(r.getString("PRODUCT_ID")),
                         UUID.fromString(r.getString("USER_ID")),
@@ -58,8 +59,7 @@ public class HistoryTransactionRepository {
 
             } catch (Exception e) {
                 log.error(LOG_QUERY_FAILED, e);
-                list.clear();
-                return list;
+                return Arrays.asList();
             }
         }
     }
@@ -112,6 +112,30 @@ public class HistoryTransactionRepository {
             } catch (Exception e) {
                 log.error(LOG_QUERY_FAILED, e);
                 return 0.0;
+            }
+        }
+    }
+
+    private final Object getUserInfoLock = new Object();
+    private static final String USER_INFO_QUERY =
+            "SELECT * FROM USERS u WHERE ID = ?";
+
+    public Optional<HistoryUserEntity> getUserInfo(@NotNull final UUID userId) {
+
+        synchronized (getUserInfoLock) {
+            try {
+                RowMapper<HistoryUserEntity> mapper = (r, i) -> new HistoryUserEntity(
+                        UUID.fromString(r.getString("ID")),
+                        r.getString("USERNAME"),
+                        r.getString("FIRST_NAME"),
+                        r.getString("LAST_NAME"));
+
+                return Optional.of(
+                        transactionJdbcTemplate.queryForObject(USER_INFO_QUERY, mapper, userId.toString()));
+
+            } catch (Exception e) {
+                log.error(LOG_QUERY_FAILED, e);
+                return Optional.empty();
             }
         }
     }

@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class HistoryUser {
+public class HistoryUserEntity {
 
     @JsonProperty("user_id")
     private UUID id;

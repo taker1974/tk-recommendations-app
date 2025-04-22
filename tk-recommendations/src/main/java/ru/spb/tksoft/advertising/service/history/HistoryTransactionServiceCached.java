@@ -1,6 +1,7 @@
 package ru.spb.tksoft.advertising.service.history;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryProductType;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.HistoryTransactionType;
-import ru.spb.tksoft.advertising.entity.history.HistoryTransaction;
+import ru.spb.tksoft.advertising.entity.history.HistoryTransactionEntity;
+import ru.spb.tksoft.advertising.mapper.HistoryMapper;
+import ru.spb.tksoft.advertising.model.HistoryUser;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
@@ -52,7 +55,7 @@ public class HistoryTransactionServiceCached implements HistoryService {
      * @return Список транзакций.
      */
     @NotNull
-    public List<HistoryTransaction> getTestTransactions(int limit) {
+    public List<HistoryTransactionEntity> getTestTransactions(int limit) {
 
         synchronized (getTestTransactionsLock) {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "limit = ", limit);
@@ -78,8 +81,8 @@ public class HistoryTransactionServiceCached implements HistoryService {
             final boolean isActiveUser) {
 
         synchronized (isUsingProductLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "userId = ", userId,
-                    "productType = ", productType);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
+                    userId, productType);
 
             final int count = transactionRepository
                     .getProductUsageCount(userId, productType.toString());
@@ -102,11 +105,26 @@ public class HistoryTransactionServiceCached implements HistoryService {
             @NotNull final HistoryTransactionType transactionType) {
 
         synchronized (getProductSumLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, "userId = ", userId,
-                    "productType = ", productType, "transactionType = ", transactionType);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
+                    userId, productType, transactionType);
 
             return transactionRepository
                     .getProductSum(userId, productType.toString(), transactionType.toString());
+        }
+    }
+
+    private final Object getUserInfoLock = new Object();
+
+    public Optional<HistoryUser> getUserInfo(@NotNull final UUID userId) {
+
+        synchronized (getUserInfoLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, userId);
+
+            var user = transactionRepository.getUserInfo(userId);
+            if (user.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(HistoryMapper.toModel(user.get()));
         }
     }
 }

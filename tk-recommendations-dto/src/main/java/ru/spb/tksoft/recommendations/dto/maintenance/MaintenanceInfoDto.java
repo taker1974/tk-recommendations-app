@@ -1,5 +1,6 @@
 package ru.spb.tksoft.recommendations.dto.maintenance;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({"name", "version"})
 public class MaintenanceInfoDto {
 
     @NotBlank

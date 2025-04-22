@@ -3,6 +3,7 @@ package ru.spb.tksoft.recommendations.dto.manager;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({"query", "arguments", "negate"})
 public class ManagedProductRulePredicateDto {
 
     @NotBlank

@@ -6,19 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Данные по транзакции из базы транзакций.
+ * Данные по продукту из базы транзакций.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @Data
 @AllArgsConstructor
-public class HistoryTransaction {
+public class HistoryProductEntity {
 
     private UUID id;
 
-    private UUID productId;
-    private UUID userId;
-
     private String type;
-    private int amount;
+    private String name;
 }
