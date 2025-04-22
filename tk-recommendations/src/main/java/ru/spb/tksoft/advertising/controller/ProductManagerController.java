@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductListDto;
-import ru.spb.tksoft.advertising.dto.stat.StatsDto;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
+import ru.spb.tksoft.recommendations.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.recommendations.dto.manager.ManagedProductListDto;
+import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;

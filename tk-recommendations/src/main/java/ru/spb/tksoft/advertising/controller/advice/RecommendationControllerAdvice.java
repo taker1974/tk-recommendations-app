@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.spb.tksoft.advertising.dto.service.ServiceErrorResponseDto;
 import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
+import ru.spb.tksoft.recommendations.dto.service.ServiceErrorResponseDto;
 
 /**
  * Перехват исключений RecommendationController.

@@ -8,13 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBooleanMethod;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductRulePredicateDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.entity.ProductRulePredicateEntity;
 import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
 import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.model.ProductRulePredicate;
+import ru.spb.tksoft.recommendations.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.recommendations.dto.manager.ManagedProductRulePredicateDto;
 
 /**
  * Маппер для Managed*.

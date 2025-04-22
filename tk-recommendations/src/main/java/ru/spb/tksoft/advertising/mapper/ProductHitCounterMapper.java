@@ -1,9 +1,9 @@
 package ru.spb.tksoft.advertising.mapper;
 
 import javax.annotation.concurrent.ThreadSafe;
-import ru.spb.tksoft.advertising.dto.stat.ProductHitCounterDto;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.model.ProductHitsCounter;
+import ru.spb.tksoft.recommendations.dto.stat.ProductHitCounterDto;
 
 /**
  * Маппер для ProductHitCounter*.

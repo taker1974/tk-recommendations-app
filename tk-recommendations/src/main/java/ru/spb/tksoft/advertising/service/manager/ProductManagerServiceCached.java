@@ -16,8 +16,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
-import ru.spb.tksoft.advertising.dto.manager.ManagedProductDto;
-import ru.spb.tksoft.advertising.dto.stat.StatsDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.exception.AddFixedProductException;
 import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
@@ -28,6 +26,8 @@ import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.recommendations.dto.manager.ManagedProductDto;
+import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
 
 /**
  * Кэшированный сервис управления продуктами. Позволяет добавлять, просматривать и удалять продукты

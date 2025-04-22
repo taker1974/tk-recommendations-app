@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TkTargetedAdvertisingApplication<tk-recommendations>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ru.spb.tksoft.advertising.TkTargetedAdvertisingApplication",
+            "projectName": "tk-recommendations",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

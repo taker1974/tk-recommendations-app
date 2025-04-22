@@ -1,9 +1,9 @@
 package ru.spb.tksoft.advertising.mapper;
 
 import javax.annotation.concurrent.ThreadSafe;
-import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.model.Product;
+import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 
 /**
  * Маппер для User*.

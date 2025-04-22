@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.annotation.concurrent.ThreadSafe;
 import org.slf4j.Logger;
@@ -14,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
-import ru.spb.tksoft.advertising.dto.user.UserRecommendationsDto;
-import ru.spb.tksoft.advertising.dto.user.UserRecommendedProductDto;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
@@ -24,6 +21,8 @@ import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
+import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 
 /**
  * Сервис выдачи рекомендаций для пользователя с указанным userId.
