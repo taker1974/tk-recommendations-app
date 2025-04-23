@@ -8,6 +8,17 @@
             "mainClass": "ru.spb.tksoft.advertising.TkRecommendationsBotApplication",
             "projectName": "tk-recommendations-bot",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=35689 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=tk-recommendations-bot"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TkTargetedAdvertisingApplication<tk-recommendations>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ru.spb.tksoft.advertising.TkTargetedAdvertisingApplication",
+            "projectName": "tk-recommendations",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
