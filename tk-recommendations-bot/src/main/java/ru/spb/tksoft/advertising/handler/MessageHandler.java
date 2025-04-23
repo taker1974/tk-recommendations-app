@@ -1,6 +1,5 @@
 package ru.spb.tksoft.advertising.handler;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -14,22 +13,22 @@ import org.springframework.stereotype.Component;
 public class MessageHandler {
 
     public static final String MESSAGE_TOO_SHORT =
-            "Message is null, or empty, or blank or too short";
-    public static final String MESSAGE_TOO_LONG = "Message too long";
+            "Сообщение равно null, или пустая строка, или только пробелы, или слишком короткая строка";
+    public static final String MESSAGE_TOO_LONG = "Сообщение слишком длинное";
 
     public static final String WRONG_REQUEST = """
-            Please clarify your request.
-            Use the /help command for instructions.
+            Пожалуйста, уточните ваш запрос.
+            Введите /help для получения справки.
             """;
 
-    protected final Collection<String> commands;
+    protected final List<String> commands;
 
     public MessageHandler(final List<String> commands) {
         this.commands = commands;
     }
 
-    public Collection<String> getCommands() {
-        return Collections.unmodifiableCollection(commands);
+    public List<String> getCommands() {
+        return Collections.unmodifiableList(null == commands ? Collections.emptyList() : commands);
     }
 
     public String getHelp() {

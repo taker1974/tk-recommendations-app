@@ -30,7 +30,7 @@ public class MessageHandlerRecommend extends MessageHandler {
 
     @Override
     public String getHelp() {
-        return "/recommend | /r - recommend products for user with given UUID;";
+        return "/recommend <UUID> или /r <UUID> - рекомендовать продукты для пользователя с указанным UUID";
     }
 
     @Override
