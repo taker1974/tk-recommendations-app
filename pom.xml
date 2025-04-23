@@ -13,6 +13,7 @@
   <modules>
     <module>tk-recommendations-dto</module>
     <module>tk-recommendations</module>
+    <module>tk-recommendations-bot</module>
   </modules>
 
 </project>

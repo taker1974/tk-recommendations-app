@@ -1,0 +1,28 @@
+server:
+  port: 8095
+  servlet:
+    context-path: /tk-recommendations-bot
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  profiles:
+    include:
+      - keys
+
+  application:
+    name: tk-recommendations-bot
+
+  output:
+    ansi:
+      enabled: always
+
+  thymeleaf:
+    check-template-location: false
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

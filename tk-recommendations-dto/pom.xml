@@ -30,9 +30,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:taker1974/tk-recommendations-dto.git</connection>
-    <developerConnection>scm:git:ssh://github.com:taker1974/tk-recommendations-dto.git</developerConnection>
-    <url>https://github.com/taker1974/tk-recommendations-dto/tree/main</url>
+		<connection>scm:git:git@github.com:taker1974/tk-recommendations-app.git</connection>
+		<developerConnection>scm:git:ssh://github.com:taker1974/tk-recommendations-app.git</developerConnection>
+		<url>https://github.com/taker1974/tk-recommendations-app/tree/main</url>
   </scm>
 
   <properties>

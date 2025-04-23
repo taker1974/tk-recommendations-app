@@ -1,0 +1,5 @@
+telegram:
+  bot:
+    token:
+    token-variable: TK_RECOMMENDATIONS_BOT_API_KEY
+
