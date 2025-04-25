@@ -10,8 +10,10 @@ import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
 import ru.spb.tksoft.advertising.mapper.HistoryMapper;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
+import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.HistoryUserDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class UserRecommendationsController {
 
     private final HistoryTransactionServiceCached historyTransactionServiceCached;
-    private final UserRecommendationService recommendationService;
+    private final UserRecommendationService userRecommendationService;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить сведения о пользователе")
@@ -44,10 +46,18 @@ public class UserRecommendationsController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получить список вида [ID пользователя : количество рекоменованных продуктов]")
+    @GetMapping("/view/shallow")
+    public List<ShallowViewDto> getShallowView() {
+
+        return userRecommendationService.getShallowView();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить рекомендации")
     @GetMapping("/{userId}")
     public UserRecommendationsDto getRecommendations(@PathVariable UUID userId) {
 
-        return recommendationService.getRecommendations(userId);
+        return userRecommendationService.getRecommendations(userId);
     }
 }

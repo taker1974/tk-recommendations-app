@@ -127,7 +127,8 @@ public class ProductManagerServiceCached {
             List<ProductEntity> entities = productRepository.findAll();
             List<Product> products = new ArrayList<>(entities.size());
             entities.stream().forEach(
-                    entity -> products.add(ManagedProductMapper.toModel(entity, historyService)));
+                    entity -> products.add(
+                            ManagedProductMapper.toModel(entity, historyService)));
 
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
             return products;

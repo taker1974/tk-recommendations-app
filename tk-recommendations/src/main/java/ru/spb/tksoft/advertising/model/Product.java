@@ -78,6 +78,10 @@ public class Product implements SuitableUser {
 
     public boolean isUserSuitable(@NotNull final UUID userId) {
 
+        if (null == rule || rule.isEmpty()) {
+            return false;
+        }
+
         for (ProductRulePredicate productRule : rule) {
             if (!productRule.isUserSuitable(userId)) {
                 return false;

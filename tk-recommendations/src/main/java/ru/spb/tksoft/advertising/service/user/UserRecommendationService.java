@@ -1,6 +1,9 @@
 package ru.spb.tksoft.advertising.service.user;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -17,10 +20,12 @@ import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
+import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 
@@ -36,7 +41,7 @@ public class UserRecommendationService {
     private final Logger log = LoggerFactory.getLogger(UserRecommendationService.class);
 
     @NotNull
-    private final UserRecommendationServiceCached recommendationServiceCached;
+    private final UserRecommendationServiceCached userRecommendationServiceCached;
 
     @NotNull
     private final ProductManagerServiceCached productManagerServiceCached;
@@ -45,7 +50,7 @@ public class UserRecommendationService {
     private final ProductHitsCounterRepository productHitsCounterRepository;
 
     public void clearCaches() {
-        recommendationServiceCached.clearCaches();
+        userRecommendationServiceCached.clearCaches();
     }
 
     public static final String INVEST_500 = "Invest 500";
@@ -58,9 +63,9 @@ public class UserRecommendationService {
     @NotNull
     private Map<String, Predicate<UUID>> initRecommendationChecks() {
         return ImmutableMap.<String, Predicate<UUID>>builder()
-                .put(INVEST_500, recommendationServiceCached::isFitsInvest500)
-                .put(TOP_SAVING, recommendationServiceCached::isFitsTopSaving)
-                .put(COMMON_CREDIT, recommendationServiceCached::isFitsCommonCredit)
+                .put(INVEST_500, userRecommendationServiceCached::isFitsInvest500)
+                .put(TOP_SAVING, userRecommendationServiceCached::isFitsTopSaving)
+                .put(COMMON_CREDIT, userRecommendationServiceCached::isFitsCommonCredit)
                 .build();
     }
 
@@ -69,7 +74,7 @@ public class UserRecommendationService {
             @NotNull final ProductManagerServiceCached productManagerServiceCached,
             @NotNull final ProductHitsCounterRepository productHitsCounterRepository) {
 
-        this.recommendationServiceCached = recommendationServiceCached;
+        this.userRecommendationServiceCached = recommendationServiceCached;
         this.productManagerServiceCached = productManagerServiceCached;
         this.productHitsCounterRepository = productHitsCounterRepository;
 
@@ -119,12 +124,11 @@ public class UserRecommendationService {
                 var key = entry.getKey();
                 var value = entry.getValue();
 
-                boolean isFits = value.test(userId);
-                if (!isFits) {
+                if (!value.test(userId)) {
                     return;
                 }
 
-                var recommendation = recommendationServiceCached
+                var recommendation = userRecommendationServiceCached
                         .getRecommendationByName(key)
                         .orElseThrow(IllegalArgumentException::new);
 
@@ -156,10 +160,33 @@ public class UserRecommendationService {
                 .map(UserRecommendedProductDto::getId)
                 .collect(Collectors.toSet());
 
-        productManagerServiceCached.getAllProducts().stream().filter(Objects::nonNull)
-                .filter(product -> product.isUserSuitable(userId))
-                .filter(product -> !alreadyAddedIds.contains(product.getId()))
-                .forEach(product -> dto.getRecommendations()
-                        .add(UserRecommendationMapper.toDto(product)));
+        for (Product product : productManagerServiceCached.getAllProducts()) {
+
+            boolean fits = product.isUserSuitable(userId);
+            if (!fits || alreadyAddedIds.contains(product.getId())) {
+                continue;
+            }
+
+            var recommendation = UserRecommendationMapper.toDto(product);
+            dto.getRecommendations().add(recommendation);
+        }
+        // productManagerServiceCached.getAllProducts().stream().filter(Objects::nonNull)
+        // .filter(product -> product.isUserSuitable(userId))
+        // .filter(product -> !alreadyAddedIds.contains(product.getId()))
+        // .forEach(product -> dto.getRecommendations()
+        // .add(UserRecommendationMapper.toDto(product)));
+    }
+
+    public List<ShallowViewDto> getShallowView() {
+
+        List<ShallowViewDto> result = new ArrayList<>();
+        List<UUID> ids = userRecommendationServiceCached.getAllIds();
+        for (UUID id : ids) {
+            var recommendations = getRecommendations(id);
+            int count = recommendations.getRecommendations().size();
+            var view = new ShallowViewDto(id, count);
+            result.add(view);
+        }
+        return result;
     }
 }

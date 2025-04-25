@@ -1,5 +1,6 @@
 package ru.spb.tksoft.advertising.service.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.concurrent.ThreadSafe;
@@ -30,7 +31,7 @@ public class UserRecommendationServiceCached {
     Logger log = LoggerFactory.getLogger(UserRecommendationServiceCached.class);
 
     @NotNull
-    private final HistoryTransactionServiceCached historyTransactionService;
+    private final HistoryTransactionServiceCached historyTransactionServiceCached;
 
     @NotNull
     private final ProductsRepository recomendationRepository;
@@ -39,12 +40,16 @@ public class UserRecommendationServiceCached {
     public void clearCaches() {
 
         clearFitsCache();
-        historyTransactionService.clearCaches();
+        historyTransactionServiceCached.clearCaches();
     }
 
     @CacheEvict(value = "isFitsCache", allEntries = true)
     private void clearFitsCache() {
         // ...
+    }
+
+    public List<UUID> getAllIds() {
+        return historyTransactionServiceCached.getAllIds();
     }
 
     private final Object getRecommendationByNameLock = new Object();
@@ -65,6 +70,8 @@ public class UserRecommendationServiceCached {
      * использует как минимум один продукт с типом DEBIT. 2. Пользователь не использует продукты с
      * типом INVEST. 3. Сумма пополнений продуктов с типом SAVING больше 1000.
      * 
+     * Здесь предпочтение отдано читаемости кода и добавлен ранний возврат результата.
+     * 
      * @param userId Идентификатор пользователя.
      * @return Подходит или нет.
      */
@@ -72,13 +79,21 @@ public class UserRecommendationServiceCached {
     public boolean isFitsInvest500(@NotNull final UUID userId) {
 
         synchronized (isFitsInvest500Lock) {
-            boolean cond1 = historyTransactionService.isUsingProduct(userId,
+
+            boolean fits = historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.DEBIT, false);
-            boolean cond2 = !historyTransactionService.isUsingProduct(userId,
+            if (!fits) {
+                return false;
+            }
+
+            fits = !historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.INVEST, false);
-            boolean cond3 = historyTransactionService.getProductSum(userId,
+            if (!fits) {
+                return false;
+            }
+
+            return historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.SAVING, HistoryTransactionType.DEPOSIT) > 1000;
-            return cond1 && cond2 && cond3;
         }
     }
 
@@ -91,6 +106,8 @@ public class UserRecommendationServiceCached {
      * типа SAVING больше или равна 50 000. 3. Сумма пополнений (DEPOSIT) по всем продуктам типа
      * DEBIT больше, чем сумма трат (WITHDRAW) по всем продуктам типа DEBIT.
      * 
+     * Здесь предпочтение отдано читаемости кода и добавлен ранний возврат результата.
+     * 
      * @param userId Идентификатор пользователя.
      * @return Подходит или нет.
      */
@@ -98,23 +115,27 @@ public class UserRecommendationServiceCached {
     public boolean isFitsTopSaving(@NotNull final UUID userId) {
 
         synchronized (isFitsTopSavingLock) {
-            boolean cond1 = historyTransactionService.isUsingProduct(userId,
+            boolean fits = historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.DEBIT, false);
+            if (!fits) {
+                return false;
+            }
 
-            double sumDebit = historyTransactionService.getProductSum(userId,
+            double sumDebit = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.DEPOSIT);
-            double sumSaving = historyTransactionService.getProductSum(userId,
+            double sumSaving = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.SAVING, HistoryTransactionType.DEPOSIT);
             double lim = 50_000;
-            boolean cond2 = sumDebit >= lim || sumSaving >= lim;
+            fits = sumDebit >= lim || sumSaving >= lim;
+            if (!fits) {
+                return false;
+            }
 
-            double sumDeposit = historyTransactionService.getProductSum(userId,
+            double sumDeposit = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.DEPOSIT);
-            double sumWithdraw = historyTransactionService.getProductSum(userId,
+            double sumWithdraw = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.WITHDRAW);
-            boolean cond3 = sumDeposit > sumWithdraw;
-
-            return cond1 && cond2 && cond3;
+            return sumDeposit > sumWithdraw;
         }
     }
 
@@ -133,17 +154,21 @@ public class UserRecommendationServiceCached {
     public boolean isFitsCommonCredit(@NotNull final UUID userId) {
 
         synchronized (isFitsCommonCreditLock) {
-            boolean cond1 = !historyTransactionService.isUsingProduct(userId,
+            boolean fits = !historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.CREDIT, false);
+            if (!fits) {
+                return false;
+            }
 
-            double sumDeposit = historyTransactionService.getProductSum(userId,
+            double sumDeposit = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.DEPOSIT);
-            double sumWithdraw = historyTransactionService.getProductSum(userId,
+            double sumWithdraw = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.WITHDRAW);
-            boolean cond2 = sumDeposit > sumWithdraw;
-            boolean cond3 = sumWithdraw > 100_000;
-
-            return cond1 && cond2 && cond3;
+            fits = sumDeposit > sumWithdraw;
+            if (!fits) {
+                return false;
+            }
+            return sumWithdraw > 100_000;
         }
     }
 }

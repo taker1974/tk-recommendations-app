@@ -40,7 +40,7 @@ public class HistoryTransactionServiceCached implements HistoryService {
         clearSumCache();
     }
 
-    @CacheEvict(value = "sum", allEntries = true)
+    // @CacheEvict(value = "sum", allEntries = true)
     private void clearSumCache() {
         // ...
     }
@@ -125,6 +125,21 @@ public class HistoryTransactionServiceCached implements HistoryService {
                 return Optional.empty();
             }
             return Optional.of(HistoryMapper.toModel(user.get()));
+        }
+    }
+
+    private final Object getAllIdsLock = new Object();
+
+    /**
+     * Служебный/отладочный метод получения всех идентификаторов пользователей.
+     * 
+     * @return Список идентификаторов пользователей.
+     */
+    public List<UUID> getAllIds() {
+
+        synchronized (getAllIdsLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN);
+            return transactionRepository.getAllIds();
         }
     }
 }

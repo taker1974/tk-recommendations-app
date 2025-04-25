@@ -3,6 +3,7 @@ package ru.spb.tksoft.advertising.repository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -65,10 +66,11 @@ public class HistoryTransactionRepository {
     }
 
     private final Object getProductUsageCountLock = new Object();
+
     private static final String PRODUCT_USAGE_COUNT_QUERY = """
-            SELECT COUNT(t.AMOUNT) FROM TRANSACTIONS t
+            SELECT COUNT(t.PRODUCT_ID) FROM TRANSACTIONS t
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-            WHERE t.USER_ID = ? AND p."TYPE" = ?""";
+            WHERE USER_ID = ? AND p."TYPE" = ?""";
 
     public int getProductUsageCount(@NotNull final UUID userId,
             @NotBlank final String productType) {
@@ -91,10 +93,11 @@ public class HistoryTransactionRepository {
     }
 
     private final Object getProductSumLock = new Object();
+
     private static final String PRODUCT_SUM_QUERY = """
             SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-            WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";
+            WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";            
 
     public double getProductSum(@NotNull final UUID userId, @NotBlank final String productType,
             @NotBlank final String transactionType) {
@@ -131,11 +134,31 @@ public class HistoryTransactionRepository {
                         r.getString("LAST_NAME"));
 
                 return Optional.of(
-                        transactionJdbcTemplate.queryForObject(USER_INFO_QUERY, mapper, userId.toString()));
+                        transactionJdbcTemplate.queryForObject(USER_INFO_QUERY, mapper,
+                                userId.toString()));
 
             } catch (Exception e) {
                 log.error(LOG_QUERY_FAILED, e);
                 return Optional.empty();
+            }
+        }
+    }
+
+    private final Object getAllIdsLock = new Object();
+    private static final String ALL_IDS_QUERY =
+            "SELECT ID FROM USERS;";
+
+    public List<UUID> getAllIds() {
+
+        synchronized (getAllIdsLock) {
+            try {
+                RowMapper<UUID> mapper = (r, i) -> UUID.fromString(r.getString("ID"));
+
+                return transactionJdbcTemplate.query(ALL_IDS_QUERY, mapper);
+
+            } catch (Exception e) {
+                log.error(LOG_QUERY_FAILED, e);
+                return Arrays.asList();
             }
         }
     }
