@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @see ru.spb.tksoft.advertising.model.Product
+ * Описание рекомендованного продукта.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */

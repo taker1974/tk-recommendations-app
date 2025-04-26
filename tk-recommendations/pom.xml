@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -14,9 +14,9 @@
 	<groupId>ru.spb.tksoft</groupId>
 	<artifactId>tk-recommendations</artifactId>
 	<name>tk-recommendations</name>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<description>Targeted advertising application. Konstantin Terskikh, kostus.online.1974@yandex.ru 2025</description>
-	
+
 	<packaging>jar</packaging>
 
 	<url>http://tksoft.spb.ru</url>
@@ -234,6 +234,20 @@
 					<execution>
 						<goals>
 							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.11.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>javadoc</goal>
 						</goals>
 					</execution>
 				</executions>

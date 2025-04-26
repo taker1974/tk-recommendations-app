@@ -8,7 +8,7 @@
   <groupId>ru.spb.tksoft</groupId>
   <artifactId>tk-recommendations-dto</artifactId>
   <name>tk-recommendations-dto</name>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
   <url>http://tksoft.spb.ru</url>
   <description>Targeted advertising application. DTO</description>
   <packaging>jar</packaging>
@@ -30,17 +30,17 @@
   </developers>
 
   <scm>
-		<connection>scm:git:git@github.com:taker1974/tk-recommendations-app.git</connection>
-		<developerConnection>scm:git:ssh://github.com:taker1974/tk-recommendations-app.git</developerConnection>
-		<url>https://github.com/taker1974/tk-recommendations-app/tree/main</url>
+    <connection>scm:git:git@github.com:taker1974/tk-recommendations-app.git</connection>
+    <developerConnection>scm:git:ssh://github.com:taker1974/tk-recommendations-app.git</developerConnection>
+    <url>https://github.com/taker1974/tk-recommendations-app/tree/main</url>
   </scm>
 
   <properties>
-		<java.version>21</java.version>
+    <java.version>21</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
-		<maven.test.skip>false</maven.test.skip>
+    <maven.test.skip>false</maven.test.skip>
   </properties>
 
   <dependencies>
@@ -100,10 +100,6 @@
           <version>3.3.1</version>
         </plugin>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.0</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.5.3</version>
         </plugin>
@@ -143,7 +139,22 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.11.2</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>javadoc</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
+
 </project>

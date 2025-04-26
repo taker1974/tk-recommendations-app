@@ -17,18 +17,16 @@ public class FilesEx {
      * - будет единственной частью имени файла.
      */
     public enum UniqueFileNamePolicy {
-        SALT_LAST,
-        SALT_FIRST,
-        SALT_ONLY
+        SALT_LAST, SALT_FIRST, SALT_ONLY
     }
 
     /**
-     * @param filePath path to a file in a form like "resource1://resource2/.../fileName.ext"
-     * @param salt     resilting file name unique part
-     * @return resulting unique file name
+     * @param filePath Path to a file in a form like "resource1://resource2/.../fileName.ext".
+     * @param salt Resilting file name unique part.
+     * @return Resulting unique file name.
      */
     public static Optional<String> buildUniqueFileName(String filePath,
-                                                       String salt, UniqueFileNamePolicy policy) {
+            String salt, UniqueFileNamePolicy policy) {
         try {
             final String fileName = new File(filePath).getName();
             final String name = fileName.substring(0, fileName.lastIndexOf('.'));

@@ -6,7 +6,7 @@
 
   <groupId>tksoft.spb.ru</groupId>
   <artifactId>recommendations.app</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 
   <packaging>pom</packaging>
 
@@ -15,5 +15,23 @@
     <module>tk-recommendations</module>
     <module>tk-recommendations-bot</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
