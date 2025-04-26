@@ -1,0 +1,28 @@
+# sudo systemctl enable tk-recommendations-bot
+# sudo systemctl daemon-reload
+# sudo systemctl status tk-recommendations-bot
+#
+# sudo systemctl start tk-recommendations-bot
+# sudo systemctl stop tk-recommendations-bot
+# sudo systemctl disable tk-recommendations-bot
+
+# timedatectl status
+# sudo timedatectl set-timezone Europe/Moscow
+
+# java-openjdk-21-headless
+
+[Unit]
+Description=TKSoft recommendations bot service
+
+[Service]
+User=tkrecommenderbot
+WorkingDirectory=/opt/tk-recommendations-bot/
+
+ExecStart=/usr/bin/java -jar /opt/tk-recommendations-bot/tk-recommendations-bot-0.0.1.jar --telegram.bot.token="YOUR_API_TOKEN"
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

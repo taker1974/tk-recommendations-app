@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "telegram.bot.token",
+      "type": "java.lang.String",
+      "description": "Telegram API token"
+    },
+    {
+      "name": "telegram.bot.token-variable",
+      "type": "java.lang.String",
+      "description": "Environment variable with Telegram API token"
+    },
+    {
+      "name": "service.recommendation.base-url",
+      "type": "java.lang.String",
+      "description": "Base URL for recommendation service"
+    }
+  ]
+}

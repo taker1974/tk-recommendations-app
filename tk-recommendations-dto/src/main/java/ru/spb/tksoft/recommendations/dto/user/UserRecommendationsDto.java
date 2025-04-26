@@ -1,0 +1,33 @@
+package ru.spb.tksoft.recommendations.dto.user;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Рекомендации для пользователя, возвращаемые контроллером по
+ * GET(/recommendation/{uuid_пользователя}).
+ * 
+ * @author Константин Терских, kostus.online@gmail.com, 2025
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonPropertyOrder({"user_id", "recommendations"})
+public class UserRecommendationsDto {
+
+    @NotNull
+    @JsonProperty("user_id")
+    private UUID userId;
+
+    @NotNull
+    @JsonProperty("recommendations")
+    private Set<UserRecommendedProductDto> recommendations = HashSet.newHashSet(0);
+}
