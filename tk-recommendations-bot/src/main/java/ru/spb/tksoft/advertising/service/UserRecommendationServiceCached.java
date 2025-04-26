@@ -2,6 +2,7 @@ package ru.spb.tksoft.advertising.service;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,16 @@ public class UserRecommendationServiceCached {
 
     private final UserRecommendationProxy proxy;
 
+    @CacheEvict(value = "users", allEntries = true)
+    public void clearCaches() {
+        clearRecommendationsCache();
+    }
+
+    @CacheEvict(value = "recommendations", allEntries = true)
+    private void clearRecommendationsCache() {
+        // ...
+    }
+
     @Cacheable(value = "users", unless = "#result == null || #result.isEmpty()")
     public Optional<HistoryUserDto> getUserInfo(final UUID userId) {
         try {
@@ -24,6 +35,7 @@ public class UserRecommendationServiceCached {
         }
     }
 
+    @Cacheable(value = "recommendations", unless = "#result == null || #result.isEmpty()")
     public Optional<UserRecommendationsDto> getRecommendations(final UUID userId) {
         try {
             return Optional.of(proxy.getRecommendations(userId));

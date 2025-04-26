@@ -1,3 +1,4 @@
+# Это источник данных - API основного приложения
 service:
   recommendation:
     base-url: "http://localhost:8090/tk-recommendations/recommendation"
