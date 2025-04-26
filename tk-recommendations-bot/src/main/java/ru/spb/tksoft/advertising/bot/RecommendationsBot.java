@@ -15,7 +15,6 @@ import jakarta.annotation.PostConstruct;
 import ru.spb.tksoft.advertising.handler.MessageHandler;
 import ru.spb.tksoft.advertising.handler.MessageHandlerRecommend;
 import ru.spb.tksoft.advertising.handler.MessageManager;
-import ru.spb.tksoft.advertising.proxy.UserRecommendationProxy;
 import ru.spb.tksoft.advertising.tools.LogEx;
 import ru.spb.tksoft.advertising.tools.StringEx;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +47,6 @@ public class RecommendationsBot
     private final TelegramClient client;
     private final String token;
 
-    private final UserRecommendationProxy userRecommendationService;
-
     private MessageManager messageManager;
 
     @Override
@@ -63,8 +60,7 @@ public class RecommendationsBot
 
     public RecommendationsBot(
             @Value("${telegram.bot.token}") final String tokenRaw,
-            @Value("${telegram.bot.token-variable}") final String tokenVariable,
-            UserRecommendationProxy userRecommendationService) {
+            @Value("${telegram.bot.token-variable}") final String tokenVariable) {
 
         String tokenTrimmed = tokenRaw.trim();
         if (tokenTrimmed != null && !tokenTrimmed.isEmpty()
@@ -75,8 +71,6 @@ public class RecommendationsBot
         }
 
         client = new OkHttpTelegramClient(getBotToken());
-
-        this.userRecommendationService = userRecommendationService;
     }
 
     @PostConstruct
