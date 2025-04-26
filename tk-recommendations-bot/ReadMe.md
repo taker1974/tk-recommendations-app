@@ -38,4 +38,4 @@ $ java -jar target/tk-recommendations-bot-0.0.1-SNAPSHOT.jar
 
 Обслуживание бота в браузере:
 
-http://localhost:8090/tk-recommendations-bot/swagger-ui/index.html
+http://localhost:8095/tk-recommendations-bot/swagger-ui/index.html
