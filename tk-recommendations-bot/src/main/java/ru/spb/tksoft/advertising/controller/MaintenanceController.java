@@ -37,7 +37,7 @@ public class MaintenanceController {
                 buildProperties.getName(), buildProperties.getVersion());
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Сброс всех кэшей")
     @PostMapping("/clear-caches")
     public void clearCaches() {
