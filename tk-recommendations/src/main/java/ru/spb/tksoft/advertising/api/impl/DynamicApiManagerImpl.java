@@ -63,9 +63,9 @@ public class DynamicApiManagerImpl implements DynamicApiManager {
      * 
      * Возвращается новый экземпляр.
      * 
-     * @param query - Запрос (имя метода).
-     * @param args - Список аргументов.
-     * @param historyService - Сервис истории транзакций.
+     * @param query Запрос (имя метода).
+     * @param args Список аргументов.
+     * @param historyService Сервис истории транзакций.
      * @return Информация о реализации метода, если запрошенный метод существует в API.
      */
     public static Optional<DynamicApiBooleanMethod> newMethodInstance(
@@ -96,8 +96,8 @@ public class DynamicApiManagerImpl implements DynamicApiManager {
      * Добавление реализации динамического метода по строке запроса и списку аргументов. Список
      * аргументов передаётся только для его возможной валидации.
      * 
-     * @param query - Запрос (имя метода).
-     * @param methodInfo - Информация об аргументах и реализации метода.
+     * @param query Запрос (имя метода).
+     * @param methodInfo Информация об аргументах и реализации метода.
      */
     public void addMethodInstance(@NotBlank String query,
             @NotNull DynamicApiBooleanMethodInfo methodInfo) {
@@ -113,9 +113,9 @@ public class DynamicApiManagerImpl implements DynamicApiManager {
      * Возвращается уже существующий экземпляр реализации класса! Для использования необходимо
      * убедиться в потокобезопасности решения!
      * 
-     * @param query - Запрос (имя метода).
-     * @param args - Список аргументов.
-     * @param historyService - Сервис истории транзакций.
+     * @param query Запрос (имя метода).
+     * @param args Список аргументов.
+     * @param historyService Сервис истории транзакций.
      * @return Информация о реализации метода, если запрошенный метод существует в API.
      */
     public Optional<DynamicApiBooleanMethodInfo> getMethodInstance(@NotBlank String query,

@@ -47,9 +47,9 @@ public final class StringEx {
      * Replace "Some {text} data" with substring. Example: str = "{host}:{port}/{app}" with
      * parameters "localhost", 8080 and "school" will be returned "localhost:8080/school".
      *
-     * @param str source string in a form like "http://{host}:{port}/{app}"
-     * @param objects substrings like "myhost", 7654, "mycoolapp"
-     * @return resulting string in a form like "http://myhost:7654/mycoolapp"
+     * @param str Source string in a form like "http://{host}:{port}/{app}".
+     * @param objects Substrings like "myhost", 7654, "mycoolapp".
+     * @return Resulting string in a form like "http://myhost:7654/mycoolapp".
      */
     @Nullable
     public static String replace(@Nullable String str, Object... objects) {
@@ -67,8 +67,8 @@ public final class StringEx {
     /**
      * Remove adjacent spaces.
      * 
-     * @param rawSource source string
-     * @return trimmed string
+     * @param rawSource Source string.
+     * @return Trimmed string.
      */
     @Nullable
     public static String removeAdjacentSpaces(@Nullable final String rawSource) {
@@ -101,9 +101,10 @@ public final class StringEx {
     /**
      * Try nomalize date OR time string representation.
      * 
-     * @param str normalizing string
-     * @param pattern valid datetime pattern
-     * @return valid or not
+     * @param input Normalizing string.
+     * @param delimiter Delimiter.
+     * @param pattern Valid datetime pattern.
+     * @return Valid or not.
      */
     @Nullable
     public static String normalizeDateTime(@Nullable final String input,

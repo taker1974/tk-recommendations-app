@@ -35,6 +35,15 @@ public class UserRecommendationServiceCached {
         }
     }
 
+    @Cacheable(value = "users", unless = "#result == null || #result.isEmpty()")
+    public Optional<HistoryUserDto> getUserInfo(final String userName) {
+        try {
+            return Optional.of(proxy.getUserInfo(userName));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     @Cacheable(value = "recommendations", unless = "#result == null || #result.isEmpty()")
     public Optional<UserRecommendationsDto> getRecommendations(final UUID userId) {
         try {

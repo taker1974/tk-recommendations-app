@@ -97,7 +97,7 @@ public class HistoryTransactionRepository {
     private static final String PRODUCT_SUM_QUERY = """
             SELECT SUM(t.AMOUNT) FROM TRANSACTIONS t
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
-            WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";            
+            WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";
 
     public double getProductSum(@NotNull final UUID userId, @NotBlank final String productType,
             @NotBlank final String transactionType) {
@@ -119,13 +119,14 @@ public class HistoryTransactionRepository {
         }
     }
 
-    private final Object getUserInfoLock = new Object();
-    private static final String USER_INFO_QUERY =
+    private final Object getUserInfoByIdLock = new Object();
+
+    private static final String USER_INFO_BY_ID_QUERY =
             "SELECT * FROM USERS u WHERE ID = ?";
 
     public Optional<HistoryUserEntity> getUserInfo(@NotNull final UUID userId) {
 
-        synchronized (getUserInfoLock) {
+        synchronized (getUserInfoByIdLock) {
             try {
                 RowMapper<HistoryUserEntity> mapper = (r, i) -> new HistoryUserEntity(
                         UUID.fromString(r.getString("ID")),
@@ -134,7 +135,7 @@ public class HistoryTransactionRepository {
                         r.getString("LAST_NAME"));
 
                 return Optional.of(
-                        transactionJdbcTemplate.queryForObject(USER_INFO_QUERY, mapper,
+                        transactionJdbcTemplate.queryForObject(USER_INFO_BY_ID_QUERY, mapper,
                                 userId.toString()));
 
             } catch (Exception e) {
@@ -144,7 +145,34 @@ public class HistoryTransactionRepository {
         }
     }
 
+    private final Object getUserInfoByNameLock = new Object();
+
+    private static final String USER_INFO_BY_NAME_QUERY =
+            "SELECT * FROM USERS u WHERE USERNAME = ?";
+
+    public Optional<HistoryUserEntity> getUserInfo(@NotBlank final String userName) {
+
+        synchronized (getUserInfoByNameLock) {
+            try {
+                RowMapper<HistoryUserEntity> mapper = (r, i) -> new HistoryUserEntity(
+                        UUID.fromString(r.getString("ID")),
+                        r.getString("USERNAME"),
+                        r.getString("FIRST_NAME"),
+                        r.getString("LAST_NAME"));
+
+                return Optional.of(
+                        transactionJdbcTemplate.queryForObject(USER_INFO_BY_NAME_QUERY, mapper,
+                                userName));
+
+            } catch (Exception e) {
+                log.error(LOG_QUERY_FAILED, e);
+                return Optional.empty();
+            }
+        }
+    }
+
     private final Object getAllIdsLock = new Object();
+    
     private static final String ALL_IDS_QUERY =
             "SELECT ID FROM USERS;";
 

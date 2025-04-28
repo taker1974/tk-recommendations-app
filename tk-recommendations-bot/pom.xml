@@ -14,7 +14,7 @@
 	<groupId>ru.spb.tksoft</groupId>
 	<artifactId>tk-recommendations-bot</artifactId>
 	<name>tk-recommendations-bot</name>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<description>Targeted advertising application. Telegram bot. Konstantin Terskikh, kostus.online.1974@yandex.ru 2025</description>
 
 	<packaging>jar</packaging>
@@ -217,6 +217,19 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>				<version>3.11.2</version>
+				<executions>
+				  <execution>
+					<phase>package</phase>
+					<goals>
+					  <goal>javadoc</goal>
+					</goals>
+				  </execution>
+				</executions>
+			  </plugin>
 
 		</plugins>
 	</build>

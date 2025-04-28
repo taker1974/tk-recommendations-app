@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryProductType;
@@ -113,14 +114,29 @@ public class HistoryTransactionServiceCached implements HistoryService {
         }
     }
 
-    private final Object getUserInfoLock = new Object();
+    private final Object getUserInfoByIdLock = new Object();
 
     public Optional<HistoryUser> getUserInfo(@NotNull final UUID userId) {
 
-        synchronized (getUserInfoLock) {
+        synchronized (getUserInfoByIdLock) {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, userId);
 
             var user = transactionRepository.getUserInfo(userId);
+            if (user.isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of(HistoryMapper.toModel(user.get()));
+        }
+    }
+
+    private final Object getUserInfoByNameLock = new Object();
+
+    public Optional<HistoryUser> getUserInfo(@NotBlank final String userName) {
+
+        synchronized (getUserInfoByNameLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN, userName);
+
+            var user = transactionRepository.getUserInfo(userName);
             if (user.isEmpty()) {
                 return Optional.empty();
             }

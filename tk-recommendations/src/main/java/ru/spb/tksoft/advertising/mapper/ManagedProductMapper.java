@@ -30,7 +30,8 @@ public final class ManagedProductMapper {
 
     // model <- entity
     @NotNull
-    private static ProductRulePredicate toModel(@NotNull final ProductRulePredicateEntity entity,
+    private static ProductRulePredicate toModel(
+            @NotNull final ProductRulePredicateEntity entity,
             @NotNull final DynamicApiBooleanMethod testMethodImplementation) {
 
         return new ProductRulePredicate(
@@ -39,11 +40,12 @@ public final class ManagedProductMapper {
     }
 
     /**
-     * Новая модель из переданной сущности.
+     * Новая модель из переданной сущности с передачей истории транзакций, если нужно работать с
+     * правилами
      * 
-     * @param entity сущность.
-     * @param historyService сервис истории транзакций.
-     * @return новая модель.
+     * @param entity Сущность.
+     * @param historyService Сервис истории транзакций.
+     * @return Новая модель.
      * 
      * @throws MethodIdentificationException в случае невозможности сопоставления запроса из
      *         ProductRuleEntity с известной реализацией метода-предиката.
@@ -57,11 +59,13 @@ public final class ManagedProductMapper {
 
             DynamicApiBooleanMethod testMethodImplementation =
                     DynamicApiManagerImpl.newMethodInstance(
-                            ruleEntity.getQuery(), new ArrayList<>(ruleEntity.getArguments()),
+                            ruleEntity.getQuery(),
+                            new ArrayList<>(ruleEntity.getArguments()),
                             historyService)
                             .orElseThrow(MethodIdentificationException::new);
 
-            rules.add(ManagedProductMapper.toModel(ruleEntity, testMethodImplementation));
+            rules.add(ManagedProductMapper.toModel(ruleEntity,
+                    testMethodImplementation));
         }
 
         return new Product(
@@ -69,6 +73,16 @@ public final class ManagedProductMapper {
                 entity.getProductText(), rules);
     }
 
+    /**
+     * Новая модель из переданной сущности, когда не нужно работать с правилами.
+     * 
+     * @param entity Сущность.
+     * @param historyService Сервис истории транзакций.
+     * @return Новая модель.
+     * 
+     * @throws MethodIdentificationException в случае невозможности сопоставления запроса из
+     *         ProductRuleEntity с известной реализацией метода-предиката.
+     */
     @NotNull
     public static Product toModel(@NotNull final ProductEntity entity) {
 
@@ -79,19 +93,27 @@ public final class ManagedProductMapper {
 
     // model -> entity
     @NotNull
-    private static ProductRulePredicateEntity toEntity(@NotNull final ProductRulePredicate model) {
+    private static ProductRulePredicateEntity toEntity(
+            @NotNull final ProductRulePredicate model) {
 
         return new ProductRulePredicateEntity(
                 model.getQuery(), new ArrayList<>(model.getArguments()),
                 model.isNegate());
     }
 
+    /**
+     * Новая сущность из модели.
+     * 
+     * @param model Модель.
+     * @return Новая сущность.
+     */
     @NotNull
     public static ProductEntity toEntity(@NotNull final Product model) {
 
         var entity = new ProductEntity(
                 model.getId(), model.getProductName(), model.getProductText(),
-                model.getRule().stream().map(ManagedProductMapper::toEntity).toList());
+                model.getRule().stream().map(ManagedProductMapper::toEntity)
+                        .toList());
 
         entity.getRule().forEach(r -> r.setProduct(entity));
         return entity;
@@ -99,7 +121,8 @@ public final class ManagedProductMapper {
 
     // dto -> model
     @NotNull
-    private static ProductRulePredicate toModel(@NotNull final ManagedProductRulePredicateDto dto,
+    private static ProductRulePredicate toModel(
+            @NotNull final ManagedProductRulePredicateDto dto,
             @Nullable final DynamicApiBooleanMethod testMethodImplementation) {
 
         return new ProductRulePredicate(
@@ -110,9 +133,9 @@ public final class ManagedProductMapper {
     /**
      * Новая модель из DTO.
      * 
-     * @param entity сущность.
-     * @param historyService сервис истории транзакций.
-     * @return новый DTO.
+     * @param entity Сущность.
+     * @param historyService Сервис истории транзакций.
+     * @return Новый DTO.
      * 
      * @throws MethodIdentificationException в случае невозможности сопоставления запроса из
      *         ProductRuleEntity с известной реализацией метода-предиката.
@@ -126,7 +149,8 @@ public final class ManagedProductMapper {
 
             DynamicApiBooleanMethod testMethodImplementation =
                     DynamicApiManagerImpl.newMethodInstance(
-                            ruleDto.getQuery(), new ArrayList<>(ruleDto.getArguments()),
+                            ruleDto.getQuery(),
+                            new ArrayList<>(ruleDto.getArguments()),
                             historyService)
                             .orElseThrow(MethodIdentificationException::new);
 
@@ -140,13 +164,20 @@ public final class ManagedProductMapper {
 
     // dto <- model
     @NotNull
-    private static ManagedProductRulePredicateDto toDto(@NotNull final ProductRulePredicate model) {
+    private static ManagedProductRulePredicateDto toDto(
+            @NotNull final ProductRulePredicate model) {
 
         return new ManagedProductRulePredicateDto(
                 model.getQuery(), new ArrayList<>(model.getArguments()),
                 model.isNegate());
     }
 
+    /**
+     * Новый DTO из модели.
+     * 
+     * @param model Модель.
+     * @return Новый DTO.
+     */
     @NotNull
     public static ManagedProductDto toDto(@NotNull final Product model) {
 
@@ -165,12 +196,19 @@ public final class ManagedProductMapper {
                 dto.isNegate());
     }
 
+    /**
+     * Новая сущность из DTO.
+     * 
+     * @param dto DTO.
+     * @return Новая сущность.
+     */
     @NotNull
     public static ProductEntity toEntity(@NotNull final ManagedProductDto dto) {
 
         var entity = new ProductEntity(
                 dto.getProductId(), dto.getProductName(), dto.getProductText(),
-                dto.getRule().stream().map(ManagedProductMapper::toEntity).toList());
+                dto.getRule().stream().map(ManagedProductMapper::toEntity)
+                        .toList());
 
         entity.getRule().forEach(r -> r.setProduct(entity));
         return entity;
@@ -186,11 +224,18 @@ public final class ManagedProductMapper {
                 entity.isNegate());
     }
 
+    /**
+     * Новый DTO из сущности.
+     * 
+     * @param entity Сущность.
+     * @return Новый DTO.
+     */
     @NotNull
     public static ManagedProductDto toDto(@NotNull final ProductEntity entity) {
 
         return new ManagedProductDto(
                 entity.getId(), entity.getProductName(), entity.getProductText(),
-                entity.getRule().stream().map(ManagedProductMapper::toDto).toList());
+                entity.getRule().stream().map(ManagedProductMapper::toDto)
+                        .toList());
     }
 }

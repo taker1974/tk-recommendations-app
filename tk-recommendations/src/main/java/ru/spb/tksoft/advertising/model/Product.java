@@ -50,9 +50,9 @@ public class Product implements SuitableUser {
     /**
      * Этот конструктор нужен тогда, когда не нужно использовать правила для рекомендации продукта.
      * 
-     * @param id уникальный идентификатор продукта.
-     * @param productName название продукта.
-     * @param productText описание продукта.
+     * @param id Уникальный идентификатор продукта.
+     * @param productName Название продукта.
+     * @param productText Описание продукта.
      */
     public Product(@NotNull final UUID id, @NotBlank final String productName,
             @NotBlank final String productText) {

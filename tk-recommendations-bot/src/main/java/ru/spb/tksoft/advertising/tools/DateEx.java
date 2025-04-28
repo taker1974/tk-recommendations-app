@@ -24,11 +24,9 @@ public final class DateEx {
     /**
      * Try nomalize date OR time string representation.
      * 
-     * @param str
-     *            normalizing string
-     * @param pattern
-     *            valid datetime pattern
-     * @return valid or not
+     * @param str Normalizing string.
+     * @param pattern Valid datetime pattern.
+     * @return Valid or not.
      */
     public static String normalizeDateTime(final DateTimeSpecifier dts,
             final String input, final String delimiter, final String pattern) {

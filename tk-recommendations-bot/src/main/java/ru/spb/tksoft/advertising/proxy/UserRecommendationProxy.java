@@ -13,8 +13,11 @@ import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 @FeignClient(name = "recommendation", url = "${service.recommendation.base-url}")
 public interface UserRecommendationProxy {
 
-    @GetMapping("/{userId}/info")
+    @GetMapping("/info/id/{userId}")
     HistoryUserDto getUserInfo(@PathVariable UUID userId);
+
+    @GetMapping("/info/name/{userName}")
+    HistoryUserDto getUserInfo(@PathVariable String userName);
 
     @GetMapping("/{userId}")
     UserRecommendationsDto getRecommendations(@PathVariable UUID userId);

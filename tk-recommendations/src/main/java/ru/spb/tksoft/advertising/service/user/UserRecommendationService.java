@@ -150,8 +150,8 @@ public class UserRecommendationService {
     /**
      * Дополнение рекомендаций для пользователя рекомендациями по динамическим правилам.
      * 
-     * @param userId идентификатор пользователя.
-     * @param dto объект рекомендаций пользователя.
+     * @param userId Идентификатор пользователя.
+     * @param dto Объект рекомендаций пользователя.
      */
     private void checkDynamicProducts(@NotNull final UUID userId,
             @NotNull final UserRecommendationsDto dto) {
