@@ -36,13 +36,23 @@ public class UserRecommendationsController {
     private final UserRecommendationService userRecommendationService;
 
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Получить сведения о пользователе")
-    @GetMapping("/{userId}/info")
+    @Operation(summary = "Получить сведения о пользователе по его ID")
+    @GetMapping("/info/id/{userId}")
     public HistoryUserDto getUserInfo(@PathVariable UUID userId) {
 
         return HistoryMapper.toDto(historyTransactionServiceCached.getUserInfo(userId)
                 .orElseThrow(
                         () -> new HistoryUserNotFoundException(userId.toString())));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получить сведения о пользователе по его имени")
+    @GetMapping("/info/name/{userName}")
+    public HistoryUserDto getUserInfo(@PathVariable String userName) {
+
+        return HistoryMapper.toDto(historyTransactionServiceCached.getUserInfo(userName)
+                .orElseThrow(
+                        () -> new HistoryUserNotFoundException(userName)));
     }
 
     @ResponseStatus(HttpStatus.OK)

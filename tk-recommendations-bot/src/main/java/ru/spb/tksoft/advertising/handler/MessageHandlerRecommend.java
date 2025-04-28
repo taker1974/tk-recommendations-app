@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ public class MessageHandlerRecommend extends MessageHandler {
 
     @Override
     public String getHelp() {
-        return "/recommend <UUID> или /r <UUID> - рекомендовать продукты для пользователя с указанным UUID";
+        return "/recommend <user.name> или /r <user.name> - рекомендовать продукты для пользователя с указанным user.name";
     }
 
     @Override
@@ -58,15 +57,15 @@ public class MessageHandlerRecommend extends MessageHandler {
             return checkResponse.get();
         }
 
-        Optional<HistoryUserDto> userInfoOptional = userRecommendationServiceCached
-                .getUserInfo(UUID.fromString(messageTrimmed));
+        Optional<HistoryUserDto> userInfoOptional =
+                userRecommendationServiceCached.getUserInfo(messageTrimmed);
         if (userInfoOptional.isEmpty()) {
             return "🤔 Пользователь не найден. Может, просто нет доступа к основному приложению ❓";
         }
         final HistoryUserDto userInfo = userInfoOptional.get();
 
-        Optional<UserRecommendationsDto> recommendationsOptional = userRecommendationServiceCached
-                .getRecommendations(UUID.fromString(messageTrimmed));
+        Optional<UserRecommendationsDto> recommendationsOptional =
+                userRecommendationServiceCached.getRecommendations(userInfo.getId());
         if (recommendationsOptional.isEmpty()) {
             return "🤔 Не удалось получить рекомендации для пользователя. Это точно ошибка❗️";
         }

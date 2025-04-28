@@ -12,8 +12,8 @@
 Единственная команда — /recommend username.
 Команда возвращает рекомендации в форме:
 
-``` 
-/recommend username
+```Text
+/recommend <user.name>
 Здравствуйте, <Имя и фамилия пользователя из БД>!
  
 Новые продукты для вас:
@@ -38,7 +38,7 @@
 
 Если по правилу еще не было ни одного срабатывания, то правило всё равно должно присутствовать в списке со значением 0.
 
-```
+```Json
 API request: GET /rule/stats
 
 Response
@@ -65,7 +65,7 @@ Response
 
 При POST-запросе на
 
-```
+```Text
 /management/clear-caches
 ```
 
@@ -77,13 +77,13 @@ Response
 
 Каждый сервис должен поддерживать запрос
 
-```
+```Text
 /management/info
 ```
 
 который возвращает информацию в формате:
 
-```
+```Json
 {
    "name": "<название сервиса>",
    "version": "<версия сервиса из файла pom.xml>",
@@ -96,22 +96,22 @@ Response
 
 [Generate build info.](https://docs.spring.io/spring-boot/how-to/build.html#howto.build.generate-info)
 
-```
+```Xml
 <build>
-	<plugins>
-		<plugin>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-maven-plugin</artifactId>
-			<version>3.4.4</version>
-			<executions>
-				<execution>
-					<goals>
-						<goal>build-info</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.4.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
+    </plugin>
+  </plugins>
 </build>
 ```
 
