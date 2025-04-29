@@ -17,8 +17,10 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
+import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.exception.AddFixedProductException;
 import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
+import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.model.Product;
@@ -147,6 +149,24 @@ public class ProductManagerServiceCached {
             if (!isFixedProduct(productId)) {
                 productRepository.deleteById(productId);
             }
+        }
+    }
+
+    private final Object incrementProductHitsCounterLock = new Object();
+
+    public long incrementProductHitsCounter(@NotNull final UUID productId) {
+        
+        synchronized (incrementProductHitsCounterLock) {
+            ProductHitsCounterEntity entity = productHitsCounterRepository
+                    .findByProductId(productId)
+                    .orElseThrow(() -> new ProductNotFoundApiException(
+                            LogEx.getThisMethodName() + ", " + productId));
+
+            ProductHitsCounter counter = ProductHitCounterMapper.toModel(entity);
+            counter.increment();
+            productHitsCounterRepository
+                    .save(ProductHitCounterMapper.toEntity(counter, entity.getId()));
+            return counter.getHitsCount();
         }
     }
 

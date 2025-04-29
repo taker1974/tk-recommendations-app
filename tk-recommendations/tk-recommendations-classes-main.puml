@@ -1,0 +1,178 @@
+@startuml "recommendation controller classes"
+
+' https://plantuml.com/ru/commons
+title "Диаграмма основных классов приложения tk-recommendations\n в разрезе основного направления от контроллера рекомендаций\n вниз по иерархии"
+
+!theme crt-amber
+
+' ======= Уровень контроллеров =======
+
+' Всё начинается с CRUD по продуктам
+class ProductManagerController {
+  - ProductManagerServiceCached managerService
+
+  + ManagedProductDto addProduct(ManagedProductDto dto)
+  + List<Product> getAllProducts()
+  + deleteProduct(UUID productId)
+
+  + StatsDto getStats()
+  + void resetStats()
+}
+note top of ProductManagerController  {
+  CRUD по продуктам
+  и статистика
+}
+
+' Целевой контроллер
+class UserRecommendationsController {
+  - UserRecommendationService userRecommendationService
+  - HistoryTransactionServiceCached historyTransactionServiceCached
+
+  // Основной метод.
+  // Получить рекомендации по ID пользователя
+  + UserRecommendationsDto getRecommendations(UUID userId)
+
+}
+note top of UserRecommendationsController  {
+  Целевой контроллер. Получение рекомендаций по
+  id пользователя на основе данных о предыдущих транзакциях
+}
+
+' Обслуживание
+class MaintenanceController {
+
+  - BuildProperties buildProperties
+
+  - UserRecommendationService userRecommendationService
+  - ProductManagerServiceCached productManagerServiceCached
+
+  + MaintenanceInfoDto getInfo()
+  + void clearCaches()
+}
+note top of MaintenanceController  {
+  Версии ПО,
+  очистка кэшей
+}
+
+' ======= Уровень сервисов =======
+
+class HistoryTransactionServiceCached {
+
+  - HistoryTransactionRepository transactionRepository
+
+  + boolean isUsingProduct(UUID userId, HistoryProductType productType, boolean isActiveUser)
+  + public double getProductSum(UUID userId, HistoryProductType productType, HistoryTransactionType transactionType)
+
+  + Optional<HistoryUser> getUserInfo(UUID userId)
+  + Optional<HistoryUser> getUserInfo(String userName)
+  + public List<UUID> getAllIds()
+}
+note left of HistoryTransactionServiceCached  {
+  Основной API истории
+  транзакций пользователя
+}
+
+class ProductManagerServiceCached {
+
+  - ProductsRepository productRepository
+  - ProductHitsCounterRepository productHitsCounterRepository
+
+  // Реализация этого интерфейса нужна для модели продукта,
+  // для ослабления связей
+  - HistoryService historyService
+
+  + ManagedProductDto addProduct(ManagedProductDto dto)
+  + List<Product> getAllProducts()
+  + deleteProduct(UUID productId)
+
+  + StatsDto getStats()
+  + void resetStats()
+}
+note left of ProductManagerServiceCached  {
+  CRUD по продуктам
+  и статистика
+}
+
+class UserRecommendationService {
+
+  - UserRecommendationServiceCached userRecommendationServiceCached
+  - ProductManagerServiceCached productManagerServiceCached
+
+  // Основной метод.
+  // Получить рекомендации по ID пользователя
+  + UserRecommendationsDto getRecommendations(UUID userId)
+}
+note left of UserRecommendationService  {
+  Сервис выдачи рекомендаций
+  для пользователя с указанным
+  userId
+}
+
+class UserRecommendationServiceCached {
+
+  - HistoryTransactionServiceCached historyTransactionServiceCached
+  - ProductsRepository recomendationRepository
+
+  + isFitsInvest500(UUID userId)
+  + isFitsTopSaving(UUID userId)
+  + isFitsCommonCredit(UUID userId)
+}
+note left of UserRecommendationServiceCached  {
+  Кэшированные фиксированные методы
+  сервиса истории транзакций
+}
+
+' ======= Уровень репозиториев =======
+
+class HistoryTransactionRepository {
+
+  + int getProductUsageCount(UUID userId, String productType)
+  + double getProductSum(@NotNull final UUID userId, @NotBlank final String productType, String transactionType)
+
+  + Optional<HistoryUserEntity> getUserInfo(@NotNull final UUID userId)
+  + Optional<HistoryUserEntity> getUserInfo(@NotBlank final String userName)
+
+  + List<UUID> getAllIds()
+}
+note right of HistoryTransactionRepository  {
+  Репозиторий на основе JdbcTemplate для чтения данных о
+  транзакциях пользователя. Реализация основного API истории транзакций пользователя
+}
+
+interface ProductsRepository {
+  List<ProductEntity> findAllProductsOnly()
+  Optional<ProductEntity> findProductOnlyByName(String productName)
+  Optional<ProductEntity> findProductOnlyById(UUID id)
+}
+
+interface ProductRuleRepository {
+}
+
+interface ProductHitsCounterRepository {
+    Optional<ProductHitsCounterEntity> findByProductId(UUID productId)
+}
+
+' = = = = = = = Связи = = = = = = =
+
+' Контроллеры
+ProductManagerController --> ProductManagerServiceCached
+
+UserRecommendationsController --> UserRecommendationService
+UserRecommendationsController --> HistoryTransactionServiceCached
+
+MaintenanceController --> UserRecommendationService
+MaintenanceController --> ProductManagerServiceCached
+
+' Сервисы
+HistoryTransactionServiceCached --> HistoryTransactionRepository
+
+ProductManagerServiceCached --> ProductsRepository
+ProductManagerServiceCached --> ProductHitsCounterRepository
+
+UserRecommendationService --> UserRecommendationServiceCached
+UserRecommendationService --> ProductManagerServiceCached
+
+UserRecommendationServiceCached --> HistoryTransactionServiceCached
+UserRecommendationServiceCached --> ProductsRepository
+
+@enduml
