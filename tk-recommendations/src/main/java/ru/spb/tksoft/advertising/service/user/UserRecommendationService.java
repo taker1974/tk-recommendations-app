@@ -1,11 +1,9 @@
 package ru.spb.tksoft.advertising.service.user;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -46,9 +44,6 @@ public class UserRecommendationService {
     @NotNull
     private final ProductManagerServiceCached productManagerServiceCached;
 
-    @NotNull
-    private final ProductHitsCounterRepository productHitsCounterRepository;
-
     public void clearCaches() {
         userRecommendationServiceCached.clearCaches();
     }
@@ -71,12 +66,10 @@ public class UserRecommendationService {
 
     public UserRecommendationService(
             @NotNull final UserRecommendationServiceCached recommendationServiceCached,
-            @NotNull final ProductManagerServiceCached productManagerServiceCached,
-            @NotNull final ProductHitsCounterRepository productHitsCounterRepository) {
+            @NotNull final ProductManagerServiceCached productManagerServiceCached) {
 
         this.userRecommendationServiceCached = recommendationServiceCached;
         this.productManagerServiceCached = productManagerServiceCached;
-        this.productHitsCounterRepository = productHitsCounterRepository;
 
         this.recommendationChecks = initRecommendationChecks();
     }
@@ -98,16 +91,7 @@ public class UserRecommendationService {
             for (var recommendation : result.getRecommendations()) {
 
                 final UUID productId = recommendation.getId();
-
-                ProductHitsCounterEntity entity = productHitsCounterRepository
-                        .findByProductId(productId)
-                        .orElseThrow(() -> new ProductNotFoundApiException(
-                                methodName + ", " + productId));
-
-                ProductHitsCounter counter = ProductHitCounterMapper.toModel(entity);
-                counter.increment();
-                productHitsCounterRepository
-                        .save(ProductHitCounterMapper.toEntity(counter, entity.getId()));
+                productManagerServiceCached.incrementProductHitsCounter(productId);
             }
 
             LogEx.trace(log, methodName, LogEx.STOPPING, userId);
@@ -170,11 +154,6 @@ public class UserRecommendationService {
             var recommendation = UserRecommendationMapper.toDto(product);
             dto.getRecommendations().add(recommendation);
         }
-        // productManagerServiceCached.getAllProducts().stream().filter(Objects::nonNull)
-        // .filter(product -> product.isUserSuitable(userId))
-        // .filter(product -> !alreadyAddedIds.contains(product.getId()))
-        // .forEach(product -> dto.getRecommendations()
-        // .add(UserRecommendationMapper.toDto(product)));
     }
 
     public List<ShallowViewDto> getShallowView() {

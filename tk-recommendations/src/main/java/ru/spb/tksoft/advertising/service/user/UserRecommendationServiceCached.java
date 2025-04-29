@@ -19,7 +19,7 @@ import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
 
 /**
- * Кэшированные методы сервиса истории транзакций.
+ * Кэшированные фиксированные методы сервиса истории транзакций.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */

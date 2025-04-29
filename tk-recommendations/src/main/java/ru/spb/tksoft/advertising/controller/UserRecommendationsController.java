@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class UserRecommendationsController {
 
-    private final HistoryTransactionServiceCached historyTransactionServiceCached;
     private final UserRecommendationService userRecommendationService;
+    private final HistoryTransactionServiceCached historyTransactionServiceCached;
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить сведения о пользователе по его ID")

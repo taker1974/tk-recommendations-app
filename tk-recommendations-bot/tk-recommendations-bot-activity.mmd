@@ -1,0 +1,43 @@
+%% Диаграмма последовательности выполнения основного запроса
+sequenceDiagram
+    actor User as Пользователь
+    
+    participant Bot as RecommendationsBot
+    participant Manager as MessageManager
+    participant Handler as MessageHandlerRecommend
+    participant ApiService as UserRecommendationServiceCached
+    participant ApiReal as REST API
+
+    User->>Bot: /recommend <userName>
+    activate Bot
+
+    Bot->>Manager: Выбор обработчика и его вызов
+    activate Manager
+
+    Manager->>Handler: Выбор обработчика и его вызов
+    activate Handler
+
+    Handler->>ApiService: handle(..., userName)
+    activate ApiService
+
+    ApiService->>ApiReal: Вызов RMI основного приложения через REST API
+    activate ApiReal
+
+    ApiReal->>ApiService: Получение DTO
+    deactivate ApiReal
+
+    ApiService->>Handler: Обработка DTO
+    deactivate ApiService
+
+    Handler->>Manager: Передача текста
+    deactivate Handler
+
+    Manager->>Bot: Передача текста
+    deactivate Manager
+
+    Bot->>User: Передача текста
+    deactivate Bot
+
+
+
+

@@ -3,7 +3,6 @@ package ru.spb.tksoft.advertising.repository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;

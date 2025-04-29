@@ -1,0 +1,38 @@
+%% Диаграмма последовательности выполнения основного запроса
+sequenceDiagram
+    actor User as Пользователь
+    
+    participant Controller as UserRecommendationsController
+    participant Service as UserRecommendationService
+    participant HistoryRepository as HistoryTransactionRepository
+    participant ProductRepository as ProductsRepository
+
+    User->>Controller: GET /recommendation/{userId}
+    activate Controller
+
+    Controller->>Service: getRecommendations(userId)
+    activate Service
+
+    Service->>Service: Логика проверки правил
+
+    Service->>HistoryRepository: Фиксированные продукты?
+    activate HistoryRepository
+
+    HistoryRepository->>HistoryRepository: Логика проверки соответствия
+
+    Service->>ProductRepository: Динамические продукты?
+    activate ProductRepository
+
+    HistoryRepository-->>Service: Данные (Entity)
+    deactivate HistoryRepository
+
+    ProductRepository-->>Service: Данные (Entity)
+    deactivate ProductRepository
+
+    Service->>Service: Преобразование в DTO
+    Service-->>Controller: DTO
+    deactivate Service
+
+    Controller->>Controller: Сериализация в JSON
+    Controller-->>User: 200 OK (JSON)
+    deactivate Controller

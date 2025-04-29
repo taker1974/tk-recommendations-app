@@ -1,0 +1,114 @@
+@startuml "recommendation-bot classes"
+
+' https://plantuml.com/ru/commons
+title "Диаграмма основных классов приложения tk-recommendations-bot\n в разрезе основного направления от Telegram-бота\n вниз по иерархии"
+
+!theme crt-amber
+
+' ======= Уровень бота =======
+
+class RecommendationsBot {
+
+  - MessageManager messageManager
+
+  + LongPollingUpdateConsumer getUpdatesConsumer()
+  + void afterRegistration(BotSession botSession)
+
+  + void consume(Update update)
+}
+note left of RecommendationsBot  {
+  Основной класс бота
+}
+
+class MessageManager {
+
+  - List<MessageHandler> handlers
+  - MessageHandler defaultHandler
+
+  + String getHelp()
+  + String manage(long chatId, int messageId, String message)
+}
+note left of MessageManager  {
+  Менеджер обработчиков команд
+}
+
+class MessageHandler {
+
+  # List<String> commands
+
+  + String getHelp()
+  + boolean canHandle(final String message)
+
+  + String handle(long chatId, int messageId, String message)
+}
+note left of MessageHandler  {
+  Базовый класс обработчиков команд
+}
+
+class MessageHandlerRecommend {
+
+  - UserRecommendationServiceCached userRecommendationServiceCached
+
+  + String getHelp()
+  + String handle(long chatId, int messageId, String rawMessage)
+}
+note left of MessageHandlerRecommend  {
+  Реализация команды /recommend <user.name>
+}
+
+' ======= Уровень сервисов =======
+
+class UserRecommendationServiceCached {
+
+  - UserRecommendationProxy proxy
+
+  + void clearCaches()
+
+  + Optional<HistoryUserDto> getUserInfo(UUID userId)
+  + Optional<HistoryUserDto> getUserInfo(String userName)
+
+  + Optional<UserRecommendationsDto> getRecommendations(UUID userId)
+}
+note left of UserRecommendationServiceCached  {
+  Сервис, инициирующий выполнение запросов к
+  основному приложению
+}
+
+interface UserRecommendationProxy {
+
+    HistoryUserDto getUserInfo(UUID userId)
+    HistoryUserDto getUserInfo(String userName)
+
+    UserRecommendationsDto getRecommendations(UUID userId)
+}
+note left of UserRecommendationProxy  {
+  Реализация FeignClient, выполняющая запросы к
+  основному приложению через REST API
+}
+
+' ======= Вспомогательный уровень =======
+
+' Обслуживание
+class MaintenanceController {
+
+    - BuildProperties buildProperties
+    - UserRecommendationServiceCached userRecommendationService
+
+    + MaintenanceInfoDto getInfo()
+    + void clearCaches()
+}
+note top of MaintenanceController  {
+  Версии ПО,
+  очистка кэшей
+}
+
+' = = = = = = = Связи = = = = = = =
+
+RecommendationsBot --> MessageManager
+MessageManager --> MessageHandler
+MessageHandler --> MessageHandlerRecommend
+MessageHandlerRecommend --> UserRecommendationServiceCached
+UserRecommendationServiceCached --> UserRecommendationProxy
+
+MaintenanceController --> UserRecommendationServiceCached
+@enduml
