@@ -1,4 +1,5 @@
 %% Диаграмма последовательности выполнения основного запроса
+%%{init: {'theme': 'forest'}}%%
 sequenceDiagram
     actor User as Пользователь
     
@@ -11,16 +12,16 @@ sequenceDiagram
     User->>Bot: /recommend <userName>
     activate Bot
 
-    Bot->>Manager: Выбор обработчика и его вызов
+    Bot->>Manager: Выбор обработчика<br> и его вызов
     activate Manager
 
-    Manager->>Handler: Выбор обработчика и его вызов
+    Manager->>Handler: Вызов метода<br> manage() менеджера<br> обработчиков
     activate Handler
 
     Handler->>ApiService: handle(..., userName)
     activate ApiService
 
-    ApiService->>ApiReal: Вызов RMI основного приложения через REST API
+    ApiService->>ApiReal: Вызов RMI основного<br> приложения через<br> REST API
     activate ApiReal
 
     ApiReal->>ApiService: Получение DTO

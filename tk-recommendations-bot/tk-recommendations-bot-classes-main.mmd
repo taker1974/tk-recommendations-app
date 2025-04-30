@@ -1,0 +1,92 @@
+%% Диаграмма основных классов приложения tk-recommendations-bot\n в разрезе основного направления от Telegram-бота\n вниз по иерархии
+%%{init: {'theme': 'forest'}}%%
+
+classDiagram
+
+%% ======= Уровень бота =======
+
+class RecommendationsBot {
+  - MessageManager messageManager
+
+  + LongPollingUpdateConsumer getUpdatesConsumer()
+  + void afterRegistration(BotSession botSession)
+
+  + void consume(Update update)
+}
+class RecommendationsBot["RecommendationsBot: Основной класс бота"]
+
+class MessageManager {
+
+  - List&lt;MessageHandler&gt; handlers
+
+  + String getHelp()
+  + String manage(long chatId, int messageId, String message)
+}
+class MessageManager["MessageManager: Менеджер обработчиков команд"]
+
+class MessageHandler {
+
+  + String getHelp()
+  + boolean canHandle(final String message)
+
+  + String handle(long chatId, int messageId, String message)
+}
+class MessageHandler ["MessageHandler: Базовый класс<br> обработчиков команд"]
+
+class MessageHandlerRecommend {
+
+  - UserRecommendationServiceCached userRecommendationServiceCached
+
+  + String getHelp()
+  + String handle(long chatId, int messageId, String rawMessage)
+}
+class MessageHandlerRecommend ["MessageHandlerRecommend: Реализация команды<br> /recommend &lt;user.name&пt;"]
+
+%% ======= Уровень сервисов =======
+
+class UserRecommendationServiceCached {
+
+  - UserRecommendationProxy proxy
+
+  + void clearCaches()
+
+  + Optional<HistoryUserDto> getUserInfo(UUID userId)
+  + Optional<HistoryUserDto> getUserInfo(String userName)
+
+  + Optional<UserRecommendationsDto> getRecommendations(UUID userId)
+}
+class UserRecommendationServiceCached ["UserRecommendationServiceCached: Сервис, инициирующий<br> выполнение запросов к основному приложению"]
+
+class UserRecommendationProxy {
+
+  <<Interface>>
+
+    HistoryUserDto getUserInfo(UUID userId)
+    HistoryUserDto getUserInfo(String userName)
+
+    UserRecommendationsDto getRecommendations(UUID userId)
+}
+class UserRecommendationProxy ["UserRecommendationProxy: Реализация FeignClient, <br>выполняющая запросы к основному приложению через REST API"]
+
+%% ======= Вспомогательный уровень =======
+
+%% Обслуживание
+class MaintenanceController {
+
+    - BuildProperties buildProperties
+    - UserRecommendationServiceCached userRecommendationService
+
+    + MaintenanceInfoDto getInfo()
+    + void clearCaches()
+}
+class MaintenanceController ["MaintenanceController: Версии ПО, очистка кэшей"]
+
+%% = = = = = = = Связи = = = = = = =
+
+RecommendationsBot --> MessageManager
+MessageManager --> MessageHandler
+MessageHandler --> MessageHandlerRecommend
+MessageHandlerRecommend --> UserRecommendationServiceCached
+UserRecommendationServiceCached --> UserRecommendationProxy
+
+MaintenanceController --> UserRecommendationServiceCached
