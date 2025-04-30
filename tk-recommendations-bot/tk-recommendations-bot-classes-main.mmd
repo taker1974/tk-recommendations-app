@@ -5,7 +5,7 @@ classDiagram
 
 %% ======= Уровень бота =======
 
-class RecommendationsBot {
+class RecommendationsBot ["RecommendationsBot: Основной класс бота"] {
   - MessageManager messageManager
 
   + LongPollingUpdateConsumer getUpdatesConsumer()
@@ -13,38 +13,34 @@ class RecommendationsBot {
 
   + void consume(Update update)
 }
-class RecommendationsBot["RecommendationsBot: Основной класс бота"]
 
-class MessageManager {
+class MessageManager ["MessageManager: Менеджер обработчиков команд"] {
 
   - List&lt;MessageHandler&gt; handlers
 
   + String getHelp()
   + String manage(long chatId, int messageId, String message)
 }
-class MessageManager["MessageManager: Менеджер обработчиков команд"]
 
-class MessageHandler {
+class MessageHandler ["MessageHandler: Базовый класс<br> обработчиков команд"] {
 
   + String getHelp()
   + boolean canHandle(final String message)
 
   + String handle(long chatId, int messageId, String message)
 }
-class MessageHandler ["MessageHandler: Базовый класс<br> обработчиков команд"]
 
-class MessageHandlerRecommend {
+class MessageHandlerRecommend ["MessageHandlerRecommend: Реализация команды<br> /recommend &lt;user.name&gt;"] {
 
   - UserRecommendationServiceCached userRecommendationServiceCached
 
   + String getHelp()
   + String handle(long chatId, int messageId, String rawMessage)
 }
-class MessageHandlerRecommend ["MessageHandlerRecommend: Реализация команды<br> /recommend &lt;user.name&пt;"]
 
 %% ======= Уровень сервисов =======
 
-class UserRecommendationServiceCached {
+class UserRecommendationServiceCached ["UserRecommendationServiceCached: Сервис, инициирующий<br> выполнение запросов к основному приложению"] {
 
   - UserRecommendationProxy proxy
 
@@ -55,9 +51,8 @@ class UserRecommendationServiceCached {
 
   + Optional<UserRecommendationsDto> getRecommendations(UUID userId)
 }
-class UserRecommendationServiceCached ["UserRecommendationServiceCached: Сервис, инициирующий<br> выполнение запросов к основному приложению"]
 
-class UserRecommendationProxy {
+class UserRecommendationProxy ["UserRecommendationProxy: Реализация FeignClient, <br>выполняющая запросы к основному приложению через REST API"] {
 
   <<Interface>>
 
@@ -66,12 +61,11 @@ class UserRecommendationProxy {
 
     UserRecommendationsDto getRecommendations(UUID userId)
 }
-class UserRecommendationProxy ["UserRecommendationProxy: Реализация FeignClient, <br>выполняющая запросы к основному приложению через REST API"]
 
 %% ======= Вспомогательный уровень =======
 
 %% Обслуживание
-class MaintenanceController {
+class MaintenanceController ["MaintenanceController: Версии ПО, очистка кэшей"] {
 
     - BuildProperties buildProperties
     - UserRecommendationServiceCached userRecommendationService
@@ -79,7 +73,6 @@ class MaintenanceController {
     + MaintenanceInfoDto getInfo()
     + void clearCaches()
 }
-class MaintenanceController ["MaintenanceController: Версии ПО, очистка кэшей"]
 
 %% = = = = = = = Связи = = = = = = =
 
