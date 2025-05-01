@@ -31,6 +31,9 @@ public class MaintenanceController {
     private final UserRecommendationService userRecommendationService;
     private final ProductManagerServiceCached productManagerServiceCached;
 
+    /**
+     * @return Информация о приложении.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "О приложении")
     @GetMapping("/info")
@@ -40,6 +43,9 @@ public class MaintenanceController {
                 buildProperties.getName(), buildProperties.getVersion());
     }
 
+    /**
+     * Сброс кэшей.
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Сброс всех кэшей")
     @PostMapping("/clear-caches")

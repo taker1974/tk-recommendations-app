@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Управление рекомендациями.
  * 
+ * Реализация CRUD для продуктов и правил.
+ * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
  */
 @RestController
@@ -35,6 +37,12 @@ public class ProductManagerController {
 
     private final ProductManagerServiceCached managerService;
 
+    /**
+     * Добавление продукта.
+     * 
+     * @param dto Данные по продукту.
+     * @return Добавленный продукт.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Добавить продукт")
     @PostMapping("/add")
@@ -44,6 +52,11 @@ public class ProductManagerController {
         return managerService.addProduct(dto);
     }
 
+    /**
+     * Список всех продуктов.
+     * 
+     * @return Список продуктов.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить данные по всем продуктам")
     @GetMapping
@@ -53,6 +66,11 @@ public class ProductManagerController {
                 .map(ManagedProductMapper::toDto).toList());
     }
 
+    /**
+     * Удаление продукта.
+     * 
+     * @param productId Идентификатор продукта.
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Удалить продукт")
     @DeleteMapping(value = "/{productId}")
@@ -61,6 +79,11 @@ public class ProductManagerController {
         managerService.deleteProduct(productId);
     }
 
+    /**
+     * Получение статистики по срабатываниям правил рекомендаций.
+     * 
+     * @return Статистика по срабатываниям.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить статистику по срабатываниям правил рекомендаций")
     @GetMapping("/stats")
@@ -69,6 +92,9 @@ public class ProductManagerController {
         return managerService.getStats();
     }
 
+    /**
+     * Сброс статистики по срабатываниям правил рекомендаций.
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Сбросить статистику по срабатываниям правил рекомендаций")
     @PostMapping("/stats/reset")

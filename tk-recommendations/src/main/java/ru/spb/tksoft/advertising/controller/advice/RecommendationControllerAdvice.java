@@ -18,9 +18,16 @@ import ru.spb.tksoft.recommendations.dto.service.ServiceErrorResponseDto;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RecommendationControllerAdvice extends AbstractBaseControllerAdvice {
 
+    /**
+     * Обработка исключения при отсутствии пользователя в истории запросов.
+     * 
+     * @param e Исключение.
+     * @return DTO ошибки.
+     */
     @ExceptionHandler(HistoryUserNotFoundException.class)
-    public ResponseEntity<ServiceErrorResponseDto> handleStudentNotFoundException(
+    public ResponseEntity<ServiceErrorResponseDto> handleHistoryUserNotFoundException(
             HistoryUserNotFoundException e) {
+
         return new ResponseEntity<>(
                 new ServiceErrorResponseDto(HistoryUserNotFoundException.CODE, e.getMessage()),
                 HttpStatus.NOT_FOUND);

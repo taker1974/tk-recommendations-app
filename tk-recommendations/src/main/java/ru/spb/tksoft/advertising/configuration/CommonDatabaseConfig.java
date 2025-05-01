@@ -18,6 +18,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class CommonDatabaseConfig {
 
+    /**
+     * Основной источник данных.
+     * 
+     * @return Основной источник данных.
+     */
     @Bean(name = "recommendationDataSource")
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource.recommendation")
@@ -25,12 +30,23 @@ public class CommonDatabaseConfig {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * Источник данных для истории транзакций пользователя.
+     * 
+     * @return Источник данных.
+     */
     @Bean(name = "transactionDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.transaction")
     public DataSource transactionDataSource() {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * JdbcTemplate для работы с историей транзакций пользователя.
+     * 
+     * @param dataSource Источник данных.
+     * @return JdbcTemplate.
+     */
     @Bean(name = "transactionJdbcTemplate")
     public JdbcTemplate transactionJdbcTemplate(
             @Qualifier("transactionDataSource") DataSource dataSource) {

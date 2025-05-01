@@ -17,21 +17,21 @@ public final class HistoryMapper {
 
     private HistoryMapper() {}
 
-    // dto <- model
+    /** DTO <- Model. */
     public static HistoryUserDto toDto(final HistoryUser model) {
 
         return new HistoryUserDto(model.getId(),
                 model.getUserName(), model.getFirstName(), model.getLastName());
     }
 
-    // model <- entity
+    /** Model <- Entity. */
     public static HistoryUser toModel(final HistoryUserEntity entity) {
 
         return new HistoryUser(entity.getId(),
                 entity.getUserName(), entity.getFirstName(), entity.getLastName());
     }
 
-    // dto <- entity
+    /** DTO <- Entity */
     public static HistoryUserDto toDto(final HistoryUserEntity entity) {
 
         return new HistoryUserDto(entity.getId(),

@@ -14,8 +14,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class HistoryProductEntity {
 
+    /** Идентификатор продукта. */
     private UUID id;
 
+    /** Тип продукта. */
     private String type;
+    /** Название продукта. */
     private String name;
 }

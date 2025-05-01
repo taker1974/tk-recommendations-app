@@ -12,18 +12,25 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  */
 public class HistoryUserNotFoundException extends RuntimeException {
 
+    /** Логгер. */
     public static final Logger logger = LoggerFactory.getLogger(HistoryUserNotFoundException.class);
 
+    /** Код ошибки. */
     public static final int CODE = 3805;
 
+    /** Сообщение об ошибке. */
     public static final String MESSAGE = "Пользователь не найден";
 
+    /** Конструктор по умолчанию. */
     public HistoryUserNotFoundException() {
 
         super(MESSAGE);
         LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
+    /**
+     * Конструктор с указанием сообщения об ошибке.
+     */
     public HistoryUserNotFoundException(@NotBlank final String message) {
 
         super(MESSAGE + ": " + message);

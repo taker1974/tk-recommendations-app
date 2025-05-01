@@ -27,36 +27,50 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableTransactionManagement
 @EntityScan(basePackages = {
-        "ru.spb.tksoft.advertising.entity",
-        "ru.spb.tksoft.advertising.entity.history"})
+                "ru.spb.tksoft.advertising.entity",
+                "ru.spb.tksoft.advertising.entity.history"})
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "recommendationEntityManagerFactory",
-        transactionManagerRef = "recommendationTransactionManager",
-        basePackages = {"ru.spb.tksoft.advertising.repository"})
+                entityManagerFactoryRef = "recommendationEntityManagerFactory",
+                transactionManagerRef = "recommendationTransactionManager",
+                basePackages = {"ru.spb.tksoft.advertising.repository"})
 @RequiredArgsConstructor
 public class RecommendationDatabaseConfig {
 
-    private final Environment environment;
+        private final Environment environment;
 
-    @Bean(name = "recommendationEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory(
-            EntityManagerFactoryBuilder builder,
-            @Qualifier("recommendationDataSource") DataSource dataSource) {
+        /**
+         * Создает фабрику для управления сущностями и сессиями для рекомендательной системы.
+         * 
+         * @param builder Экземпляр EntityManagerFactoryBuilder.
+         * @param dataSource Источник данных для рекомендательной системы.
+         * @return Экземпляр фабрики сущностей и сессий для рекомендательной системы.
+         */
+        @Bean(name = "recommendationEntityManagerFactory")
+        public LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory(
+                        EntityManagerFactoryBuilder builder,
+                        @Qualifier("recommendationDataSource") DataSource dataSource) {
 
-        HashMap<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.dialect",
-                environment.getProperty("spring.jpa.database-platform"));
+                HashMap<String, Object> properties = new HashMap<>();
+                properties.put("hibernate.dialect",
+                                environment.getProperty("spring.jpa.database-platform"));
 
-        return builder.dataSource(dataSource)
-                .packages("ru.spb.tksoft.advertising.entity",
-                        "ru.spb.tksoft.advertising.entity.history")
-                .properties(properties).build();
-    }
+                return builder.dataSource(dataSource)
+                                .packages("ru.spb.tksoft.advertising.entity",
+                                                "ru.spb.tksoft.advertising.entity.history")
+                                .properties(properties).build();
+        }
 
-    @Bean(name = "recommendationTransactionManager")
-    public PlatformTransactionManager postgresTransactionManager(
-            @Qualifier("recommendationEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        /**
+         * Создает менеджер транзакций для рекомендательной системы.
+         * 
+         * @param entityManagerFactory Фабрика для управления сущностями и сессиями для
+         *        рекомендательной системы.
+         * @return Экземпляр менеджера транзакций для рекомендательной системы.
+         */
+        @Bean(name = "recommendationTransactionManager")
+        public PlatformTransactionManager postgresTransactionManager(
+                        @Qualifier("recommendationEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
 
-        return new JpaTransactionManager(entityManagerFactory);
-    }
+                return new JpaTransactionManager(entityManagerFactory);
+        }
 }

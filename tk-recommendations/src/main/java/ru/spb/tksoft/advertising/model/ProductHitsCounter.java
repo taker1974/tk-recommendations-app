@@ -18,14 +18,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductHitsCounter {
 
+    /** Продукт. */
     @NotNull
     private final Product product;
 
+    /** Счётчик срабатываний. */
     @NotNull
     private long hitsCount;
 
     private final Object hitsCountLock = new Object();
 
+    /**
+     * @return Счётчик срабатываний.
+     */
     @NotNull
     public long getHitsCount() {
         synchronized (hitsCountLock) {
@@ -33,18 +38,27 @@ public class ProductHitsCounter {
         }
     }
 
+    /**
+     * Увеличивает счётчик срабатываний.
+     */
     public void increment() {
         synchronized (hitsCountLock) {
             hitsCount++;
         }
     }
 
+    /**
+     * Сбрасывает счётчик срабатываний.
+     */
     public void reset() {
         synchronized (hitsCountLock) {
             hitsCount = 0L;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @NotBlank
     public String toString() {

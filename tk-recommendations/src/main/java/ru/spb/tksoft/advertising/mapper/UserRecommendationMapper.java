@@ -17,14 +17,24 @@ public final class UserRecommendationMapper {
 
     private UserRecommendationMapper() {}
 
-    // dto <- model
+    /**
+     * Новый DTO по модели.
+     * 
+     * @param model Модель.
+     * @return Новый DTO.
+     */
     public static UserRecommendedProductDto toDto(final Product model) {
 
         return new UserRecommendedProductDto(
                 model.getId(), model.getProductName(), model.getProductText());
     }
 
-    // dto <- entity
+    /**
+     * Новый DTO по сущности.
+     * 
+     * @param entity Сущность.
+     * @return Новый DTO.
+     */
     public static UserRecommendedProductDto toDto(final ProductEntity entity) {
 
         return new UserRecommendedProductDto(

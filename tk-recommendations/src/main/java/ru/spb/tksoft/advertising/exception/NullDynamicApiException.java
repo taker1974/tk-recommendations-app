@@ -13,22 +13,33 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  */
 public class NullDynamicApiException extends IllegalArgumentException {
 
+    /** Логгер. */
     public static final Logger logger =
             LoggerFactory.getLogger(NullDynamicApiException.class);
 
+    /** Код ошибки. */
     public static final int CODE = 1247;
 
+    /** Сообщение об ошибке. */
     public static final String MESSAGE = "Ссылка на реализацию DynamicApiBoolean равна null";
 
-    public NullDynamicApiException(@NotBlank final String message) {
-
-        super(MESSAGE + ": " + message);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
-    }
-
+    /**
+     * Конструктор по умолчанию.
+     */
     public NullDynamicApiException() {
 
         super(MESSAGE);
+        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+    }
+
+    /**
+     * Конструктор с дополнительным сообщением об ошибке.
+     * 
+     * @param message Дополнительное сообщение об ошибке.
+     */
+    public NullDynamicApiException(@NotBlank final String message) {
+
+        super(MESSAGE + ": " + message);
         LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 }

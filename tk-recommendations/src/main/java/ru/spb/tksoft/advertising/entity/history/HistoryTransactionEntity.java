@@ -14,11 +14,16 @@ import lombok.Data;
 @AllArgsConstructor
 public class HistoryTransactionEntity {
 
+    /** Уникальный идентификатор БД записи о продукте. Не идентификатор продукта. */
     private UUID id;
 
+    /** Идентификатор продукта. */
     private UUID productId;
+    /** Идентификатор пользователя. */
     private UUID userId;
 
+    /** Тип транзакции. */
     private String type;
+    /** Сумма транзакции. */
     private int amount;
 }

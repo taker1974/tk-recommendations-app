@@ -35,6 +35,26 @@ public class UserRecommendationsController {
     private final UserRecommendationService userRecommendationService;
     private final HistoryTransactionServiceCached historyTransactionServiceCached;
 
+    /**
+     * Основной метод получения рекомендаций.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @return Рекомендации для пользователя.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получить рекомендации")
+    @GetMapping("/{userId}")
+    public UserRecommendationsDto getRecommendations(@PathVariable UUID userId) {
+
+        return userRecommendationService.getRecommendations(userId);
+    }
+
+    /**
+     * Получить сведения о пользователе по его ID.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @return Данные пользователя.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить сведения о пользователе по его ID")
     @GetMapping("/info/id/{userId}")
@@ -45,6 +65,11 @@ public class UserRecommendationsController {
                         () -> new HistoryUserNotFoundException(userId.toString())));
     }
 
+    /**
+     * Получить сведения о пользователе по его имени.
+     * 
+     * @return Данные пользователя.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получить сведения о пользователе по его имени")
     @GetMapping("/info/name/{userName}")
@@ -55,19 +80,18 @@ public class UserRecommendationsController {
                         () -> new HistoryUserNotFoundException(userName)));
     }
 
+    /**
+     * Получить список вида [ID пользователя : количество рекоменованных продуктов]. Служебный или
+     * отладочный метод для проверки корректности рекомендаций.
+     * 
+     * @return Список со сведениями.
+     */
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Получить список вида [ID пользователя : количество рекоменованных продуктов]")
+    @Operation(
+            summary = "Получить список вида [ID пользователя : количество рекоменованных продуктов]")
     @GetMapping("/view/shallow")
     public List<ShallowViewDto> getShallowView() {
 
         return userRecommendationService.getShallowView();
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Получить рекомендации")
-    @GetMapping("/{userId}")
-    public UserRecommendationsDto getRecommendations(@PathVariable UUID userId) {
-
-        return userRecommendationService.getRecommendations(userId);
     }
 }

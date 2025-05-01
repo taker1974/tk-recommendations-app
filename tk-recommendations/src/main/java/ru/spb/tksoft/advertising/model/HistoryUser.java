@@ -16,18 +16,25 @@ import lombok.Value;
 @Value
 public class HistoryUser {
 
+    /** Идентификатор пользователя. */
     @NotNull
     private UUID id;
 
+    /** Логин пользователя, ник. */
     @NotEmpty
     private String userName;
 
+    /** Имя пользователя. */
     @NotNull
     private String firstName;
 
+    /** Фамилия пользователя. */
     @NotNull
     private String lastName;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @NotBlank
     public String toString() {
