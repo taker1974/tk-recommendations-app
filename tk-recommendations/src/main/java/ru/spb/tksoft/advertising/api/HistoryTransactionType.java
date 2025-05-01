@@ -14,11 +14,19 @@ public enum HistoryTransactionType {
     @NotBlank
     private final String name;
 
+    /**
+     * Конструктор.
+     * 
+     * @param name Имя типа транзакции.
+     */
     HistoryTransactionType(@NotBlank String name) {
         this.name = name;
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return name;
     }

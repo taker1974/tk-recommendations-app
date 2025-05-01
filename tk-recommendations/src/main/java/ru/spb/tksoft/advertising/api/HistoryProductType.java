@@ -13,11 +13,19 @@ public enum HistoryProductType {
     @NotBlank
     private final String name;
 
+    /**
+     * Конструктор.
+     * 
+     * @param name Название типа продукта.
+     */
     HistoryProductType(@NotBlank String name) {
         this.name = name;
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return name;
     }

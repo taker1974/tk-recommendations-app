@@ -15,5 +15,12 @@ import jakarta.validation.constraints.NotNull;
 @FunctionalInterface
 public interface DynamicApiBooleanMethod {
 
+    /**
+     * Проверяет, соответствует ли пользователь требованиям.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @param args Список аргументов.
+     * @return true, если пользователь соответствует требованиям.
+     */
     boolean test(@NotNull UUID userId, @NotNull List<String> args);
 }
