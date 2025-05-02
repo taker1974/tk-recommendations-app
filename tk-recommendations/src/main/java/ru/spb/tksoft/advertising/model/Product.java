@@ -15,7 +15,7 @@ import ru.spb.tksoft.advertising.api.SuitableUser;
  * {@link ProductRulePredicate}, объединяемых затем по "И". Смотри код isUserSuitable(). Если список
  * предикатов пуст, то считаем, что правило рекомендования продукта заложено в код.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 @Value

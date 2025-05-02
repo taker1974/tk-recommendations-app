@@ -5,12 +5,15 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Базовый класс для перехвата исключений на уровне контроллера.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public abstract class AbstractBaseControllerAdvice {
 
     /** Префикс сообщения для всех перехваченных исключений. */
     public static final String MESSAGE_PREFIX = "Перехвачено исключение";
+
+    /** Конструктор по умолчанию */
+    protected AbstractBaseControllerAdvice() {}
 
     /**
      * Возвращает сообщение по умолчанию для перехваченного исключения.

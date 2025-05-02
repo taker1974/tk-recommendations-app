@@ -12,11 +12,18 @@ import ru.spb.tksoft.recommendations.dto.service.ServiceErrorResponseDto;
 /**
  * Перехват исключений RecommendationController.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RecommendationControllerAdvice extends AbstractBaseControllerAdvice {
+
+    /**
+     * Конструктор по умолчанию.
+     */
+    private RecommendationControllerAdvice() {
+        super();
+    }
 
     /**
      * Обработка исключения при отсутствии пользователя в истории запросов.

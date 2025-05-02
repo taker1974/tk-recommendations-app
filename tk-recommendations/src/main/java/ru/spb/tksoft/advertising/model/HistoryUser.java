@@ -10,7 +10,7 @@ import lombok.Value;
 /**
  * Данные по пользователю из базы транзакций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 @Value

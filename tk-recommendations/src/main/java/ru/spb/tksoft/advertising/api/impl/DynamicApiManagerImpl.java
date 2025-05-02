@@ -17,7 +17,7 @@ import ru.spb.tksoft.advertising.api.dynamic.DynamicApiManager;
 /**
  * Динамический API для работы с пользователями. Реализация менеджера динамических правил.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RequiredArgsConstructor
 public class DynamicApiManagerImpl implements DynamicApiManager {

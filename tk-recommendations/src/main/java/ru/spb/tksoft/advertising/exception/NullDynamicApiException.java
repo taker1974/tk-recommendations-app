@@ -6,15 +6,13 @@ import jakarta.validation.constraints.NotBlank;
 import ru.spb.tksoft.advertising.tools.LogEx;
 
 /**
- * Ссылка на реализацию {@link ru.spb.tksoft.advertising.api.dynamic.DynamicApiBoolean} равна
- * {@code null}.
+ * Ссылка на реализацию {@code DynamicApiBoolean} равна {@code null}.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public class NullDynamicApiException extends IllegalArgumentException {
 
-    /** Логгер. */
-    public static final Logger logger =
+    private static final Logger logger =
             LoggerFactory.getLogger(NullDynamicApiException.class);
 
     /** Код ошибки. */

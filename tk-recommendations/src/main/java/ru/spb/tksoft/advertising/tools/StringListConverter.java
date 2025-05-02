@@ -9,9 +9,9 @@ import jakarta.persistence.Converter;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * List<String> converter.
+ * {@code List<String>} converter.
  * 
- * @see https://www.baeldung.com/java-jpa-persist-string-list
+ * @see <a href="https://www.baeldung.com/java-jpa-persist-string-list">Baeldung</a> for the example.
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */

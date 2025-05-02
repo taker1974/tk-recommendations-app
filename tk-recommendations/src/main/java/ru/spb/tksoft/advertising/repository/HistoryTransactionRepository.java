@@ -22,7 +22,7 @@ import ru.spb.tksoft.advertising.entity.history.HistoryUserEntity;
  * @see ru.spb.tksoft.advertising.configuration.CommonDatabaseConfig
  * @see ru.spb.tksoft.advertising.configuration.RecommendationDatabaseConfig
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Repository
 public class HistoryTransactionRepository {

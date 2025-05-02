@@ -15,7 +15,7 @@ import ru.spb.tksoft.advertising.exception.ArgumentConversionException;
  * Динамический API для работы с пользователями. Реализация
  * TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RequiredArgsConstructor
 public class DynamicTransactionSumCompareDepositWithdrawImpl implements DynamicApiBooleanMethod {

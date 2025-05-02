@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 /**
  * Листинг продуктов с правилами рекомендования, возвращаемый контроллером по GET(/rule).
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor

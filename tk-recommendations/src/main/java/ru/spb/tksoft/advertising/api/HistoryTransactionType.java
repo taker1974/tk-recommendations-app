@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * Нормализованный тип транзакции.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public enum HistoryTransactionType {
 

@@ -26,7 +26,7 @@ import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 /**
  * Сервис выдачи рекомендаций для пользователя с указанным userId.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Service
 @ThreadSafe

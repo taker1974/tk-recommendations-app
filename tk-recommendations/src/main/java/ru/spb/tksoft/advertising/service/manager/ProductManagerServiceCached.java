@@ -35,7 +35,7 @@ import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
  * Кэшированный сервис управления продуктами. Позволяет добавлять, просматривать и удалять продукты
  * с правилами рекомендования.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Service
 @RequiredArgsConstructor

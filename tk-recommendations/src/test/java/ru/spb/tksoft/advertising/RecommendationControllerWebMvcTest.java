@@ -25,11 +25,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Класс для тестирования контроллера рекомендаций. Здесь никак отдельно не проверяется бэкэнд для
- * выборки транзакций пользователя.
+ * Тесты веб-слоя.
  * 
  * @author Константин Терских, kostus.online.1974@yandex.ru, 2025
- * @version 0.0.1
  */
 @RequiredArgsConstructor
 @ContextConfiguration(classes = {UserRecommendationsController.class,

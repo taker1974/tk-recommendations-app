@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
  * Интерфейс вызова метода, получающего список параметров в виде строк и возвращающего булевский
  * результат.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @FunctionalInterface
 public interface DynamicApiBooleanMethod {

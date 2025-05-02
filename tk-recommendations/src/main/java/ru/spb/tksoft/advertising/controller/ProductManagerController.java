@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * 
  * Реализация CRUD для продуктов и правил.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RestController
 @RequestMapping(value = "/rule")

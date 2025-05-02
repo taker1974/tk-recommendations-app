@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * Продукт с правилом рекомендования. Правило - это набор методов-предикатов, объединяемых затем по
  * "И". Если список предикатов пуст, то считаем, что правило рекомендования продукта заложено в код.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor

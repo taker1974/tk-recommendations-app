@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * Конфигурация БД для JPA. Здесь могут находиться конфигурации и других БД для JPA.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Configuration
 @EnableTransactionManagement

@@ -19,9 +19,9 @@ import ru.spb.tksoft.recommendations.dto.manager.ManagedProductRulePredicateDto;
 /**
  * Маппер для Managed*.
  *
- * Преобразования dto <-> model <-> entity, dto <-> entity.
+ * Преобразования {@code dto <-> model <-> entity, dto <-> entity}.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 public final class ManagedProductMapper {
@@ -77,7 +77,6 @@ public final class ManagedProductMapper {
      * Новая модель из переданной сущности, когда не нужно работать с правилами.
      * 
      * @param entity Сущность.
-     * @param historyService Сервис истории транзакций.
      * @return Новая модель.
      * 
      * @throws MethodIdentificationException в случае невозможности сопоставления запроса из
@@ -133,7 +132,7 @@ public final class ManagedProductMapper {
     /**
      * Новая модель из DTO.
      * 
-     * @param entity Сущность.
+     * @param dto Сущность.
      * @param historyService Сервис истории транзакций.
      * @return Новый DTO.
      * 

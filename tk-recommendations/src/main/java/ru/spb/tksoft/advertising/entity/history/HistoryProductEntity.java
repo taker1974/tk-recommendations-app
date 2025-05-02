@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * Данные по продукту из базы транзакций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @AllArgsConstructor

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
  * Служебный/отладочный DTO для перечисления всех UUID пользователей с количеством возможных
  * рекомендаций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor

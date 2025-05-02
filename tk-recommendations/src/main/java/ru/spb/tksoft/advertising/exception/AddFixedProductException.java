@@ -8,7 +8,7 @@ import ru.spb.tksoft.advertising.tools.LogEx;
 /**
  * Попытка добавления фиксированного продукта.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public class AddFixedProductException extends RuntimeException {
 
@@ -29,6 +29,8 @@ public class AddFixedProductException extends RuntimeException {
 
     /**
      * Конструктор с дополнительным сообщением об ошибке.
+     * 
+     * @param message Дополнительное сообщение об ошибке.
      */
     public AddFixedProductException(@NotBlank final String message) {
 

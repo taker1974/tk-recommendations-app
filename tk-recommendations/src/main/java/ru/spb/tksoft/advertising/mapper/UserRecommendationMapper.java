@@ -8,9 +8,9 @@ import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 /**
  * Маппер для User*.
  *
- * Здесь нужны только преобразования dto <- ...
+ * Здесь нужны только преобразования {@code dto <- ...}.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 public final class UserRecommendationMapper {

@@ -13,10 +13,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 /**
  * Конфигурация источников данных плюс JdbcTemplate для истории транзакций пользователя.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Configuration
 public class CommonDatabaseConfig {
+
+    /**
+     * Конструктор по умолчанию.
+     */
+    private CommonDatabaseConfig() {}
 
     /**
      * Основной источник данных.
