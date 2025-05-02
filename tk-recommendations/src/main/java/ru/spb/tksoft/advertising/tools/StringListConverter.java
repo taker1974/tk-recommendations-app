@@ -14,13 +14,19 @@ import jakarta.validation.constraints.NotNull;
  * @see https://www.baeldung.com/java-jpa-persist-string-list
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
- * @version 0.1
  */
 @Converter
 public class StringListConverter implements AttributeConverter<List<String>, String> {
 
+    /** Default delimiter string. */
     public static final String SPLIT_CHAR = ";";
 
+    /**
+     * {@inheritDoc} Convert string list to database column.
+     * 
+     * @param stringList List of strings to be converted to database column.
+     * @return Converted delimited string.
+     */
     @Override
     @NotNull
     public String convertToDatabaseColumn(@Nullable List<String> stringList) {
@@ -31,6 +37,12 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         return String.join(SPLIT_CHAR, stringList);
     }
 
+    /**
+     * {@inheritDoc} Convert database column to string list.
+     * 
+     * @param string Delimited string to be converted to string list.
+     * @return Converted string list.
+     */
     @Override
     @NotNull
     public List<String> convertToEntityAttribute(@Nullable String string) {

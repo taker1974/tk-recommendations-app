@@ -12,8 +12,7 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  */
 public class ArgumentConversionException extends IllegalArgumentException {
 
-    /** Логгер. */
-    public static final Logger logger = LoggerFactory.getLogger(ArgumentConversionException.class);
+    private static final Logger log = LoggerFactory.getLogger(ArgumentConversionException.class);
 
     /** Код ошибки. */
     public static final int CODE = 6582;
@@ -29,7 +28,7 @@ public class ArgumentConversionException extends IllegalArgumentException {
     public ArgumentConversionException(@NotBlank final String message) {
 
         super(MESSAGE + ": " + message);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
     /**
@@ -42,7 +41,7 @@ public class ArgumentConversionException extends IllegalArgumentException {
             @NotBlank final String toType) {
 
         super(MESSAGE + " " + argument + " -> " + toType);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
     /**
@@ -55,7 +54,7 @@ public class ArgumentConversionException extends IllegalArgumentException {
     public ArgumentConversionException(final int argumentIndex, @NotBlank final String toType) {
 
         super(MESSAGE + " " + argumentIndex + " -> " + toType);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
     /**
@@ -66,6 +65,6 @@ public class ArgumentConversionException extends IllegalArgumentException {
     public ArgumentConversionException(final int argumentIndex) {
 
         super(MESSAGE + " " + argumentIndex);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 }

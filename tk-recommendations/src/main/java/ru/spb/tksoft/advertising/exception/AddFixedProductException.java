@@ -12,8 +12,7 @@ import ru.spb.tksoft.advertising.tools.LogEx;
  */
 public class AddFixedProductException extends RuntimeException {
 
-    /** Логгер. */
-    public static final Logger logger = LoggerFactory.getLogger(AddFixedProductException.class);
+    private static final Logger log = LoggerFactory.getLogger(AddFixedProductException.class);
 
     /** Код ошибки. */
     public static final int CODE = 6982;
@@ -25,7 +24,7 @@ public class AddFixedProductException extends RuntimeException {
     public AddFixedProductException() {
 
         super(MESSAGE);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 
     /**
@@ -34,6 +33,6 @@ public class AddFixedProductException extends RuntimeException {
     public AddFixedProductException(@NotBlank final String message) {
 
         super(MESSAGE + ": " + message);
-        LogEx.error(logger, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
+        LogEx.error(log, LogEx.getThisMethodName(), LogEx.EXCEPTION_THROWN, CODE, this);
     }
 }

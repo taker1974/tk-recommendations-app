@@ -36,7 +36,6 @@ import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
  * с правилами рекомендования.
  * 
  * @author Константин Терских, kostus.online@gmail.com, 2025
- * @Service
  */
 @Service
 @RequiredArgsConstructor
@@ -52,7 +51,7 @@ public class ProductManagerServiceCached {
         return FIXED_PRODUCTS.contains(productId);
     }
 
-    private Logger log = LoggerFactory.getLogger(ProductManagerServiceCached.class);
+    private final Logger log = LoggerFactory.getLogger(ProductManagerServiceCached.class);
 
     @NotNull
     private final ProductsRepository productRepository;
@@ -63,6 +62,7 @@ public class ProductManagerServiceCached {
     @NotNull
     private final HistoryService historyService;
 
+    /** Сброс кэшей. */
     @CacheEvict(value = "allProducts", allEntries = true)
     public void clearCaches() {
         // ...
@@ -71,7 +71,7 @@ public class ProductManagerServiceCached {
     private final Object addProductLock = new Object();
 
     /**
-     * Добавляет рекомендацию в базу данных. Если рекомендация является фиксированной, то она не
+     * Добавление рекомендации в базу данных. Если рекомендация является фиксированной, то она не
      * будет добавлена. В противном случае рекомендация будет добавлена в базу данных после
      * валидации.
      * 
@@ -79,6 +79,8 @@ public class ProductManagerServiceCached {
      * 
      * @param dto Новый продукт с правилами рекомендования.
      * @return Добавленный продукт с правилами рекомендования.
+     * @throws AddFixedProductException Если рекомендация является фиксированной.
+     * @throws MethodIdentificationException Если запрос рекомендации некорректен.
      */
     @NotNull
     public ManagedProductDto addProduct(@NotNull final ManagedProductDto dto) {
@@ -111,7 +113,7 @@ public class ProductManagerServiceCached {
     private final Object getAllProductsLock = new Object();
 
     /**
-     * Возвращает все рекомендации из базы данных. Все объекты новые и неизменяемые.
+     * Получение всех рекомендаций из базы данных. Все объекты новые и неизменяемые.
      * 
      * В процессе маппирования из Entity в модель ProductRulePredicate внедряется реализация метода,
      * соответствующая запросу.
@@ -139,23 +141,37 @@ public class ProductManagerServiceCached {
 
     private final Object deleteProductLock = new Object();
 
+    /**
+     * Удаление рекомендации из базы данных. Если рекомендация является фиксированной, то она не
+     * будет удалена.
+     * 
+     * @param productId Идентификатор рекомендации.
+     */
     @CacheEvict(value = "allProducts", allEntries = true)
     public void deleteProduct(@NotNull final UUID productId) {
 
         synchronized (deleteProductLock) {
-            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.SHORT_RUN,
-                    "recommendationId = " + productId);
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, productId);
 
             if (!isFixedProduct(productId)) {
                 productRepository.deleteById(productId);
             }
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, productId);
         }
     }
 
     private final Object incrementProductHitsCounterLock = new Object();
 
+    /**
+     * Инкрементирование счетчика срабатываний рекоментдации.
+     * 
+     * @param productId Идентификатор рекомендации.
+     * @return Новое значение счетчика.
+     * @throws ProductNotFoundApiException Если рекомендация не найдена.
+     */
     public long incrementProductHitsCounter(@NotNull final UUID productId) {
-        
+
         synchronized (incrementProductHitsCounterLock) {
             ProductHitsCounterEntity entity = productHitsCounterRepository
                     .findByProductId(productId)
@@ -172,6 +188,11 @@ public class ProductManagerServiceCached {
 
     private final Object getStatsLock = new Object();
 
+    /**
+     * Получение статистики по рекомендациям.
+     * 
+     * @return Статистика по рекомендациям.
+     */
     public StatsDto getStats() {
 
         synchronized (getStatsLock) {
@@ -188,7 +209,11 @@ public class ProductManagerServiceCached {
 
     private final Object resetStatsLock = new Object();
 
+    /**
+     * Сброс статистики по рекомендациям.
+     */
     public void resetStats() {
+
         synchronized (resetStatsLock) {
             LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
 
