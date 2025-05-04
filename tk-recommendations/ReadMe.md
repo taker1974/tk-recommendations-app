@@ -19,7 +19,7 @@
 - предварительно смотрим application.yml;
 - создаём БД tk_recommendations, создаём пользователя "recommendations_god" с паролем "87654321", отдаём БД tk_recommendations во владение пользователю recommendations_god:
 
-```
+```Bash
 $ sudo -u postgres psql
 postgres=# CREATE DATABASE tk_recommendations;
 CREATE DATABASE
@@ -40,10 +40,11 @@ ALTER DATABASE
 
 Смотри pom.xml. В корне проекта:
 
+```Bash
+$mvn clean install
+$java -jar target/tk-recommendations-0.0.1-SNAPSHOT.jar
 ```
-$ mvn clean install
-$ java -jar target/tk-recommendations-0.0.1-SNAPSHOT.jar
-```
+
 В браузере:
 
 http://localhost:8090/tk-recommendations/swagger-ui/index.html

@@ -24,18 +24,22 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"product_id", "product_name", "product_text", "rule"})
 public class ManagedProductDto {
 
+    /** Идентификатор продукта. */
     @NotBlank
     @JsonProperty("product_id")
     private UUID productId;
 
+    /** Наименование продукта. */
     @NotBlank
     @JsonProperty("product_name")
     private String productName;
 
+    /** Описание продукта. */
     @NotBlank
     @JsonProperty("product_text")
     private String productText;
 
+    /** Правило рекомендования продукта. */
     @Valid
     @NotNull
     @JsonProperty("rule")

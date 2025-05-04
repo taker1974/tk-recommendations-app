@@ -1,4 +1,4 @@
-package ru.spb.tksoft.advertising.controller.advice;
+package ru.spb.tksoft.recommendations.controller.advice;
 
 import jakarta.validation.constraints.NotNull;
 

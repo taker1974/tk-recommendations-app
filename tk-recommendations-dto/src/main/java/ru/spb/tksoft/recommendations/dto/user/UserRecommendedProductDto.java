@@ -20,14 +20,17 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"id", "name", "text"})
 public class UserRecommendedProductDto {
 
+    /** Идентификатор рекомендованного продукта. */
     @NotNull
     @JsonProperty("id")
     private UUID id;
 
+    /** Наименование рекомендованного продукта. */
     @NotBlank
     @JsonProperty("name")
     private String productName;
 
+    /** Описание рекомендованного продукта. */
     @NotBlank
     @JsonProperty("text")
     private String productText;

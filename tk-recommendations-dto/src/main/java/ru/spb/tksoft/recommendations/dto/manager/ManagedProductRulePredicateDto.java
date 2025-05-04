@@ -21,14 +21,17 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"query", "arguments", "negate"})
 public class ManagedProductRulePredicateDto {
 
+    /** Запрос - имя удалённого метода. */
     @NotBlank
     @JsonProperty("query")
     private String query;
 
+    /** Аргументы удалённого метода. */
     @NotNull
     @JsonProperty("arguments")
     private List<String> arguments = Arrays.asList();
 
+    /** Инверсия результата выполнения запроса. */
     @JsonProperty("negate")
     boolean negate;
 }

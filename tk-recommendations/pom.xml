@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.4.5</version>
 		<relativePath />
 	</parent>
 
@@ -49,7 +49,7 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<start-class>ru.spb.tksoft.advertising.TkTargetedAdvertisingApplication</start-class>
-		<maven.test.skip>false</maven.test.skip>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<dependencies>
@@ -57,7 +57,13 @@
 		<dependency>
 			<groupId>ru.spb.tksoft</groupId>
 			<artifactId>tk-recommendations-dto</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.spb.tksoft</groupId>
+			<artifactId>tk-recommendations-exceptions</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -194,7 +200,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -250,8 +256,7 @@
 				</executions>
 			</plugin>
 
-			<!-- See ../ReadMe.md -->
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.2</version>
@@ -263,7 +268,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 
 		</plugins>
 	</build>

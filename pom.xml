@@ -12,6 +12,7 @@
 
   <modules>
     <module>tk-recommendations-dto</module>
+    <module>tk-recommendations-exceptions</module>
     <module>tk-recommendations</module>
     <module>tk-recommendations-bot</module>
   </modules>
@@ -20,7 +21,7 @@
     <plugins>
 
 			<!-- See ../ReadMe.md -->
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.2</version>
@@ -32,7 +33,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 
     </plugins>
   </build>

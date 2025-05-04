@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ManagedProductListDto {
 
+    /** Обёртка над списком продуктов. */
     @Valid
     @NotNull
     @JsonProperty("data")

@@ -12,6 +12,12 @@ import jakarta.validation.constraints.NotBlank;
  */
 public record ServiceErrorResponseDto(int code, String message, String details) {
 
+    /**
+     * Конструктор.
+     * 
+     * @param code Код ошибки.
+     * @param message Описание ошибки.
+     */
     public ServiceErrorResponseDto(int code, @NotBlank String message) {
 
         this(code, message, "");

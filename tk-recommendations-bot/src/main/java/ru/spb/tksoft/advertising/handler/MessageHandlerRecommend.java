@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import jakarta.annotation.PostConstruct;
 import ru.spb.tksoft.advertising.service.UserRecommendationServiceCached;
 import ru.spb.tksoft.advertising.tools.LogEx;
 import ru.spb.tksoft.advertising.tools.StringEx;
@@ -18,7 +17,7 @@ import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 
 /**
- * Handle command /recommend
+ * Обработка команды /recommend
  */
 @Component
 public class MessageHandlerRecommend extends MessageHandler {
@@ -27,23 +26,36 @@ public class MessageHandlerRecommend extends MessageHandler {
 
     private final UserRecommendationServiceCached userRecommendationServiceCached;
 
+    /**
+     * Создание нового объекта обработчика команды /recommend
+     * 
+     * @param userRecommendationServiceCached Сервис получения рекомендаций.
+     */
     public MessageHandlerRecommend(
             @Autowired UserRecommendationServiceCached userRecommendationServiceCached) {
 
-        super(List.of("/recommend", "recommend", "/r"));
+        super(List.of("/recommend", "/r"));
         this.userRecommendationServiceCached = userRecommendationServiceCached;
     }
 
-    @PostConstruct
-    private void postConstruct() {
-        // ...
-    }
-
+    /**
+     * Получить описание команды.
+     * 
+     * @return Описание команды.
+     */
     @Override
     public String getHelp() {
         return "/recommend <user.name> или /r <user.name> - рекомендовать продукты для пользователя с указанным user.name";
     }
 
+    /**
+     * Обработка команды.
+     * 
+     * @param chatId Идентификатор чата.
+     * @param messageId Идентификатор сообщения.
+     * @param rawMessage Сырой текст сообщения с командой.
+     * @return Текст ответа.
+     */
     @Override
     public String handle(final long chatId, final int messageId, final String rawMessage) {
 

@@ -20,18 +20,22 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"user_id", "user_name", "first_name", "last_name"})
 public class HistoryUserDto {
 
+    /** Идентификатор пользователя. */
     @NotNull
     @JsonProperty("user_id")
     private UUID id;
 
+    /** Ник пользователя. */
     @NotBlank
     @JsonProperty("user_name")
     private String userName;
 
+    /** Имя пользователя. */
     @NotBlank
     @JsonProperty("first_name")
     private String firstName;
 
+    /** Фамилия пользователя. */
     @NotBlank
     @JsonProperty("last_name")
     private String lastName;

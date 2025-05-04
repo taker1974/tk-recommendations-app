@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StatsDto {
 
+    /** Список счётчиков срабатываний рекомендаций. */
     @NotNull
     private List<ProductHitCounterDto> stats = new ArrayList<>();
 }

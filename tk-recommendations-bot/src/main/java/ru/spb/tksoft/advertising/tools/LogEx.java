@@ -9,7 +9,6 @@ import java.util.Arrays;
  * LogEx.
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
- * @version 0.1
  */
 public class LogEx {
 

@@ -17,13 +17,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({ "user_id", "recommendations_count" })
+@JsonPropertyOrder({"user_id", "recommendations_count"})
 public class ShallowViewDto {
 
+    /** Идентификатор пользователя. */
     @NotNull
     @JsonProperty("user_id")
     private UUID userId;
 
+    /** Количество рекомендаций. */
     @JsonProperty("recommendations_count")
     private int recommendationsCount;
 }

@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"name", "version"})
 public class MaintenanceInfoDto {
 
+    /** Идентификатор приложения.*/
     @NotBlank
     private String name;
 
+    /** Версия приложения.*/
     @NotBlank
     private String version;
 }

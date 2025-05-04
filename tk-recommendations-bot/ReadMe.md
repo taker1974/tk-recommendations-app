@@ -27,9 +27,9 @@
 
 В корне проекта:
 
-```
-$ mvn clean install
-$ java -jar target/tk-recommendations-bot-0.0.1-SNAPSHOT.jar
+```Bash
+$mvn clean install
+$java -jar target/tk-recommendations-bot-0.0.1-SNAPSHOT.jar
 ```
 
 Ключ API бота Telegram должен находиться либо в переменной окружения TK_RECOMMENDATIONS_BOT_API_KEY, либо должен быть передан через параметр командной строки --telegram.bot.token=<ваш-ключ-api>.

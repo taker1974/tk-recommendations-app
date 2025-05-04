@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.4.5</version>
 		<relativePath />
 	</parent>
 
@@ -57,7 +57,13 @@
 		<dependency>
 			<groupId>ru.spb.tksoft</groupId>
 			<artifactId>tk-recommendations-dto</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.spb.tksoft</groupId>
+			<artifactId>tk-recommendations-exceptions</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -218,8 +224,7 @@
 				</executions>
 			</plugin>
 
-			<!-- See ../ReadMe.md -->
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.2</version>
@@ -231,7 +236,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 
 		</plugins>
 	</build>

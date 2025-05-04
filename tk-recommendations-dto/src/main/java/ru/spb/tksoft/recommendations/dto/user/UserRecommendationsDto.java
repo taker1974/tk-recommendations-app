@@ -23,10 +23,12 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"user_id", "recommendations"})
 public class UserRecommendationsDto {
 
+    /** Идентификатор пользователя. */
     @NotNull
     @JsonProperty("user_id")
     private UUID userId;
 
+    /** Список рекомендаций для пользователя. */
     @NotNull
     @JsonProperty("recommendations")
     private Set<UserRecommendedProductDto> recommendations = HashSet.newHashSet(0);
