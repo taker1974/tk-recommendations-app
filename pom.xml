@@ -1,42 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>tksoft.spb.ru</groupId>
-  <artifactId>recommendations.app</artifactId>
-  <version>1.0.0</version>
+    <groupId>tksoft.spb.ru</groupId>
+    <artifactId>recommendations-app</artifactId>
+    <version>1.0.0</version>
 
-  <packaging>pom</packaging>
+    <packaging>pom</packaging>
 
-  <modules>
-    <module>tk-string-utils</module>
-    <module>tk-log-utils</module>
-    <module>tk-recommendations-dto</module>
-    <module>tk-recommendations-exceptions</module>
-    <module>tk-recommendations</module>
-    <module>tk-recommendations-bot</module>
-  </modules>
-
-  <build>
-    <plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.11.2</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-    </plugins>
-  </build>
+    <modules>
+        <module>tk-string-utils</module>
+        <module>tk-log-utils</module>
+        <module>tk-recommendations-dto</module>
+        <module>tk-recommendations-exceptions</module>
+        <module>tk-recommendations</module>
+        <module>tk-recommendations-bot</module>
+    </modules>
 
 </project>

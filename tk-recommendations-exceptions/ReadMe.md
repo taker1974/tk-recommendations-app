@@ -23,5 +23,6 @@ Spring Boot, Java.
 Смотри pom.xml. В корне модуля:
 
 ```Bash
-$mvn clean install
+mvn clean install
+mvn compile javadoc:javadoc
 ```

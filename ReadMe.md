@@ -38,4 +38,4 @@ curl http://localhost:8090/tk-recommendations/api-docs -o tk-recommendations-api
 npx @redocly/cli build-docs tk-recommendations-api-spec.json -o tk-recommendations-swagger.html 
 ```
 
-Документация JavaDoc для модулей tk-log-utils и tk-string-utils находится в директориях javadoc этих проектов соответственно.
+Документация JavaDoc для модулей находится в директориях javadoc/ этих проектов соответственно.

@@ -19,11 +19,6 @@ See pom.xml. Change directory to module root and
 
 ```Bash
 mvn clean install
-```
-
-For generating documentation:
-
-```Bash
 mvn compile javadoc:javadoc
 ```
 
