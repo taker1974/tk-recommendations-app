@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  * Рекомендации для пользователя, возвращаемые контроллером по
  * GET(/recommendation/{uuid_пользователя}).
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor
@@ -23,10 +23,12 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"user_id", "recommendations"})
 public class UserRecommendationsDto {
 
+    /** Идентификатор пользователя. */
     @NotNull
     @JsonProperty("user_id")
     private UUID userId;
 
+    /** Список рекомендаций для пользователя. */
     @NotNull
     @JsonProperty("recommendations")
     private Set<UserRecommendedProductDto> recommendations = HashSet.newHashSet(0);

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Служебный контроллер.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RestController
 @RequestMapping(value = "/maintenance")
@@ -28,6 +28,10 @@ public class MaintenanceController {
     private final BuildProperties buildProperties;
     private final UserRecommendationServiceCached userRecommendationService;
 
+    /**
+     * Информация о приложении.
+     * @return Информация о приложении.
+     */
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "О приложении")
     @GetMapping("/info")
@@ -37,6 +41,9 @@ public class MaintenanceController {
                 buildProperties.getName(), buildProperties.getVersion());
     }
 
+    /**
+     * Сброс кэшей.
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Сброс всех кэшей")
     @PostMapping("/clear-caches")

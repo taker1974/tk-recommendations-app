@@ -17,15 +17,21 @@ import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBooleanMethod;
  * описание RMI в виде "query:имя_метода,arguments:аргумент_метода_1;.." и ссылка на класс, который
  * реализует RMI через реализацию {@link DynamicApiBooleanMethod}.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 @Value
 public class ProductRulePredicate implements SuitableUser {
 
+    /**
+     * Имя запроса или метода RMI.
+     */
     @NotBlank
     private final String query;
 
+    /**
+     * Аргументы запроса или метода RMI.
+     */
     @NotNull
     private final List<String> arguments;
 
@@ -34,11 +40,19 @@ public class ProductRulePredicate implements SuitableUser {
     @Nullable
     private final DynamicApiBooleanMethod testImplementation;
 
+    /**
+     * Возвращает аргументы метода или запроса в виде списка.
+     * 
+     * @return Список аргументов метода или запроса.
+     */
     @NotNull
     public List<String> getArguments() {
         return Collections.unmodifiableList(null == arguments ? new ArrayList<>() : arguments);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @NotBlank
     public String toString() {

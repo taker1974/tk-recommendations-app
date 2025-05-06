@@ -14,15 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
-import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
-import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
 import ru.spb.tksoft.advertising.model.Product;
-import ru.spb.tksoft.advertising.model.ProductHitsCounter;
-import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
@@ -30,7 +26,7 @@ import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 /**
  * Сервис выдачи рекомендаций для пользователя с указанным userId.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Service
 @ThreadSafe
@@ -44,12 +40,16 @@ public class UserRecommendationService {
     @NotNull
     private final ProductManagerServiceCached productManagerServiceCached;
 
+    /** Сброс кэшей. */
     public void clearCaches() {
         userRecommendationServiceCached.clearCaches();
     }
 
+    /** Название продукта "Invest 500". */
     public static final String INVEST_500 = "Invest 500";
+    /** Название продукта "Top Saving". */
     public static final String TOP_SAVING = "Top Saving";
+    /** Название продукта "Простой кредит". */
     public static final String COMMON_CREDIT = "Простой кредит";
 
     @NotNull
@@ -64,6 +64,13 @@ public class UserRecommendationService {
                 .build();
     }
 
+    /**
+     * Конструктор класса. В этом конструкторе инициализтруются структуры данных, которые
+     * используются при выполнении проверок для фиксированных рекомендаций.
+     * 
+     * @param recommendationServiceCached Сервис рекомендаций с кэшированными методами.
+     * @param productManagerServiceCached Сервис управления продуктами.
+     */
     public UserRecommendationService(
             @NotNull final UserRecommendationServiceCached recommendationServiceCached,
             @NotNull final ProductManagerServiceCached productManagerServiceCached) {
@@ -76,6 +83,13 @@ public class UserRecommendationService {
 
     private final Object getRecommendationsLock = new Object();
 
+    /**
+     * Получение рекомендаций для пользователя с указанным userId.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @return Объект рекомендаций пользователя.
+     * @throws ProductNotFoundApiException Исключение в случае, если не найден продукт.
+     */
     @NotNull
     public UserRecommendationsDto getRecommendations(@NotNull final UUID userId) {
 
@@ -100,7 +114,7 @@ public class UserRecommendationService {
     }
 
     private void checkFixedProducts(@NotNull final UUID userId,
-            @NotNull final UserRecommendationsDto dto) {
+            @NotNull final UserRecommendationsDto dto) throws ProductNotFoundApiException {
 
         try {
             recommendationChecks.entrySet().stream().forEach(entry -> {
@@ -114,7 +128,7 @@ public class UserRecommendationService {
 
                 var recommendation = userRecommendationServiceCached
                         .getRecommendationByName(key)
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new ProductNotFoundApiException(key));
 
                 var recommendations = dto.getRecommendations();
 
@@ -156,6 +170,12 @@ public class UserRecommendationService {
         }
     }
 
+    /**
+     * Служебный метод для отладки или для проверки правил. Получение списка вида "пользователь ->
+     * количество рекомендаций".
+     * 
+     * @return Список вида "пользователь -> количество рекомендаций".
+     */
     public List<ShallowViewDto> getShallowView() {
 
         List<ShallowViewDto> result = new ArrayList<>();

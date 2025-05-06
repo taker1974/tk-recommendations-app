@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 /**
  * Описание предиката/запроса RMI для правила рекомендования.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor
@@ -21,14 +21,17 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"query", "arguments", "negate"})
 public class ManagedProductRulePredicateDto {
 
+    /** Запрос - имя удалённого метода. */
     @NotBlank
     @JsonProperty("query")
     private String query;
 
+    /** Аргументы удалённого метода. */
     @NotNull
     @JsonProperty("arguments")
     private List<String> arguments = Arrays.asList();
 
+    /** Инверсия результата выполнения запроса. */
     @JsonProperty("negate")
     boolean negate;
 }

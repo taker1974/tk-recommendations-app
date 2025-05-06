@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * Описание рекомендованного продукта.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor
@@ -20,14 +20,17 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"id", "name", "text"})
 public class UserRecommendedProductDto {
 
+    /** Идентификатор рекомендованного продукта. */
     @NotNull
     @JsonProperty("id")
     private UUID id;
 
+    /** Наименование рекомендованного продукта. */
     @NotBlank
     @JsonProperty("name")
     private String productName;
 
+    /** Описание рекомендованного продукта. */
     @NotBlank
     @JsonProperty("text")
     private String productText;

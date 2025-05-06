@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.spb.tksoft.recommendations.controller.advice"},{"l":"ru.spb.tksoft.recommendations.exception"}];updateSearchResults();

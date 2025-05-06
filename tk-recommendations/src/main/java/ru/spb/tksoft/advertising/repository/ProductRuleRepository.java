@@ -7,7 +7,7 @@ import ru.spb.tksoft.advertising.entity.ProductRulePredicateEntity;
 /**
  * Репозиторий для сущности ProductRuleEntity.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Repository
 public interface ProductRuleRepository extends JpaRepository<ProductRulePredicateEntity, Long> {

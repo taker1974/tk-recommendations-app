@@ -2,11 +2,25 @@ package ru.spb.tksoft.advertising.handler;
 
 import java.util.List;
 
+/**
+ * Менеджер обработчиков сообщений.
+ * 
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
+ */
 public class MessageManager {
 
+    /** Список обработчиков сообщений. */
     private final List<MessageHandler> handlers;
+
+    /** Обработчик по умолчанию. Это ссылка на один из обработчиков из списка. */
     private final MessageHandler defaultHandler;
 
+    /**
+     * Конструктор.
+     * 
+     * @param handlers Список обработчиков сообщений.
+     * @param defaultHandler Обработчик по умолчанию.
+     */
     public MessageManager(List<MessageHandler> handlers,
             MessageHandler defaultHandler) {
 
@@ -18,6 +32,11 @@ public class MessageManager {
         this.defaultHandler = defaultHandler;
     }
 
+    /**
+     * Возвращает текст помощи для всех обработчиков.
+     * 
+     * @return Текст помощи.
+     */
     public String getHelp() {
 
         var sb = new StringBuilder();
@@ -32,6 +51,14 @@ public class MessageManager {
         return sb.toString();
     }
 
+    /**
+     * Акт управления сообщением через вызов обработчиков сообщений.
+     * 
+     * @param chatId Идентификатор чата.
+     * @param messageId Идентификатор сообщения.
+     * @param message Сообщение.
+     * @return Результат выполнения обработчика сообщения.
+     */
     public String manage(final long chatId, final int messageId, final String message) {
 
         for (var handler : handlers) {

@@ -17,14 +17,18 @@ import ru.spb.tksoft.advertising.api.dynamic.DynamicApiManager;
 /**
  * Динамический API для работы с пользователями. Реализация менеджера динамических правил.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RequiredArgsConstructor
 public class DynamicApiManagerImpl implements DynamicApiManager {
 
+    /** Имя RMI USER_OF */
     public static final String USER_OF = "USER_OF";
+    /** Имя RMI ACTIVE_USER_OF */
     public static final String ACTIVE_USER_OF = "ACTIVE_USER_OF";
+    /** Имя RMI TRANSACTION_SUM_COMPARE */
     public static final String TRANSACTION_SUM_COMPARE = "TRANSACTION_SUM_COMPARE";
+    /** Имя RMI TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW */
     public static final String TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW =
             "TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW";
 
@@ -42,6 +46,14 @@ public class DynamicApiManagerImpl implements DynamicApiManager {
                                     DynamicTransactionSumCompareDepositWithdrawImpl.class))
                     .build();
 
+    /**
+     * Поверхностная проверка корректности запроса на наличие необходимого метода и корректность
+     * переданных аргументов.
+     * 
+     * @param methodName Имя метода.
+     * @param args Список аргументов.
+     * @return true, если запрошенный метод существует в API.
+     */
     public static boolean isMethodValidShallow(@Nullable final String methodName,
             @Nullable final List<String> args) {
 

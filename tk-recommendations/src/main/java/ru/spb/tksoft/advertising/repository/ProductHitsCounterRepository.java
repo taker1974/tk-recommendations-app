@@ -10,13 +10,19 @@ import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
 /**
  * Репозиторий для сущности ProductHitsCounterEntity.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Repository
 public interface ProductHitsCounterRepository
-        extends JpaRepository<ProductHitsCounterEntity, Long> {
+                extends JpaRepository<ProductHitsCounterEntity, Long> {
 
-    @Query(nativeQuery = true,
-            value = "SELECT * FROM product_hits_counters WHERE product_id = :productId")
-    Optional<ProductHitsCounterEntity> findByProductId(UUID productId);
+        /**
+         * Получение сущности ProductHitsCounterEntity по идентификатору продукта.
+         * 
+         * @param productId
+         * @return
+         */
+        @Query(nativeQuery = true,
+                        value = "SELECT * FROM product_hits_counters WHERE product_id = :productId")
+        Optional<ProductHitsCounterEntity> findByProductId(UUID productId);
 }

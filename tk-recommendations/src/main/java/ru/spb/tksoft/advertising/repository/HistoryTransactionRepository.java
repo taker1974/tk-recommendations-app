@@ -22,18 +22,24 @@ import ru.spb.tksoft.advertising.entity.history.HistoryUserEntity;
  * @see ru.spb.tksoft.advertising.configuration.CommonDatabaseConfig
  * @see ru.spb.tksoft.advertising.configuration.RecommendationDatabaseConfig
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
-
 @Repository
 public class HistoryTransactionRepository {
 
     private final Logger log = LoggerFactory.getLogger(HistoryTransactionRepository.class);
+
+    /** Запись ошибки в лог при неудачном выполнении запроса. */
     public static final String LOG_QUERY_FAILED = "Query failed";
 
     @NotNull
     private final JdbcTemplate transactionJdbcTemplate;
 
+    /**
+     * Конструктор репозитория на основе JdbcTemplate.
+     * 
+     * @param transactionJdbcTemplate JdbcTemplate для работы с базой данных.
+     */
     public HistoryTransactionRepository(
             @NotNull @Qualifier("transactionJdbcTemplate") JdbcTemplate transactionJdbcTemplate) {
 
@@ -43,6 +49,13 @@ public class HistoryTransactionRepository {
     private final Object getTestTransactionsLock = new Object();
     private static final String TEST_TRANSACTIONS_QUERY = "SELECT * FROM TRANSACTIONS LIMIT ?";
 
+    /**
+     * Служебный метод для проверки правильности настройки всего тракта получения данных о
+     * транзакциях.
+     * 
+     * @param limit Количество записей для получения.
+     * @return Список транзакций.
+     */
     @NotNull
     public List<HistoryTransactionEntity> getTestTransactions(int limit) {
 
@@ -71,6 +84,13 @@ public class HistoryTransactionRepository {
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
             WHERE USER_ID = ? AND p."TYPE" = ?""";
 
+    /**
+     * Получение количества транзакций с указанным продуктом.
+     * 
+     * @param userId Иидентификатор пользователя.
+     * @param productType Тип продукта.
+     * @return Количество транзакций.
+     */
     public int getProductUsageCount(@NotNull final UUID userId,
             @NotBlank final String productType) {
 
@@ -98,6 +118,14 @@ public class HistoryTransactionRepository {
             JOIN PRODUCTS p ON p.ID = t.PRODUCT_ID
             WHERE USER_ID = ? AND p."TYPE" = ? AND t."TYPE" = ?""";
 
+    /**
+     * Получение суммы транзакций по указанному типу продукта и типу транзакции.
+     * 
+     * @param userId Иидентификатор пользователя.
+     * @param productType Тип продукта.
+     * @param transactionType Тип транзакции.
+     * @return Сумма транзакций.
+     */
     public double getProductSum(@NotNull final UUID userId, @NotBlank final String productType,
             @NotBlank final String transactionType) {
 
@@ -123,6 +151,12 @@ public class HistoryTransactionRepository {
     private static final String USER_INFO_BY_ID_QUERY =
             "SELECT * FROM USERS u WHERE ID = ?";
 
+    /**
+     * Получение информации о пользователе по его идентификатору.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @return Информация о пользователе.
+     */
     public Optional<HistoryUserEntity> getUserInfo(@NotNull final UUID userId) {
 
         synchronized (getUserInfoByIdLock) {
@@ -149,6 +183,12 @@ public class HistoryTransactionRepository {
     private static final String USER_INFO_BY_NAME_QUERY =
             "SELECT * FROM USERS u WHERE USERNAME = ?";
 
+    /**
+     * Получение информации о пользователе по его нику.
+     * 
+     * @param userName Ник пользователя.
+     * @return Информация о пользователе.
+     */
     public Optional<HistoryUserEntity> getUserInfo(@NotBlank final String userName) {
 
         synchronized (getUserInfoByNameLock) {
@@ -171,10 +211,15 @@ public class HistoryTransactionRepository {
     }
 
     private final Object getAllIdsLock = new Object();
-    
+
     private static final String ALL_IDS_QUERY =
             "SELECT ID FROM USERS;";
 
+    /**
+     * Получение всех идентификаторов пользователей.
+     * 
+     * @return Список идентификаторов пользователей.
+     */
     public List<UUID> getAllIds() {
 
         synchronized (getAllIdsLock) {

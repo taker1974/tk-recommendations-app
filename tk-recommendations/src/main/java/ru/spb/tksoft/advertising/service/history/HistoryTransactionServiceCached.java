@@ -19,12 +19,12 @@ import ru.spb.tksoft.advertising.entity.history.HistoryTransactionEntity;
 import ru.spb.tksoft.advertising.mapper.HistoryMapper;
 import ru.spb.tksoft.advertising.model.HistoryUser;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 
 /**
  * Сервис для работы с историей транзакций: кэшированные методы.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 @Service
@@ -36,12 +36,13 @@ public class HistoryTransactionServiceCached implements HistoryService {
     @NotNull
     private final HistoryTransactionRepository transactionRepository;
 
+    /** Сброс кэшей. */
     @CacheEvict(value = "usage", allEntries = true)
     public void clearCaches() {
         clearSumCache();
     }
 
-    // @CacheEvict(value = "sum", allEntries = true)
+    @CacheEvict(value = "sum", allEntries = true)
     private void clearSumCache() {
         // ...
     }
@@ -66,6 +67,10 @@ public class HistoryTransactionServiceCached implements HistoryService {
 
     private final Object isUsingProductLock = new Object();
 
+    /**
+     * Минимальное количество транзакций, необходимое для определения того, что пользователь активно
+     * использует продукт.
+     */
     public static final int ACTIVE_PRODUCT_USER_MIN = 5;
 
     /**
@@ -116,6 +121,12 @@ public class HistoryTransactionServiceCached implements HistoryService {
 
     private final Object getUserInfoByIdLock = new Object();
 
+    /**
+     * Получение информации о пользователе по идентификатору.
+     * 
+     * @param userId Идентификатор пользователя.
+     * @return Информация о пользователе.
+     */
     public Optional<HistoryUser> getUserInfo(@NotNull final UUID userId) {
 
         synchronized (getUserInfoByIdLock) {
@@ -131,6 +142,12 @@ public class HistoryTransactionServiceCached implements HistoryService {
 
     private final Object getUserInfoByNameLock = new Object();
 
+    /**
+     * Получение информации о пользователе по имени.
+     * 
+     * @param userName Имя пользователя.
+     * @return Информация о пользователе.
+     */
     public Optional<HistoryUser> getUserInfo(@NotBlank final String userName) {
 
         synchronized (getUserInfoByNameLock) {

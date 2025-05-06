@@ -12,7 +12,7 @@ import ru.spb.tksoft.advertising.exception.ArgumentConversionException;
 /**
  * Динамический API для работы с пользователями. Реализация ACTIVE_USER_OF.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @RequiredArgsConstructor
 public class DynamicActiveUserOfImpl implements DynamicApiBooleanMethod {

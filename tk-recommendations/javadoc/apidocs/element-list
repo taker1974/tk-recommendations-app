@@ -1,0 +1,16 @@
+ru.spb.tksoft.advertising
+ru.spb.tksoft.advertising.api
+ru.spb.tksoft.advertising.api.dynamic
+ru.spb.tksoft.advertising.api.impl
+ru.spb.tksoft.advertising.configuration
+ru.spb.tksoft.advertising.controller
+ru.spb.tksoft.advertising.controller.advice
+ru.spb.tksoft.advertising.entity
+ru.spb.tksoft.advertising.entity.history
+ru.spb.tksoft.advertising.exception
+ru.spb.tksoft.advertising.mapper
+ru.spb.tksoft.advertising.model
+ru.spb.tksoft.advertising.repository
+ru.spb.tksoft.advertising.service.history
+ru.spb.tksoft.advertising.service.manager
+ru.spb.tksoft.advertising.service.user

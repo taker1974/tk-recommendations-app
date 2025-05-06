@@ -12,18 +12,20 @@ import lombok.NoArgsConstructor;
  * Служебный/отладочный DTO для перечисления всех UUID пользователей с количеством возможных
  * рекомендаций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({ "user_id", "recommendations_count" })
+@JsonPropertyOrder({"user_id", "recommendations_count"})
 public class ShallowViewDto {
 
+    /** Идентификатор пользователя. */
     @NotNull
     @JsonProperty("user_id")
     private UUID userId;
 
+    /** Количество рекомендаций. */
     @JsonProperty("recommendations_count")
     private int recommendationsCount;
 }

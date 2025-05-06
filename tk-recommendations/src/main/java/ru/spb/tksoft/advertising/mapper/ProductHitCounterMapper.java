@@ -8,21 +8,32 @@ import ru.spb.tksoft.recommendations.dto.stat.ProductHitCounterDto;
 /**
  * Маппер для ProductHitCounter*.
  *
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 public final class ProductHitCounterMapper {
 
     private ProductHitCounterMapper() {}
 
-    // model <- entity
+    /**
+     * Новая модель из сущности.
+     * 
+     * @param entity Сущность.
+     * @return Новая модель.
+     */
     public static ProductHitsCounter toModel(final ProductHitsCounterEntity entity) {
 
         return new ProductHitsCounter(
                 ManagedProductMapper.toModel(entity.getProduct()), entity.getHitsCount());
     }
 
-    // model -> entity
+    /**
+     * Новая сущность из модели.
+     * 
+     * @param model Модель.
+     * @param counterId ID счётчика. Совпадает с ИД продукта.
+     * @return Новая сущность.
+     */
     public static ProductHitsCounterEntity toEntity(final ProductHitsCounter model,
             final long counterId) {
 
@@ -30,13 +41,23 @@ public final class ProductHitCounterMapper {
                 ManagedProductMapper.toEntity(model.getProduct()), model.getHitsCount());
     }
 
-    // dto <- model
+    /**
+     * Новый DTO из модели.
+     * 
+     * @param model Модель.
+     * @return Новый DTO.
+     */
     public static ProductHitCounterDto toDto(final ProductHitsCounter model) {
 
         return new ProductHitCounterDto(model.getProduct().getId(), model.getHitsCount());
     }
 
-    // dto <--- entity
+    /**
+     * Новый DTO из сущности.
+     * 
+     * @param entity Сущность.
+     * @return Новый DTO.
+     */
     public static ProductHitCounterDto toDto(final ProductHitsCounterEntity entity) {
 
         return new ProductHitCounterDto(entity.getProduct().getId(), entity.getHitsCount());

@@ -9,65 +9,90 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import jakarta.annotation.PostConstruct;
 import ru.spb.tksoft.advertising.service.UserRecommendationServiceCached;
-import ru.spb.tksoft.advertising.tools.StringEx;
+import ru.spb.tksoft.utils.log.LogEx;
+import ru.spb.tksoft.utils.string.StringEx;
 import ru.spb.tksoft.recommendations.dto.user.HistoryUserDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
 
 /**
- * Handle command /recommend
+ * Обработка команды /recommend
  */
 @Component
 public class MessageHandlerRecommend extends MessageHandler {
 
-    final Logger log = LoggerFactory.getLogger(MessageHandlerRecommend.class);
+    private final Logger log = LoggerFactory.getLogger(MessageHandlerRecommend.class);
 
     private final UserRecommendationServiceCached userRecommendationServiceCached;
 
+    /**
+     * Создание нового объекта обработчика команды /recommend
+     * 
+     * @param userRecommendationServiceCached Сервис получения рекомендаций.
+     */
     public MessageHandlerRecommend(
             @Autowired UserRecommendationServiceCached userRecommendationServiceCached) {
 
-        super(List.of("/recommend", "recommend", "/r"));
+        super(List.of("/recommend", "/r"));
         this.userRecommendationServiceCached = userRecommendationServiceCached;
     }
 
-    @PostConstruct
-    private void postConstruct() {
-        // ...
-    }
-
+    /**
+     * Получить описание команды.
+     * 
+     * @return Описание команды.
+     */
     @Override
     public String getHelp() {
         return "/recommend <user.name> или /r <user.name> - рекомендовать продукты для пользователя с указанным user.name";
     }
 
+    /**
+     * Обработка команды.
+     * 
+     * @param chatId Идентификатор чата.
+     * @param messageId Идентификатор сообщения.
+     * @param rawMessage Сырой текст сообщения с командой.
+     * @return Текст ответа.
+     */
     @Override
     public String handle(final long chatId, final int messageId, final String rawMessage) {
 
+        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING);
+
         Optional<String> checkResponse = checkMessageTooLong(rawMessage);
         if (checkResponse.isPresent()) {
-            return checkResponse.get();
+            final String errorMessage = checkResponse.get();
+            LogEx.error(log, LogEx.getThisMethodName(), errorMessage);
+            return errorMessage;
         }
 
         final String messageTrimmed = removeCommand(StringEx.removeAdjacentSpaces(rawMessage));
         checkResponse = checkMessageTooShort(messageTrimmed);
         if (checkResponse.isPresent()) {
-            return checkResponse.get();
+            final String errorMessage = checkResponse.get();
+            LogEx.error(log, LogEx.getThisMethodName(), errorMessage);
+            return errorMessage;
         }
 
         Optional<HistoryUserDto> userInfoOptional =
                 userRecommendationServiceCached.getUserInfo(messageTrimmed);
         if (userInfoOptional.isEmpty()) {
-            return "🤔 Пользователь не найден. Может, просто нет доступа к основному приложению ❓";
+            final String errorMessage =
+                    "🤔 Пользователь не найден. Может, просто нет доступа к основному приложению ❓";
+            LogEx.error(log, LogEx.getThisMethodName(), errorMessage);
+            return errorMessage;
         }
         final HistoryUserDto userInfo = userInfoOptional.get();
 
         Optional<UserRecommendationsDto> recommendationsOptional =
                 userRecommendationServiceCached.getRecommendations(userInfo.getId());
         if (recommendationsOptional.isEmpty()) {
-            return "🤔 Не удалось получить рекомендации для пользователя. Это точно ошибка❗️";
+            final String errorMessage =
+                    "🤔 Не удалось получить рекомендации для пользователя. Это точно ошибка❗️";
+            LogEx.error(log, LogEx.getThisMethodName(), errorMessage);
+            return errorMessage;
         }
         final UserRecommendationsDto recommendations = recommendationsOptional.get();
 
@@ -93,6 +118,7 @@ public class MessageHandlerRecommend extends MessageHandler {
                     "Переходите по ссылкам 👆, внимательно изучайте описания продуктов! Ждём обратной связи 👋");
         }
 
+        LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING);
         return sb.toString();
     }
 }

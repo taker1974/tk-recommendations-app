@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Нормализованный тип сравнения.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public enum DynamicCompareType {
     LT("<"), LE("<="), EQ("="), GE(">="), GT(">");
@@ -14,15 +14,31 @@ public enum DynamicCompareType {
     @NotBlank
     private final String name;
 
+    /**
+     * Конструктор.
+     * 
+     * @param name
+     */
     DynamicCompareType(@NotBlank String name) {
         this.name = name;
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public String toString() {
         return name;
     }
 
+    /**
+     * Сравнение двух чисел.
+     * 
+     * @param compareType Тип сравнения.
+     * @param d1 Число 1.
+     * @param d2 Число 2.
+     * @return true, если сравнение выполняется.
+     */
     public static boolean doCompare(@NotNull DynamicCompareType compareType,
             double d1, double d2) {
 

@@ -15,8 +15,8 @@ import jakarta.annotation.PostConstruct;
 import ru.spb.tksoft.advertising.handler.MessageHandler;
 import ru.spb.tksoft.advertising.handler.MessageHandlerRecommend;
 import ru.spb.tksoft.advertising.handler.MessageManager;
-import ru.spb.tksoft.advertising.tools.LogEx;
-import ru.spb.tksoft.advertising.tools.StringEx;
+import ru.spb.tksoft.utils.log.LogEx;
+import ru.spb.tksoft.utils.string.StringEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -27,6 +27,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Бот рекомендаций.
+ * 
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
+ */
 @Component
 public class RecommendationsBot
         implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
@@ -37,6 +42,7 @@ public class RecommendationsBot
     protected static final List<String> COMMANDS_HELP =
             Arrays.asList("/help", "help", "-h", "?");
 
+    /** Стартовое сообщение. */
     public static final String START_TEXT = """
             Бот рекомендаций работает.
             Используйте /help для получения инструкций.
@@ -49,6 +55,7 @@ public class RecommendationsBot
 
     private MessageManager messageManager;
 
+    /** {@inheritDoc} */
     @Override
     public String getBotToken() {
         return token;
@@ -58,6 +65,12 @@ public class RecommendationsBot
     @Autowired(required = true)
     private MessageHandlerRecommend handlerRecommend;
 
+    /**
+     * Конструктор.
+     * 
+     * @param tokenRaw Сырая строка токена бота.
+     * @param tokenVariable Переменная окружения токена бота.
+     */
     public RecommendationsBot(
             @Value("${telegram.bot.token}") final String tokenRaw,
             @Value("${telegram.bot.token-variable}") final String tokenVariable) {
@@ -82,17 +95,28 @@ public class RecommendationsBot
         messageManager = new MessageManager(handlers, handlerRecommend);
     }
 
+    /** {@inheritDoc} */
     @Override
     public LongPollingUpdateConsumer getUpdatesConsumer() {
         return this;
     }
 
+    /**
+     * После регистрации бота.
+     * 
+     * @param botSession Бот сессия.
+     */
     @AfterBotRegistration
     public void afterRegistration(BotSession botSession) {
         LogEx.info(log, LogEx.getThisMethodName(),
                 "Registered bot running state is: " + botSession.isRunning());
     }
 
+    /**
+     * Получение сообщения и его обработка. {@inheritDoc}
+     * 
+     * @param update Объект события обновления.
+     */
     @Override
     public void consume(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {

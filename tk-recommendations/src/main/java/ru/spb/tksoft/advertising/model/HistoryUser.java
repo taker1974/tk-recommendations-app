@@ -10,24 +10,31 @@ import lombok.Value;
 /**
  * Данные по пользователю из базы транзакций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @ThreadSafe
 @Value
 public class HistoryUser {
 
+    /** Идентификатор пользователя. */
     @NotNull
     private UUID id;
 
+    /** Логин пользователя, ник. */
     @NotEmpty
     private String userName;
 
+    /** Имя пользователя. */
     @NotNull
     private String firstName;
 
+    /** Фамилия пользователя. */
     @NotNull
     private String lastName;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @NotBlank
     public String toString() {

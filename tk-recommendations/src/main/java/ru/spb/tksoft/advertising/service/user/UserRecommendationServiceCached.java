@@ -17,18 +17,19 @@ import ru.spb.tksoft.advertising.api.HistoryTransactionType;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
+import ru.spb.tksoft.utils.log.LogEx;
 
 /**
  * Кэшированные фиксированные методы сервиса истории транзакций.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Service
 @RequiredArgsConstructor
 @ThreadSafe
 public class UserRecommendationServiceCached {
 
-    Logger log = LoggerFactory.getLogger(UserRecommendationServiceCached.class);
+    private final Logger log = LoggerFactory.getLogger(UserRecommendationServiceCached.class);
 
     @NotNull
     private final HistoryTransactionServiceCached historyTransactionServiceCached;
@@ -36,6 +37,7 @@ public class UserRecommendationServiceCached {
     @NotNull
     private final ProductsRepository recomendationRepository;
 
+    /** Сброс кэшей. */
     @CacheEvict(value = "recommendations", allEntries = true)
     public void clearCaches() {
 
@@ -48,12 +50,24 @@ public class UserRecommendationServiceCached {
         // ...
     }
 
+    /**
+     * Получение идентификаторов всех транзакций пользователя.
+     * 
+     * @return Список идентификаторов.
+     */
     public List<UUID> getAllIds() {
+
         return historyTransactionServiceCached.getAllIds();
     }
 
     private final Object getRecommendationByNameLock = new Object();
 
+    /**
+     * Получение рекомендации по названию.
+     * 
+     * @param name Название рекомендации.
+     * @return Рекомендация, если есть, иначе пустой Optional.
+     */
     @Cacheable(value = "recommendations", key = "#name")
     @NotNull
     public Optional<ProductEntity> getRecommendationByName(@NotBlank final String name) {
@@ -79,21 +93,27 @@ public class UserRecommendationServiceCached {
     public boolean isFitsInvest500(@NotNull final UUID userId) {
 
         synchronized (isFitsInvest500Lock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, userId);
 
             boolean fits = historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.DEBIT, false);
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
 
             fits = !historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.INVEST, false);
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
 
-            return historyTransactionServiceCached.getProductSum(userId,
+            final boolean result = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.SAVING, HistoryTransactionType.DEPOSIT) > 1000;
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, result);
+            return result;
         }
     }
 
@@ -115,9 +135,12 @@ public class UserRecommendationServiceCached {
     public boolean isFitsTopSaving(@NotNull final UUID userId) {
 
         synchronized (isFitsTopSavingLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, userId);
+
             boolean fits = historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.DEBIT, false);
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
 
@@ -128,6 +151,7 @@ public class UserRecommendationServiceCached {
             double lim = 50_000;
             fits = sumDebit >= lim || sumSaving >= lim;
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
 
@@ -135,7 +159,11 @@ public class UserRecommendationServiceCached {
                     HistoryProductType.DEBIT, HistoryTransactionType.DEPOSIT);
             double sumWithdraw = historyTransactionServiceCached.getProductSum(userId,
                     HistoryProductType.DEBIT, HistoryTransactionType.WITHDRAW);
-            return sumDeposit > sumWithdraw;
+
+            final boolean result = sumDeposit > sumWithdraw;
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, result);
+            return result;
         }
     }
 
@@ -154,9 +182,12 @@ public class UserRecommendationServiceCached {
     public boolean isFitsCommonCredit(@NotNull final UUID userId) {
 
         synchronized (isFitsCommonCreditLock) {
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STARTING, userId);
+
             boolean fits = !historyTransactionServiceCached.isUsingProduct(userId,
                     HistoryProductType.CREDIT, false);
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
 
@@ -166,9 +197,14 @@ public class UserRecommendationServiceCached {
                     HistoryProductType.DEBIT, HistoryTransactionType.WITHDRAW);
             fits = sumDeposit > sumWithdraw;
             if (!fits) {
+                LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPED, false);
                 return false;
             }
-            return sumWithdraw > 100_000;
+
+            final boolean result = sumWithdraw > 100_000;
+
+            LogEx.trace(log, LogEx.getThisMethodName(), LogEx.STOPPING, result);
+            return result;
         }
     }
 }

@@ -26,11 +26,16 @@ Spring Boot, Java, Telegram API.
 
 Анализ, рассуждения и прочее - смотри [tk-recommendations-docs/Phase-*-Analyze.md](https://github.com/taker1974/tk-recommendations-app/blob/main/tk-recommendations-docs/).
 
-## Замечания по текущей версии
+## Документация
 
-1. Документация в формате Json/Swagger генерируется нормально, но документация в формате Json/Html из JavaDoc генерируется без ошибок не для каждого проекта: встречаются "ошибки", обусловленные тем, что не все классы имеют комментарий, не все конструкторы, генерируемые Lombok, имеют комментарии и т.п.
-Требуется понять/узнать, как в других проектах, у других разработчиков актуально решается этот вопрос: игнорироование таких "ошибок", создание тривиальных комментариев и т.п.
-Здесь временно приостановлена автогенерация отдельной документации из JavaDoc.
+Документация JavaDoc в формате статического HTML находится в подпроекте [tk-recommendations-docs](https://github.com/taker1974/tk-recommendations-app/blob/main/tk-recommendations-docs/).
 
-2. Диаграммы основных классов выполнены на PlantUML (puml), а диаграммы активности - на Mermaid (mmd).  
-Кажется, что надо полностью всё делать на Mermaid.
+Генерирование статического HTML из Swagger на примере основного приложения tk-recommendations:
+
+```Bash
+cd tk-recommendations-docs
+curl http://localhost:8090/tk-recommendations/api-docs -o tk-recommendations-api-spec.json
+npx @redocly/cli build-docs tk-recommendations-api-spec.json -o tk-recommendations-swagger.html 
+```
+
+Документация JavaDoc для модулей находится в директориях javadoc/ этих проектов соответственно.

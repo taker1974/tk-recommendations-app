@@ -13,9 +13,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Счётчик срабатываний рекомендации/продукта.
+ * 
  * @see ru.spb.tksoft.advertising.model.ProductHitsCounter
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @Entity
@@ -24,18 +26,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_hits_counters")
 public class ProductHitsCounterEntity {
 
+    /** Уникальный идентификатор БД записи счётчика. Не идентификатор продукта. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Связь с ProductEntity. Использована @ManyToOne, а не @OneToOne, чтобы не засорять
-    // ProductEntity лишними связями. В данной реализации всё равно реализована связь 1:1.
+    /**
+     * Связь с ProductEntity. Использована @ManyToOne, а не @OneToOne, чтобы не засорять
+     * ProductEntity лишними связями. В данной реализации всё равно реализована связь 1:1.
+     */
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", unique = true)
     // Здесь может быть @OnDelete(action = OnDeleteAction.CASCADE), но применено удаление
     // ON DELETE CASCADE в миграции, так как это кажется более универсальным подходом.
     private ProductEntity product;
 
+    /** Счётчик срабатываний рекомендации/продукта. */
     @Column(name = "hits_count", nullable = false)
     private long hitsCount;
 }

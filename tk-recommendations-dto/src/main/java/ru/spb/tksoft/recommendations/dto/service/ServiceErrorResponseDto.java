@@ -8,10 +8,16 @@ import jakarta.validation.constraints.NotBlank;
  * @param code Код ошибки.
  * @param message Описание ошибки.
  * @param details Дополнительная информация об ошибке.
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 public record ServiceErrorResponseDto(int code, String message, String details) {
 
+    /**
+     * Конструктор.
+     * 
+     * @param code Код ошибки.
+     * @param message Описание ошибки.
+     */
     public ServiceErrorResponseDto(int code, @NotBlank String message) {
 
         this(code, message, "");

@@ -14,9 +14,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Продукт с правилом рекомендования. Правило - это набор методов-предикатов, объединяемых затем по
+ * "И". Смотри код isUserSuitable(). Если список предикатов пуст, то считаем, что правило
+ * рекомендования продукта заложено в код. *
+ * 
  * @see ru.spb.tksoft.advertising.model.Product
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @Entity
@@ -25,16 +29,20 @@ import lombok.NoArgsConstructor;
 @Table(name = "products")
 public class ProductEntity {
 
+    /** Идентификатор продукта. */
     @Id
     @Column(nullable = false, unique = true)
     private UUID id;
 
+    /** Название, имя продукта. */
     @Column(name = "product_name", nullable = false, length = 128)
     private String productName;
 
+    /** Текст продукта, краткое описание. Допустимо многострочное описание. */
     @Column(name = "product_text", nullable = false, length = 4096)
     private String productText;
 
+    /** Список правил рекомендации для продукта. */
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductRulePredicateEntity> rule;
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * Счётчик срабатываний рекомендации/продукта.
  * 
- * @author Константин Терских, kostus.online@gmail.com, 2025
+ * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
 @Data
 @NoArgsConstructor
@@ -25,10 +25,13 @@ public class ProductHitCounterDto {
     // (Правило может состоять из нескольких предикатов и их аргументов.)
     // Поэтому нет отдельной идентификации такой сущности, как правило - есть один идентификатор для
     // продукта, который также является идентификатором правила.
+
+    /** Идентификатор продукта. Он же идентификатор продукта. */
     @NotBlank
     @JsonProperty("rule_id")
     private UUID productId;
 
+    /** Счётчик срабатываний продукта. */
     @NotNull
     private long count;
 }
