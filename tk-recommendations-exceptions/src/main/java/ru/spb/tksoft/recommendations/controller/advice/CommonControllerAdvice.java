@@ -25,7 +25,7 @@ public class CommonControllerAdvice extends AbstractBaseControllerAdvice {
     /**
      * Конструктор по умолчанию.
      */
-    protected CommonControllerAdvice() {
+    public CommonControllerAdvice() {
         super();
     }
 

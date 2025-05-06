@@ -19,7 +19,7 @@ public class RecommendationCommonControllerAdvice extends CommonControllerAdvice
     /**
      * Конструктор по умолчанию.
      */
-    private RecommendationCommonControllerAdvice() {
+    public RecommendationCommonControllerAdvice() {
         super();
     }
 }

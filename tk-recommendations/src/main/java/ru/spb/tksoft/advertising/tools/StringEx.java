@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.lang.Nullable;
-import jakarta.validation.constraints.NotEmpty;
 
 /**
  * Extended/wrapped string-related routines.
@@ -25,8 +23,7 @@ public final class StringEx {
      * @param objects Substrings like "myhost", 7654, "mycoolapp".
      * @return Resulting string in a form like "http://myhost:7654/mycoolapp".
      */
-    @Nullable
-    public static String replace(@Nullable String str, Object... objects) {
+    public static String replace(String str, Object... objects) {
 
         for (Object object : objects) {
             if (str != null && str.isEmpty()) {
@@ -45,8 +42,7 @@ public final class StringEx {
      * @param rawSource Source string.
      * @return Trimmed string.
      */
-    @Nullable
-    public static String removeAdjacentSpaces(@Nullable final String rawSource) {
+    public static String removeAdjacentSpaces(final String rawSource) {
 
         if (rawSource == null) {
             return rawSource;
@@ -81,9 +77,8 @@ public final class StringEx {
      * @param pattern Valid datetime pattern.
      * @return Valid or not.
      */
-    @Nullable
-    public static String normalizeDateTime(@Nullable final String input,
-            @NotEmpty final String delimiter, @NotEmpty final String pattern) {
+    public static String normalizeDateTime(final String input,
+            final String delimiter, final String pattern) {
 
         if (input == null || input.isEmpty()) {
             return input;

@@ -4,8 +4,8 @@
 -- Один продукт - одно правило. Правило состоит из набора методов-query.
 -- Таблица содержит записи вида "один UUID продукта -> множество методов-query".
 
--- changeSet kostusonline:33fbd772-1ec6-596a-9a4d-b6f250609f3e runOnChange:true
-CREATE TABLE product_rules (
+-- changeSet kostusonline:17b12ca8-0a1e-5ffd-a04c-4539975d77da runOnChange:true
+CREATE TABLE IF NOT EXISTS product_rules (
     -- id записи метода всегда генерируется автоматически
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     -- Ссылка на продукт

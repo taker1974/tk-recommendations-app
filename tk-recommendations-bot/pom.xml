@@ -236,6 +236,13 @@
 						</goals>
 					</execution>
 				</executions>
+
+				<configuration>
+					<destDir>../tk-recommendations-docs/recommendations-bot</destDir>
+					<doctitle>tk-recommendations-bot API</doctitle>
+					<show>public</show>
+					<encoding>UTF-8</encoding>
+				</configuration>
 			</plugin>
 
 		</plugins>

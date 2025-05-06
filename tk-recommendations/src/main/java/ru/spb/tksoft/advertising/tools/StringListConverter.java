@@ -3,15 +3,14 @@ package ru.spb.tksoft.advertising.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.lang.Nullable;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * {@code List<String>} converter.
  * 
- * @see <a href="https://www.baeldung.com/java-jpa-persist-string-list">Baeldung</a> for the example.
+ * @see <a href="https://www.baeldung.com/java-jpa-persist-string-list">Baeldung</a> for the
+ *      example.
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
  */
@@ -28,8 +27,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
      * @return Converted delimited string.
      */
     @Override
-    @NotNull
-    public String convertToDatabaseColumn(@Nullable List<String> stringList) {
+    public String convertToDatabaseColumn(List<String> stringList) {
 
         if (stringList == null) {
             return "";
@@ -44,8 +42,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
      * @return Converted string list.
      */
     @Override
-    @NotNull
-    public List<String> convertToEntityAttribute(@Nullable String string) {
+    public List<String> convertToEntityAttribute(String string) {
 
         if (string == null) {
             return new ArrayList<>();

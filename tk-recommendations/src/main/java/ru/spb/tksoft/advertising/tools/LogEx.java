@@ -2,14 +2,12 @@ package ru.spb.tksoft.advertising.tools;
 
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
-import jakarta.validation.constraints.NotNull;
 import java.util.Arrays;
 
 /**
  * Extended/wrapped logging.
  *
  * @author Konstantin Terskikh, kostus.online.1974@yandex.ru, 2025
- * @version 0.1
  */
 public final class LogEx {
 
@@ -34,11 +32,12 @@ public final class LogEx {
         }
     }
 
-    public static void log(@NotNull Logger logger, @NotNull Level level, @NotNull Object[] parts) {
+    public static void log(Logger logger, Level level, Object[] parts) {
 
         final String[] strings = Arrays.stream(parts)
                 .map(String::valueOf)
                 .toArray(String[]::new);
+
         final String message = String.join(": ", strings);
         switch (level) {
             case TRACE -> logger.trace(message);
@@ -49,27 +48,27 @@ public final class LogEx {
         }
     }
 
-    public static void trace(@NotNull Logger logger, Object... parts) {
-        
+    public static void trace(Logger logger, Object... parts) {
+
         log(logger, Level.TRACE, parts);
     }
 
-    public static void debug(@NotNull Logger logger, Object... parts) {
-        
+    public static void debug(Logger logger, Object... parts) {
+
         log(logger, Level.DEBUG, parts);
     }
 
-    public static void info(@NotNull Logger logger, Object... parts) {
-        
+    public static void info(Logger logger, Object... parts) {
+
         log(logger, Level.INFO, parts);
     }
 
-    public static void warn(@NotNull Logger logger, Object... parts) {
-        
+    public static void warn(Logger logger, Object... parts) {
+
         log(logger, Level.WARN, parts);
     }
 
-    public static void error(@NotNull Logger logger, Object... parts) {
+    public static void error(Logger logger, Object... parts) {
 
         log(logger, Level.ERROR, parts);
     }

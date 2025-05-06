@@ -6,11 +6,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
-		<relativePath />
-	</parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.4.5</version>
+    <relativePath />
+  </parent>
 
   <groupId>ru.spb.tksoft</groupId>
   <artifactId>tk-recommendations-exceptions</artifactId>
@@ -52,16 +52,16 @@
 
   <dependencies>
 
-		<dependency>
-			<groupId>ru.spb.tksoft</groupId>
-			<artifactId>tk-recommendations-dto</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+    <dependency>
+      <groupId>ru.spb.tksoft</groupId>
+      <artifactId>tk-recommendations-dto</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 
     <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -170,6 +170,13 @@
               </goals>
             </execution>
           </executions>
+
+          <configuration>
+            <destDir>../tk-recommendations-docs/recommendations-exceptions</destDir>
+            <doctitle>tk-recommendations-exceptions API</doctitle>
+            <show>public</show>
+            <encoding>UTF-8</encoding>
+          </configuration>
         </plugin>
 
       </plugins>

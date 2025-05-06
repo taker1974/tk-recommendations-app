@@ -21,7 +21,9 @@ public class CommonDatabaseConfig {
     /**
      * Конструктор по умолчанию.
      */
-    private CommonDatabaseConfig() {}
+    public CommonDatabaseConfig() {
+        // ...
+    }
 
     /**
      * Основной источник данных.
