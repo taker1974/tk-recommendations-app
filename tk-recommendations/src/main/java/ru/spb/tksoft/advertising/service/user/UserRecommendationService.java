@@ -18,7 +18,7 @@ import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
 import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;

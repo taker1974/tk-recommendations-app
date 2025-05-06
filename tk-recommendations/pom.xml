@@ -56,6 +56,18 @@
 
 		<dependency>
 			<groupId>ru.spb.tksoft</groupId>
+			<artifactId>tk-log-utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.spb.tksoft</groupId>
+			<artifactId>tk-string-utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.spb.tksoft</groupId>
 			<artifactId>tk-recommendations-dto</artifactId>
 			<version>1.0.0</version>
 		</dependency>
@@ -197,11 +209,6 @@
 			<version>8059</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -261,6 +268,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.11.2</version>
+
+				<configuration>
+					<outputDirectory>javadoc</outputDirectory>
+					<doclint>none</doclint>
+					<source>21</source>
+				</configuration>
+
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -270,12 +284,6 @@
 					</execution>
 				</executions>
 
-				<configuration>
-					<destDir>../tk-recommendations-docs/recommendations</destDir>
-					<doctitle>tk-recommendations API</doctitle>
-					<show>public</show>
-					<encoding>UTF-8</encoding>
-				</configuration>
 			</plugin>
 
 		</plugins>

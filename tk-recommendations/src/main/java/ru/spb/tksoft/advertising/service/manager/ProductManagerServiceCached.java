@@ -27,7 +27,7 @@ import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.model.ProductHitsCounter;
 import ru.spb.tksoft.advertising.repository.ProductHitsCounterRepository;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 import ru.spb.tksoft.recommendations.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
 

@@ -15,8 +15,8 @@ import jakarta.annotation.PostConstruct;
 import ru.spb.tksoft.advertising.handler.MessageHandler;
 import ru.spb.tksoft.advertising.handler.MessageHandlerRecommend;
 import ru.spb.tksoft.advertising.handler.MessageManager;
-import ru.spb.tksoft.advertising.tools.LogEx;
-import ru.spb.tksoft.advertising.tools.StringEx;
+import ru.spb.tksoft.utils.log.LogEx;
+import ru.spb.tksoft.utils.string.StringEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -101,7 +101,11 @@ public class RecommendationsBot
         return this;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * После регистрации бота.
+     * 
+     * @param botSession Бот сессия.
+     */
     @AfterBotRegistration
     public void afterRegistration(BotSession botSession) {
         LogEx.info(log, LogEx.getThisMethodName(),

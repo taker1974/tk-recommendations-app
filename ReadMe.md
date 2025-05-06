@@ -28,7 +28,7 @@ Spring Boot, Java, Telegram API.
 
 ## Документация
 
-Документация в формате статического HTML находится в подпроекте [tk-recommendations-docs](https://github.com/taker1974/tk-recommendations-app/blob/main/tk-recommendations-docs/).
+Документация JavaDoc в формате статического HTML находится в подпроекте [tk-recommendations-docs](https://github.com/taker1974/tk-recommendations-app/blob/main/tk-recommendations-docs/).
 
 Генерирование статического HTML из Swagger на примере основного приложения tk-recommendations:
 
@@ -37,3 +37,5 @@ cd tk-recommendations-docs
 curl http://localhost:8090/tk-recommendations/api-docs -o tk-recommendations-api-spec.json
 npx @redocly/cli build-docs tk-recommendations-api-spec.json -o tk-recommendations-swagger.html 
 ```
+
+Документация JavaDoc для модулей tk-log-utils и tk-string-utils находится в директориях javadoc этих проектов соответственно.

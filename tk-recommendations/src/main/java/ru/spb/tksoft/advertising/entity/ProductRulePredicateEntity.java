@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBooleanMethod;
-import ru.spb.tksoft.advertising.tools.StringListConverter;
+import ru.spb.tksoft.utils.string.StringListConverter;
 
 /**
  * Класс рекомендования продукта с основным методом isUserSuitable(). По сути этот класс - это

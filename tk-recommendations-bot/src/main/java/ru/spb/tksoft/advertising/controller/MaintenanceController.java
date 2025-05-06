@@ -29,6 +29,7 @@ public class MaintenanceController {
     private final UserRecommendationServiceCached userRecommendationService;
 
     /**
+     * Информация о приложении.
      * @return Информация о приложении.
      */
     @ResponseStatus(HttpStatus.OK)

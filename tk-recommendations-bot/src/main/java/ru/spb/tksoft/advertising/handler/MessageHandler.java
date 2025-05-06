@@ -70,7 +70,12 @@ public abstract class MessageHandler {
     /** Максимальная длина сырого сообщения. */
     public static final int MESSAGE_LENGTH_MAX_RAW = 100;
 
-    /** Проверка сообщения на максимальную длину. */
+    /**
+     * Проверка сообщения на максимальную длину.
+     * 
+     * @param rawMessage Сообщение.
+     * @return Если сообщение слишком длинное, то вернется сообщение об ошибке.
+     */
     protected Optional<String> checkMessageTooLong(String rawMessage) {
         if (rawMessage != null && rawMessage.length() > MESSAGE_LENGTH_MAX_RAW) {
             return Optional.of(MESSAGE_TOO_LONG);
@@ -81,7 +86,12 @@ public abstract class MessageHandler {
     /** Минимальная длина минимально очищенного сообщения. */
     public static final int MESSAGE_LENGTH_MIN_TRIMMED = 1;
 
-    /** Проверка сообщения на минимальную длину. */
+    /**
+     * Проверка сообщения на минимальную длину.
+     * 
+     * @param message Сообщение.
+     * @return Если сообщение слишком короткое, то вернется сообщение об ошибке.
+     */
     protected Optional<String> checkMessageTooShort(String message) {
         if (message == null || message.isBlank() || message.isEmpty() ||
                 message.length() < MESSAGE_LENGTH_MIN_TRIMMED) {
@@ -90,7 +100,12 @@ public abstract class MessageHandler {
         return Optional.empty();
     }
 
-    /** Удаление префикса команды из сообщения. */
+    /**
+     * Удаление префикса команды из сообщения.
+     * 
+     * @param message Сообщение с командой
+     * @return Сообщение без префикса команды.
+     */
     protected String removeCommand(String message) {
         // Expected [already trimmed] message format:
         // <command-prefix>[spaces]<parameter>
@@ -105,7 +120,14 @@ public abstract class MessageHandler {
         return message;
     }
 
-    /** Обязательство обработки сообщения. */
+    /**
+     * Обязательство обработки сообщения.
+     * 
+     * @param chatId ID чата.
+     * @param messageId ID сообщения.
+     * @param message Сообщение.
+     * @return Ответ на сообщение.
+     */
     public abstract String handle(final long chatId, final int messageId,
             final String message);
 }

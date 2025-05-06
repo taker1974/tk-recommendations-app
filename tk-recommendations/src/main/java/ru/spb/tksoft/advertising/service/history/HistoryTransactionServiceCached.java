@@ -19,7 +19,7 @@ import ru.spb.tksoft.advertising.entity.history.HistoryTransactionEntity;
 import ru.spb.tksoft.advertising.mapper.HistoryMapper;
 import ru.spb.tksoft.advertising.model.HistoryUser;
 import ru.spb.tksoft.advertising.repository.HistoryTransactionRepository;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 
 /**
  * Сервис для работы с историей транзакций: кэшированные методы.

@@ -17,7 +17,7 @@ import ru.spb.tksoft.advertising.api.HistoryTransactionType;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 
 /**
  * Кэшированные фиксированные методы сервиса истории транзакций.

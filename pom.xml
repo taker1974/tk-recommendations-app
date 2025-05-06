@@ -11,6 +11,8 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>tk-string-utils</module>
+    <module>tk-log-utils</module>
     <module>tk-recommendations-dto</module>
     <module>tk-recommendations-exceptions</module>
     <module>tk-recommendations</module>

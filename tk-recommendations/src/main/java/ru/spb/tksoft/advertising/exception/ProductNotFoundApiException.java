@@ -3,7 +3,7 @@ package ru.spb.tksoft.advertising.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.validation.constraints.NotBlank;
-import ru.spb.tksoft.advertising.tools.LogEx;
+import ru.spb.tksoft.utils.log.LogEx;
 
 /**
  * Продукт не найден.
