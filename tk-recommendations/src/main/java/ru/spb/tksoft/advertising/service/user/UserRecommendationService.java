@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableMap;
 import jakarta.validation.constraints.NotNull;
-import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.UserRecommendationMapper;
 import ru.spb.tksoft.advertising.model.Product;
 import ru.spb.tksoft.advertising.service.manager.ProductManagerServiceCached;
@@ -22,6 +21,7 @@ import ru.spb.tksoft.utils.log.LogEx;
 import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendedProductDto;
+import ru.spb.tksoft.recommendations.exception.ProductNotFoundApiException;
 
 /**
  * Сервис выдачи рекомендаций для пользователя с указанным userId.
