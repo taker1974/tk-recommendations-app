@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.tksoft.advertising.api.HistoryProductType;
 import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.dynamic.DynamicApiBooleanMethod;
-import ru.spb.tksoft.advertising.exception.ArgumentConversionException;
+import ru.spb.tksoft.recommendations.exception.ArgumentConversionException;
 
 /**
  * Динамический API для работы с пользователями. Реализация USER_OF.

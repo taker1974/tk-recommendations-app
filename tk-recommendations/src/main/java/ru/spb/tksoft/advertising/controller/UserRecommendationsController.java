@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import ru.spb.tksoft.advertising.exception.HistoryUserNotFoundException;
 import ru.spb.tksoft.advertising.mapper.HistoryMapper;
 import ru.spb.tksoft.advertising.service.history.HistoryTransactionServiceCached;
 import ru.spb.tksoft.advertising.service.user.UserRecommendationService;
 import ru.spb.tksoft.recommendations.dto.stat.ShallowViewDto;
 import ru.spb.tksoft.recommendations.dto.user.HistoryUserDto;
 import ru.spb.tksoft.recommendations.dto.user.UserRecommendationsDto;
+import ru.spb.tksoft.recommendations.exception.HistoryUserNotFoundException;
 import java.util.List;
 import java.util.UUID;
 

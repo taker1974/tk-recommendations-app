@@ -18,9 +18,6 @@ import ru.spb.tksoft.advertising.api.HistoryService;
 import ru.spb.tksoft.advertising.api.impl.DynamicApiManagerImpl;
 import ru.spb.tksoft.advertising.entity.ProductEntity;
 import ru.spb.tksoft.advertising.entity.ProductHitsCounterEntity;
-import ru.spb.tksoft.advertising.exception.AddFixedProductException;
-import ru.spb.tksoft.advertising.exception.MethodIdentificationException;
-import ru.spb.tksoft.advertising.exception.ProductNotFoundApiException;
 import ru.spb.tksoft.advertising.mapper.ManagedProductMapper;
 import ru.spb.tksoft.advertising.mapper.ProductHitCounterMapper;
 import ru.spb.tksoft.advertising.model.Product;
@@ -30,6 +27,9 @@ import ru.spb.tksoft.advertising.repository.ProductsRepository;
 import ru.spb.tksoft.utils.log.LogEx;
 import ru.spb.tksoft.recommendations.dto.manager.ManagedProductDto;
 import ru.spb.tksoft.recommendations.dto.stat.StatsDto;
+import ru.spb.tksoft.recommendations.exception.AddFixedProductException;
+import ru.spb.tksoft.recommendations.exception.MethodIdentificationException;
+import ru.spb.tksoft.recommendations.exception.ProductNotFoundApiException;
 
 /**
  * Кэшированный сервис управления продуктами. Позволяет добавлять, просматривать и удалять продукты
