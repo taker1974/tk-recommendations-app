@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.spb.tksoft.recommendations.dto.maintenance"},{"l":"ru.spb.tksoft.recommendations.dto.manager"},{"l":"ru.spb.tksoft.recommendations.dto.service"},{"l":"ru.spb.tksoft.recommendations.dto.stat"},{"l":"ru.spb.tksoft.recommendations.dto.user"}];updateSearchResults();
