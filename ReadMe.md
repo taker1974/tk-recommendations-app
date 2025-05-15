@@ -28,14 +28,63 @@ Spring Boot, Java, Telegram API.
 
 ## Документация
 
-Документация JavaDoc в формате статического HTML находится в подпроекте [tk-recommendations-docs](https://github.com/taker1974/tk-recommendations-app/blob/main/tk-recommendations-docs/).
+### Swagger -> HTML
+
+redoc-cli был перемещен в состав @redocly/cli.  
+Можно использовать npx без установки:
+
+```bash
+npx @redocly/cli build-docs <путь-к-openapi-файлу>
+```
 
 Генерирование статического HTML из Swagger на примере основного приложения tk-recommendations:
 
 ```Bash
-cd tk-recommendations-docs
 curl http://localhost:8090/tk-recommendations/api-docs -o tk-recommendations-api-spec.json
 npx @redocly/cli build-docs tk-recommendations-api-spec.json -o tk-recommendations-swagger.html 
 ```
 
-Документация JavaDoc для модулей находится в директориях javadoc/ этих проектов соответственно.
+### JavaDoc -> HTML
+
+```Bash
+mvn compile javadoc:javadoc
+```
+
+## Другое
+
+### Проверка версий зависимостей
+
+Добавьте плагин в pom.xml:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.16.2</version>
+        </plugin>
+    </plugins>
+</build>
+```
+
+Запустите проверку:
+
+```bash
+mvn versions:display-dependency-updates
+```
+
+Плагин _versions-maven-plugin_ позволяет обновить версии в pom.xml автоматически:
+
+```bash
+mvn versions:use-latest-versions
+```
+
+После выполнения проверьте изменения в pom.xml.
+
+**Ограничения**
+SNAPSHOT-версии: Плагин _versions-maven-plugin_ игнорирует их по умолчанию.  
+Используйте флаг -DallowSnapshots=true, чтобы их включить.
+
+Кастомные репозитории: Если артефакт размещен не в Maven Central, убедитесь, что  
+репозиторий добавлен в pom.xml/settings.xml.
