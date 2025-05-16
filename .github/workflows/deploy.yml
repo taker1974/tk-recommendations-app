@@ -1,0 +1,55 @@
+name: Deploy tk-recommendations
+
+on:
+  push:
+    branches: [ "production" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: fedora-38
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Deploy to Server tk-recommendations
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "tk-recommendations/target/tk-recommendations-*.jar"
+          target: "/opt/apps/"
+
+      - name: Deploy to Server tk-recommendations-bot
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "tk-recommendations-bot/target/tk-recommendations-bot-*.jar"
+          target: "/opt/apps/"
+
+      - name: Restart Services via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo systemctl stop tk-recommendations.service
+            sudo systemctl stop tk-recommendations-bot.service
+            sudo cp /opt/tk-recommendations/tk-recommendations.jar /opt/tk-recommendations/tk-recommendations-prev.jar
+            sudo cp /opt/tk-recommendations-bot/tk-recommendations-bot.jar /opt/tk-recommendations-bot/tk-recommendations-bot-prev.jar
+            sudo cp /opt/apps/tk-recommendations-*.jar /opt/tk-recommendations/tk-recommendations.jar
+            sudo cp /opt/apps/tk-recommendations-bot-*.jar /opt/tk-recommendations-bot/tk-recommendations-bot.jar
+            sudo systemctl start tk-recommendations.service
+            sudo systemctl start tk-recommendations-bot.service
